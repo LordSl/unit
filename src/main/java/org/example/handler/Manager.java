@@ -41,7 +41,7 @@ public class Manager {
 
     private Container exec(Container container) {
         //忽略最后一个
-        for (int i = 0; i < units.size() + 1; i++)
+        for (int i = 0; i < units.size() - 1; i++)
             container = units.get(i).getFunction().apply(container);
         return container;
     }
