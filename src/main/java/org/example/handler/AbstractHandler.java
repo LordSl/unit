@@ -14,8 +14,10 @@ public abstract class AbstractHandler {
 
     @Autowired
     public AbstractHandler(Manager manager) {
-        this.manager = manager;
-        regis();
+        if (!(manager instanceof Marker)) {
+            this.manager = manager;
+            regis();
+        }
     }
 
 
@@ -41,7 +43,7 @@ public abstract class AbstractHandler {
 
         Field[] fields = cla.getDeclaredFields();
         Map<String, Field> inputs = new HashMap<>();
-        Map<String, String> outputs = new HashMap<>();
+        Map<String, Field> outputs = new HashMap<>();
 
         for (Field field : fields) {
             Input input = field.getAnnotation(Input.class);
@@ -50,7 +52,7 @@ public abstract class AbstractHandler {
             //out-inner 别名-成员名
             Output output = field.getAnnotation(Output.class);
             if (null != output)
-                outputs.put(output.name().equals("") ? field.getName() : output.name(), field.getName());
+                outputs.put(output.name().equals("") ? field.getName() : output.name(), field);
             //out-inner 别名-成员名
         }
 
@@ -58,13 +60,13 @@ public abstract class AbstractHandler {
 
         Function<Container, Container> function = (container) -> {
             try {
-                Object instance = cla.newInstance();
+                Object instance = cla.getConstructor(Manager.class).newInstance(Marker.getInstance());
 
-                Collection<Field> fs = inputs.values();
-                Collection<String> ns = outputs.values();
+                Collection<Field> ifs = inputs.values();
+                Collection<Field> ofs = outputs.values();
 
                 //从容器输入
-                for (Field f : fs) {
+                for (Field f : ifs) {
                     f.set(instance, container.get(f.getName()));
                     container.remove(f.getName());
                 }
@@ -73,9 +75,8 @@ public abstract class AbstractHandler {
                 handle.invoke(instance);
 
                 //向容器输出
-                for (Field f : fields) {
-                    if (ns.contains(f.getName()))
-                        container.put(f.getName(), f.get(instance));
+                for (Field f : ofs) {
+                    container.put(f.getName(), f.get(instance));
                 }
 
                 return container;

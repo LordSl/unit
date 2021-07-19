@@ -32,11 +32,12 @@ public class Manager {
             units.add(index, newUnit);
     }
 
-    public Object exec() {
+    public Container exec() {
+        //todo 从入参到容器
         Container container = new Container();
         container = exec(container);
-        //todo 从容器中取数据，构造response
-        return "res";
+        //todo 从容器到出参
+        return container;
     }
 
     private Container exec(Container container) {
