@@ -55,12 +55,11 @@ public abstract class AbstractHandler {
                 outputs.put(output.name().equals("") ? field.getName() : output.name(), field);
             //out-inner 别名-成员名
         }
-
-        Method handle = cla.getDeclaredMethod("handle");
+        //        Method handle = cla.getDeclaredMethod("handle");
 
         Function<Container, Container> function = (container) -> {
             try {
-                Object instance = cla.getConstructor(Manager.class).newInstance(Marker.getInstance());
+                AbstractHandler instance = (AbstractHandler) cla.getConstructor(Manager.class).newInstance(Marker.getInstance());
 
                 Collection<Field> ifs = inputs.values();
                 Collection<Field> ofs = outputs.values();
@@ -72,7 +71,7 @@ public abstract class AbstractHandler {
                 }
 
                 //执行计算
-                handle.invoke(instance);
+                instance.handle();
 
                 //向容器输出
                 for (Field f : ofs) {
