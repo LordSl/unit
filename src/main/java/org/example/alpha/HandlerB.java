@@ -14,7 +14,7 @@ public class HandlerB extends AbstractHandler {
     String home;
     @Input(name = "age")
     @Output
-    String age;
+    String superUnusualAge;
     @Input
     @Output
     Long length;
@@ -22,7 +22,7 @@ public class HandlerB extends AbstractHandler {
     @Override
     public void handle() {
         home = home + "/b handle home";
-        age = age + "/b handle age";
+        superUnusualAge = superUnusualAge + "/b handle age";
         length = length + 101;
         System.out.println("b handle finish");
     }

@@ -52,14 +52,11 @@ public abstract class AbstractHandler {
             //out-inner 别名-成员名
         }
 
-        Collection<Field> ifs = inputs.values();
-        Collection<Field> ofs = outputs.values();
-
         //解除protected和private
-        for (Field f : ifs) {
+        for (Field f : inputs.values()) {
             f.setAccessible(true);
         }
-        for (Field f : ofs) {
+        for (Field f : outputs.values()) {
             f.setAccessible(true);
         }
 
@@ -69,8 +66,9 @@ public abstract class AbstractHandler {
                 AbstractHandler instance = (AbstractHandler) cla.newInstance();
 
                 //从容器输入
-                for (Field f : ifs) {
-                    f.set(instance, container.get(f.getName()));
+                for (String name : inputs.keySet()) {
+                    Field f = inputs.get(name);
+                    f.set(instance, container.get(name));
                     container.remove(f.getName());
                 }
 
@@ -78,8 +76,9 @@ public abstract class AbstractHandler {
                 instance.handle();
 
                 //向容器输出
-                for (Field f : ofs) {
-                    container.put(f.getName(), f.get(instance));
+                for (String name : outputs.keySet()) {
+                    Field f = outputs.get(name);
+                    container.put(name, f.get(instance));
                 }
 
                 return container;
