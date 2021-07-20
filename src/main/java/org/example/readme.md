@@ -2,3 +2,10 @@
 
 https://maven.aliyun.com/nexus/content/groups/public  
 **也可以直接复制resources目录下的xml**
+
+# 由于网络原因，代码优先同步至gitee
+## gitee
+https://gitee.com/lconq/price-unit
+## github
+https://github.com/LordSl/price-unit
+# 样例请见org.example.alpha包

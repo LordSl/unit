@@ -1,4 +1,4 @@
-package org.example.handler;
+package org.example.util;
 
 import java.lang.annotation.*;
 
@@ -6,5 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Unit {
-    String order() default "1.0";
+    String[] order();
+
+    Class<?>[] flow();
 }

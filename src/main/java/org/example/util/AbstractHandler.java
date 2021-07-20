@@ -1,44 +1,40 @@
-package org.example.handler;
-
-import org.springframework.beans.factory.annotation.Autowired;
+package org.example.util;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public abstract class AbstractHandler {
-    Manager manager;
 
-    @Autowired
-    public AbstractHandler(Manager manager) {
-        if (!(manager instanceof Marker)) {
-            this.manager = manager;
+    public AbstractHandler() {
+        if (Signal.value == 1) {
             regis();
         }
     }
-
 
     public void regis() {
         Class<?> cla = this.getClass();
         Unit unit = cla.getAnnotation(Unit.class);
         if (unit == null) return;
         //优先级
-        Float order = Float.parseFloat(unit.order());
-        try {
-            Function<Container, Container> function = buildFunction();
+        List<Float> orders = Arrays.stream(unit.order()).map(Float::parseFloat).collect(Collectors.toList());
+        List<Class<?>> flows = Arrays.stream(unit.flow()).collect(Collectors.toList());
 
-            if (null != manager)
-                manager.put(new HandlerUnit(cla, order, function));
+        int len = orders.size();
+        if (len != flows.size())
+            return;
 
-        } catch (NoSuchMethodException ignored) {
-            ;
+        Function<Container, Container> function = buildFunction();
+
+        for (int index = 0; index < len; index++) {
+            Float order = orders.get(index);
+            Class<?> flow = flows.get(index);
+            Dictator.put(new HandlerUnit(cla, order, function), flow);
         }
     }
 
-    Function<Container, Container> buildFunction() throws NoSuchMethodException {
+    Function<Container, Container> buildFunction() {
         Class<?> cla = this.getClass();
 
         Field[] fields = cla.getDeclaredFields();
@@ -55,14 +51,22 @@ public abstract class AbstractHandler {
                 outputs.put(output.name().equals("") ? field.getName() : output.name(), field);
             //out-inner 别名-成员名
         }
-        //        Method handle = cla.getDeclaredMethod("handle");
 
-        Function<Container, Container> function = (container) -> {
+        Collection<Field> ifs = inputs.values();
+        Collection<Field> ofs = outputs.values();
+
+        //解除protected和private
+        for (Field f : ifs) {
+            f.setAccessible(true);
+        }
+        for (Field f : ofs) {
+            f.setAccessible(true);
+        }
+
+        return (container) -> {
             try {
-                AbstractHandler instance = (AbstractHandler) cla.getConstructor(Manager.class).newInstance(Marker.getInstance());
-
-                Collection<Field> ifs = inputs.values();
-                Collection<Field> ofs = outputs.values();
+                Signal.value = 0;//信号量，关闭注册
+                AbstractHandler instance = (AbstractHandler) cla.newInstance();
 
                 //从容器输入
                 for (Field f : ifs) {
@@ -85,11 +89,9 @@ public abstract class AbstractHandler {
             }
             return null;
         };
-
-        return function;
     }
 
-    abstract void handle();
+    public abstract void handle();
 
 
 }

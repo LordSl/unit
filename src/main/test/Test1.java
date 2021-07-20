@@ -1,6 +1,6 @@
 import org.example.App;
-import org.example.handler.Container;
-import org.example.handler.Manager;
+import org.example.alpha.FlowAlpha;
+import org.example.util.Container;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,13 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = App.class)
 public class Test1 {
     @Autowired
-    Manager manager;
+    FlowAlpha flowAlpha;
 
     @Test
     void t1() {
-        Container res = manager.exec();
+        Container res = flowAlpha.exec();
         System.out.println("ok");
     }
-
 
 }

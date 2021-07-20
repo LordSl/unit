@@ -1,8 +1,12 @@
-package org.example.handler;
+package org.example.alpha;
 
+import org.example.util.AbstractHandler;
+import org.example.util.Input;
+import org.example.util.Output;
+import org.example.util.Unit;
 import org.springframework.stereotype.Component;
 
-@Unit(order = "1.7")
+@Unit(order = "1.7", flow = FlowAlpha.class)
 @Component
 public class HandlerB extends AbstractHandler {
     @Input(name = "home")
@@ -15,12 +19,8 @@ public class HandlerB extends AbstractHandler {
     @Output
     Long length;
 
-    public HandlerB(Manager manager) {
-        super(manager);
-    }
-
     @Override
-    void handle() {
+    public void handle() {
         home = home + "/b handle home";
         age = age + "/b handle age";
         length = length + 101;
