@@ -1,7 +1,7 @@
-package org.example.alpha;
+package org.com.lordsl.unit.alpha;
 
-import org.example.util.AbstractFlow;
-import org.example.util.Container;
+import org.com.lordsl.unit.common.Container;
+import org.com.lordsl.unit.common.AbstractFlow;
 import org.springframework.stereotype.Component;
 
 @Component

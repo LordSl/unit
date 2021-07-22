@@ -1,9 +1,13 @@
-package org.example.util;
+package org.com.lordsl.unit.common;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractHandler {
 
@@ -38,27 +42,59 @@ public abstract class AbstractHandler {
         Class<?> cla = this.getClass();
 
         Field[] fields = cla.getDeclaredFields();
-        Map<String, Field> inputs = new HashMap<>();
-        Map<String, Field> outputs = new HashMap<>();
+        Map<String, Field> consumes = new HashMap<>();
+        Map<String, Field> produces = new HashMap<>();
+        Map<String, Field> throughs = new HashMap<>();
 
+        //Through的效果会覆盖掉Consume和Produce
         for (Field field : fields) {
-            Input input = field.getAnnotation(Input.class);
-            if (null != input)
-                inputs.put(input.name().equals("") ? field.getName() : input.name(), field);
-            //out-inner 别名-成员名
-            Output output = field.getAnnotation(Output.class);
-            if (null != output)
-                outputs.put(output.name().equals("") ? field.getName() : output.name(), field);
-            //out-inner 别名-成员名
+            Consume consume = field.getAnnotation(Consume.class);
+            if (null != consume)
+                consumes.put(consume.name().equals("") ? field.getName() : consume.name(), field);
+            Produce produce = field.getAnnotation(Produce.class);
+            if (null != produce)
+                produces.put(produce.name().equals("") ? field.getName() : produce.name(), field);
+            Through through = field.getAnnotation(Through.class);
+            if (null != through)
+                throughs.put(through.name().equals("") ? field.getName() : through.name(), field);
         }
 
         //解除protected和private
-        for (Field f : inputs.values()) {
+        for (Field f : consumes.values()) {
             f.setAccessible(true);
         }
-        for (Field f : outputs.values()) {
+        for (Field f : produces.values()) {
             f.setAccessible(true);
         }
+        for (Field f : throughs.values()) {
+            f.setAccessible(true);
+        }
+
+        //consumes + throughs
+        Map<String, Field> inputs = Stream.concat(
+                consumes.entrySet().stream(), throughs.entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        //consumes - throughs
+        Map<String, Field> deletes = consumes.entrySet()
+                .stream()
+                .filter(item -> !throughs.entrySet().contains(item))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        //produces + throughs
+        Map<String, Field> outputs = Stream.concat(
+                produces.entrySet().stream(), throughs.entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
 
         return (container) -> {
             try {
@@ -69,6 +105,10 @@ public abstract class AbstractHandler {
                 for (String name : inputs.keySet()) {
                     Field f = inputs.get(name);
                     f.set(instance, container.get(name));
+                }
+
+                //从容器删除
+                for (String name : deletes.keySet()) {
                     container.remove(name);
                 }
 

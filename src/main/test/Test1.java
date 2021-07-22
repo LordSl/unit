@@ -1,6 +1,6 @@
-import org.example.App;
-import org.example.alpha.FlowAlpha;
-import org.example.util.Container;
+import org.com.lordsl.unit.App;
+import org.com.lordsl.unit.alpha.FlowAlpha;
+import org.com.lordsl.unit.common.Container;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

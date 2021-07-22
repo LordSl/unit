@@ -1,4 +1,4 @@
-package org.example.util;
+package org.com.lordsl.unit.common;
 
 import java.util.function.Function;
 

@@ -1,18 +1,18 @@
-package org.example.alpha;
+package org.com.lordsl.unit.alpha;
 
-import org.example.util.AbstractHandler;
-import org.example.util.Output;
-import org.example.util.Unit;
+import org.com.lordsl.unit.common.AbstractHandler;
+import org.com.lordsl.unit.common.Produce;
+import org.com.lordsl.unit.common.Unit;
 import org.springframework.stereotype.Component;
 
 @Unit(order = "1.1", flow = FlowAlpha.class)
 @Component
 public class HandlerA extends AbstractHandler {
-    @Output
+    @Produce
     String home;
-    @Output
+    @Produce
     String age;
-    @Output
+    @Produce
     Long length;
 
     @Override

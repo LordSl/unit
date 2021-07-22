@@ -1,17 +1,18 @@
-package org.example.alpha;
+package org.com.lordsl.unit.alpha;
 
-import org.example.util.AbstractHandler;
-import org.example.util.Input;
-import org.example.util.Output;
-import org.example.util.Unit;
+import org.com.lordsl.unit.common.AbstractHandler;
+import org.com.lordsl.unit.common.Consume;
+import org.com.lordsl.unit.common.Unit;
+import org.com.lordsl.unit.common.Through;
 import org.springframework.stereotype.Component;
 
 @Unit(order = "1.71", flow = FlowAlpha.class) //覆盖了HandlerB
 @Component
 public class HandlerC extends AbstractHandler {
-    @Input
-    @Output
+    @Through
     String home;
+    @Consume
+    Long length;
 
     @Override
     public void handle() {
