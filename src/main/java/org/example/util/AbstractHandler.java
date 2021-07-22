@@ -69,7 +69,7 @@ public abstract class AbstractHandler {
                 for (String name : inputs.keySet()) {
                     Field f = inputs.get(name);
                     f.set(instance, container.get(name));
-                    container.remove(f.getName());
+                    container.remove(name);
                 }
 
                 //执行计算
