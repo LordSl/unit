@@ -87,9 +87,10 @@ public abstract class AbstractHandler {
                         Map.Entry::getValue
                 ));
 
-        //produces + throughs
+        //produces + throughs && not ref
         Map<String, Field> outputs = Stream.concat(
                 produces.entrySet().stream(), throughs.entrySet().stream())
+                .filter(item -> item.getValue().getType().isPrimitive())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
