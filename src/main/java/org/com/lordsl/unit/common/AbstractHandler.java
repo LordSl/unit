@@ -76,7 +76,7 @@ public abstract class AbstractHandler {
         //produces + throughs
         Map<String, Field> outputs = Stream.concat(
                 produces.entrySet().stream(), throughs.entrySet().stream())
-                .filter(item -> item.getValue().getType().isPrimitive())
+                .filter(item -> item.getValue().getType().isPrimitive() || !throughs.entrySet().contains(item))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue

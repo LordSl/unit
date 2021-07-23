@@ -1,0 +1,58 @@
+{
+  "fullClass": "org.com.lordsl.unit.alpha.FlowAlpha",
+  "simpleClass": "FlowAlpha",
+  "info": [
+    {
+      "fullClass": "org.com.lordsl.unit.alpha.FlowAlpha",
+      "throughs": [],
+      "produces": [],
+      "simpleClass": "FlowAlpha",
+      "order": "1.4E-45",
+      "consumes": []
+    },
+    {
+      "fullClass": "org.com.lordsl.unit.alpha.HandlerA",
+      "throughs": [],
+      "produces": [
+        {
+          "fullClass": "java.lang.Long",
+          "simpleClass": "Long",
+          "key": "length"
+        },
+        {
+          "fullClass": "java.lang.String",
+          "simpleClass": "String",
+          "key": "age"
+        },
+        {
+          "fullClass": "java.lang.String",
+          "simpleClass": "String",
+          "key": "home"
+        }
+      ],
+      "simpleClass": "HandlerA",
+      "order": "1.1",
+      "consumes": []
+    },
+    {
+      "fullClass": "org.com.lordsl.unit.alpha.HandlerC",
+      "throughs": [
+        {
+          "fullClass": "java.lang.String",
+          "simpleClass": "String",
+          "key": "home"
+        }
+      ],
+      "produces": [],
+      "simpleClass": "HandlerC",
+      "order": "1.71",
+      "consumes": [
+        {
+          "fullClass": "java.lang.Long",
+          "simpleClass": "Long",
+          "key": "length"
+        }
+      ]
+    }
+  ]
+}
