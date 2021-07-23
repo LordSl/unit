@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 
 public abstract class AbstractHandler {
 
-    public AbstractHandler() {
-        if (Signal.value == 1) {
+    protected AbstractHandler() {
+        if (Signal.isPrepare()) {
             regis();
         }
     }
 
-    public void regis() {
+    private void regis() {
         Class<?> cla = this.getClass();
         Unit unit = cla.getAnnotation(Unit.class);
         if (unit == null) return;
@@ -38,26 +38,12 @@ public abstract class AbstractHandler {
         }
     }
 
-    Function<Container, Container> buildFunction() {
-        Class<?> cla = this.getClass();
-
-        Field[] fields = cla.getDeclaredFields();
-        Map<String, Field> consumes = new HashMap<>();
-        Map<String, Field> produces = new HashMap<>();
-        Map<String, Field> throughs = new HashMap<>();
+    private Function<Container, Container> buildFunction() {
 
         //Through的效果会覆盖掉Consume和Produce
-        for (Field field : fields) {
-            Consume consume = field.getAnnotation(Consume.class);
-            if (null != consume)
-                consumes.put(consume.name().equals("") ? field.getName() : consume.name(), field);
-            Produce produce = field.getAnnotation(Produce.class);
-            if (null != produce)
-                produces.put(produce.name().equals("") ? field.getName() : produce.name(), field);
-            Through through = field.getAnnotation(Through.class);
-            if (null != through)
-                throughs.put(through.name().equals("") ? field.getName() : through.name(), field);
-        }
+        Map<String, Field> consumes = getConsumes();
+        Map<String, Field> produces = getProduces();
+        Map<String, Field> throughs = getThroughs();
 
         //解除protected和private
         for (Field f : consumes.values()) {
@@ -87,7 +73,7 @@ public abstract class AbstractHandler {
                         Map.Entry::getValue
                 ));
 
-        //produces + throughs && not ref
+        //produces + throughs
         Map<String, Field> outputs = Stream.concat(
                 produces.entrySet().stream(), throughs.entrySet().stream())
                 .filter(item -> item.getValue().getType().isPrimitive())
@@ -96,10 +82,10 @@ public abstract class AbstractHandler {
                         Map.Entry::getValue
                 ));
 
-
+        Class<?> cla = this.getClass();
         return (container) -> {
             try {
-                Signal.value = 0;//信号量，关闭注册
+                Signal.setRuntime();//信号量，关闭注册
                 AbstractHandler instance = (AbstractHandler) cla.newInstance();
 
                 //从容器输入
@@ -129,6 +115,45 @@ public abstract class AbstractHandler {
             }
             return null;
         };
+    }
+
+    Map<String, Field> getProduces() {
+        Field[] fields = this.getClass().getDeclaredFields();
+        Map<String, Field> produces = new HashMap<>();
+
+        for (Field field : fields) {
+            Produce produce = field.getAnnotation(Produce.class);
+            if (null != produce) {
+                produces.put(produce.name().equals("") ? field.getName() : produce.name(), field);
+            }
+        }
+        return produces;
+    }
+
+    Map<String, Field> getConsumes() {
+        Field[] fields = this.getClass().getDeclaredFields();
+        Map<String, Field> consumes = new HashMap<>();
+
+        for (Field field : fields) {
+            Consume consume = field.getAnnotation(Consume.class);
+            if (null != consume) {
+                consumes.put(consume.name().equals("") ? field.getName() : consume.name(), field);
+            }
+        }
+        return consumes;
+    }
+
+    Map<String, Field> getThroughs() {
+        Field[] fields = this.getClass().getDeclaredFields();
+        Map<String, Field> throughs = new HashMap<>();
+
+        for (Field field : fields) {
+            Through through = field.getAnnotation(Through.class);
+            if (null != through) {
+                throughs.put(through.name().equals("") ? field.getName() : through.name(), field);
+            }
+        }
+        return throughs;
     }
 
     public abstract void handle();

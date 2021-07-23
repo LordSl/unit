@@ -15,4 +15,8 @@ public class FlowAlpha extends AbstractFlow {
         return container;
     }
 
+    @Override
+    protected void setParams(Container container) {
+        //todo 填写参数（需要用到的java bean，请使用setParam(...)标签方法来设置）
+    }
 }

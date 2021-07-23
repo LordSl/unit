@@ -1,5 +1,23 @@
 package org.com.lordsl.unit.common;
 
 public class Signal {
-    public static int value = 1;
+    private static int value = 1;
+
+    public static boolean isPrepare() {
+        return value == 1;
+    }
+
+    public static boolean isRuntime() {
+        return value == 0;
+    }
+
+    public static void setPrepare() {
+        value = 0;
+    }
+
+    public static void setRuntime() {
+        value = 0;
+    }
+
+
 }
