@@ -1,10 +1,10 @@
-package org.com.lordsl.unit.common;
+package org.com.lordsl.unit.common.anno;
 
 import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Consume {
+public @interface Through {
     String name() default "";
 }

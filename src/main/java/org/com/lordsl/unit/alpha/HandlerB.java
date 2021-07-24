@@ -1,25 +1,33 @@
 package org.com.lordsl.unit.alpha;
 
-import org.com.lordsl.unit.common.AbstractHandler;
-import org.com.lordsl.unit.common.Unit;
-import org.com.lordsl.unit.common.Through;
+import org.com.lordsl.unit.common.HandlerModel;
+import org.com.lordsl.unit.common.anno.Through;
+import org.com.lordsl.unit.common.anno.Unit;
 import org.springframework.stereotype.Component;
 
-@Unit(order = "1.7", flow = FlowAlpha.class)
+import java.util.List;
+
 @Component
-public class HandlerB extends AbstractHandler {
-    @Through(name = "home")
-    String home;
-    @Through(name = "age")
-    String superUnusualAge;
+@Unit(order = "1.7", flow = FlowAlpha.class)
+public class HandlerB implements HandlerModel {
+
     @Through
-    Long length;
+    String name;
+
+    @Through
+    Integer age;
+
+    @Through
+    List<String> courses;
+
+    public HandlerB() {
+        init();
+    }
 
     @Override
     public void handle() {
-        home = home + "/b handle home";
-        superUnusualAge = superUnusualAge + "/b handle age";
-        length = length + 101;
-        System.out.println("b handle finish");
+        name += "/B handle";
+        age += 1;
+        courses.add("c++");
     }
 }

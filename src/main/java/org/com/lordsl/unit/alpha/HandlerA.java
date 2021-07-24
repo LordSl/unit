@@ -1,25 +1,35 @@
 package org.com.lordsl.unit.alpha;
 
-import org.com.lordsl.unit.common.AbstractHandler;
-import org.com.lordsl.unit.common.Produce;
-import org.com.lordsl.unit.common.Unit;
+import org.com.lordsl.unit.common.HandlerModel;
+import org.com.lordsl.unit.common.anno.Produce;
+import org.com.lordsl.unit.common.anno.Unit;
 import org.springframework.stereotype.Component;
 
-@Unit(order = "1.1", flow = FlowAlpha.class)
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
-public class HandlerA extends AbstractHandler {
+@Unit(order = "1.0", flow = FlowAlpha.class)
+public class HandlerA implements HandlerModel {
+
     @Produce
-    String home;
+    String name;
+
     @Produce
-    String age;
+    Integer age;
+
     @Produce
-    Long length;
+    List<String> courses;
+
+    public HandlerA() {
+        init();
+    }
 
     @Override
     public void handle() {
-        home = "a handle home";
-        age = "a handle age";
-        length = 0L;
-        System.out.println("a handle finish");
+        name = "/A handle";
+        age = 17;
+        courses = new ArrayList<>();
+        courses.add("java");
     }
 }

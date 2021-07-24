@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,37 +13,34 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class Dictator {
-    private static final Map<Class<?>, List<HandlerUnit>> flowUnitsMap = new HashMap<>();
-    private static final Function<Map<String, Field>, JSONArray> readProperty = (map) -> {
+    private static final Map<Class<?>, List<Node>> flowNodesMap = new HashMap<>();
+    private static final Function<Map<String, Class<?>>, JSONArray> readProperty = (map) -> {
         JSONArray ja = new JSONArray();
-        map.entrySet().stream().forEach(
+        map.entrySet().forEach(
                 (entry) -> {
                     JSONObject jo = new JSONObject();
                     jo.put("key", entry.getKey());
-                    jo.put("fullClass", entry.getValue().getType().getName());
-                    jo.put("simpleClass", entry.getValue().getType().getSimpleName());
+                    jo.put("fullClass", entry.getValue().getName());
+                    jo.put("simpleClass", entry.getValue().getSimpleName());
                     ja.add(jo);
                 }
         );
         return ja;
     };
-    private static final Function<HandlerUnit, JSONObject> readHandlerUnit = (handlerUnit) -> {
+    private static final Function<Node, JSONObject> readHandlerUnit = (node) -> {
         JSONObject jo = new JSONObject();
-        jo.put("order", handlerUnit.getOrder().toString());
-        jo.put("simpleClass", handlerUnit.getCla().getSimpleName());
-        jo.put("fullClass", handlerUnit.getCla().getName());
+        jo.put("order", node.getOrder().toString());
+        jo.put("simpleClass", node.getCla().getSimpleName());
+        jo.put("fullClass", node.getCla().getName());
 
         JSONArray produces = new JSONArray();
         JSONArray consumes = new JSONArray();
         JSONArray throughs = new JSONArray();
 
         try {
-            Signal.setPrepare();
-            AbstractHandler instance = (AbstractHandler) handlerUnit.getCla().newInstance();
-            produces = readProperty.apply(instance.getProduces());
-            consumes = readProperty.apply(instance.getConsumes());
-            throughs = readProperty.apply(instance.getThroughs());
-            Signal.setRuntime();
+            produces = readProperty.apply(node.getProduces());
+            consumes = readProperty.apply(node.getConsumes());
+            throughs = readProperty.apply(node.getThroughs());
         } catch (Exception ignored) {
             ;
         }
@@ -52,31 +48,6 @@ public class Dictator {
         jo.put("consumes", consumes);
         jo.put("throughs", throughs);
         return jo;
-    };
-    private static final Function<Class<?>, JSONObject> readDefault = (cla) -> {
-        JSONObject jo1 = new JSONObject();
-        try {
-            AbstractFlow flow = (AbstractFlow) cla.newInstance();
-            Map<String, Class<?>> map = flow.getParams();
-            JSONArray produces = new JSONArray();
-            for (String name : map.keySet()) {
-                JSONObject jo2 = new JSONObject();
-                jo2.put("key", name);
-                jo2.put("simpleClass", map.get(name).getSimpleName());
-                jo2.put("fullClass", map.get(name).getName());
-                produces.add(jo2);
-            }
-            jo1.put("order", String.valueOf(Float.MIN_VALUE));
-            jo1.put("simpleClass", cla.getSimpleName());
-            jo1.put("fullClass", cla.getName());
-            jo1.put("produces", produces);
-            jo1.put("consumes", new JSONArray());
-            jo1.put("throughs", new JSONArray());
-
-        } catch (Exception ignored) {
-            ;
-        }
-        return jo1;
     };
     private static String filePath = "schema.json";
     private static final Function<JSONObject, Void> fileOutput = (JSONObject jo) -> {
@@ -94,33 +65,36 @@ public class Dictator {
         return null;
     };
 
-    protected static void put(HandlerUnit newUnit, Class<?> cla) {
-        List<HandlerUnit> units;
-        if (!flowUnitsMap.containsKey(cla)) {
-            units = new LinkedList<>();
-            units.add(new HandlerUnit(null, Float.MAX_VALUE, null));
-            flowUnitsMap.put(cla, units);
+    protected static void put(Class<?> flow, Node newNode) {
+        List<Node> nodes;
+
+        if (!flowNodesMap.containsKey(flow)) {
+            nodes = new LinkedList<>();
+            Node barrier = new Node();
+            barrier.setOrder(Float.MAX_VALUE);
+            nodes.add(barrier);
+            flowNodesMap.put(flow, nodes);
         } else
-            units = flowUnitsMap.get(cla);
+            nodes = flowNodesMap.get(flow);
 
         int index = 0;
-        for (; index < units.size(); index++) {
-            HandlerUnit unit = units.get(index);
+        for (; index < nodes.size(); index++) {
+            Node thisNode = nodes.get(index);
             //不允许order相等
-            if (unit.getOrder().equals(newUnit.getOrder()))
+            if (thisNode.getOrder().equals(newNode.getOrder()))
                 return;
-            if (unit.getOrder() > newUnit.getOrder())
+            if (thisNode.getOrder() > newNode.getOrder())
                 break;
         }
-        float tmp = index > 0 ? newUnit.getOrder() - units.get(index - 1).getOrder() : 0;
+        float tmp = index > 0 ? newNode.getOrder() - nodes.get(index - 1).getOrder() : 0;
         if (0 < tmp && tmp <= 0.1)
-            units.set(index - 1, newUnit);
+            nodes.set(index - 1, newNode);
         else
-            units.add(index, newUnit);
+            nodes.add(index, newNode);
     }
 
-    protected static List<HandlerUnit> get(Class<?> flow) {
-        return flowUnitsMap.get(flow);
+    protected static List<Node> get(Class<?> flow) {
+        return flowNodesMap.get(flow);
     }
 
     public static void outToJson() {
@@ -128,26 +102,21 @@ public class Dictator {
     }
 
     public static void outToJson(String path) {
+        String filepathCopy = filePath;
         filePath = path;
-        flowUnitsMap.entrySet().stream().forEach(
-                flowUnits -> {
-                    Class<?> cla = flowUnits.getKey();
-                    List<HandlerUnit> units = flowUnits.getValue();
-                    JSONObject jo = new JSONObject();
-                    jo.put("simpleClass", cla.getSimpleName());
-                    jo.put("fullClass", cla.getName());
-                    JSONArray info = new JSONArray();
-                    jo.put("info", info);
+        flowNodesMap.forEach((flow, units) -> {
+            JSONObject jo = new JSONObject();
+            jo.put("simpleClass", flow.getSimpleName());
+            jo.put("fullClass", flow.getName());
+            JSONArray info = new JSONArray();
+            jo.put("info", info);
 
-                    info.add(readDefault.apply(cla));
-
-                    for (int i = 0; i < units.size() - 1; i++) {
-                        HandlerUnit handlerUnit = units.get(i);
-                        info.add(readHandlerUnit.apply(handlerUnit));
-                    }
-                    fileOutput.apply(jo);
-                }
-        );
-        filePath = "schema.json";
+            for (int i = 0; i < units.size() - 1; i++) {
+                Node node = units.get(i);
+                info.add(readHandlerUnit.apply(node));
+            }
+            fileOutput.apply(jo);
+        });
+        filePath = filepathCopy;
     }
 }

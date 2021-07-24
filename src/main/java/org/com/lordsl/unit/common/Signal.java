@@ -3,19 +3,19 @@ package org.com.lordsl.unit.common;
 public class Signal {
     private static int value = 1;
 
-    public static boolean isPrepare() {
+    public static boolean isOn() {
         return value == 1;
     }
 
-    public static boolean isRuntime() {
+    public static boolean isOff() {
         return value == 0;
     }
 
-    public static void setPrepare() {
+    public static void setOn() {
         value = 0;
     }
 
-    public static void setRuntime() {
+    public static void setOff() {
         value = 0;
     }
 

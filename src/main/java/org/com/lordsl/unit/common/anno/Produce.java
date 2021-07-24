@@ -1,4 +1,4 @@
-package org.com.lordsl.unit.common;
+package org.com.lordsl.unit.common.anno;
 
 import java.lang.annotation.*;
 

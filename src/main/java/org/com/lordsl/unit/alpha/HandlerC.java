@@ -1,22 +1,33 @@
 package org.com.lordsl.unit.alpha;
 
-import org.com.lordsl.unit.common.AbstractHandler;
-import org.com.lordsl.unit.common.Consume;
-import org.com.lordsl.unit.common.Unit;
-import org.com.lordsl.unit.common.Through;
+import org.com.lordsl.unit.common.HandlerModel;
+import org.com.lordsl.unit.common.anno.Consume;
+import org.com.lordsl.unit.common.anno.Through;
+import org.com.lordsl.unit.common.anno.Unit;
 import org.springframework.stereotype.Component;
 
-@Unit(order = "1.71", flow = FlowAlpha.class) //覆盖了HandlerB
+import java.util.List;
+
 @Component
-public class HandlerC extends AbstractHandler {
-    @Through
-    String home;
+@Unit(order = "2.3", flow = FlowAlpha.class)
+public class HandlerC implements HandlerModel {
     @Consume
-    Long length;
+    String name;
+
+    @Through
+    Integer age;
+
+    @Through
+    List<String> courses;
+
+    public HandlerC() {
+        init();
+    }
 
     @Override
     public void handle() {
-        home = home + "/c handle home";
-        System.out.println("c handle finish");
+        System.out.println(name);
+        age += 1;
+        courses.add("python");
     }
 }
