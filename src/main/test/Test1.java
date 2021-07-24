@@ -1,8 +1,7 @@
-import org.com.lordsl.unit.App;
-import org.com.lordsl.unit.common.Info;
-import org.com.lordsl.unit.example.FlowAlpha;
-import org.com.lordsl.unit.example.FlowBeta;
-import org.com.lordsl.unit.common.Container;
+import com.lordsl.unit.App;
+import com.lordsl.unit.common.Container;
+import com.lordsl.unit.example.FlowAlpha;
+import com.lordsl.unit.example.FlowBeta;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +14,10 @@ public class Test1 {
     FlowBeta flowBeta;
 
     @Test
-    void t1() {
+    void cal() {
         Container res1 = flowAlpha.exec();
         Container res2 = flowBeta.exec();
-        Info.outToJson();
+//        Info.outToJson();
         System.out.println("ok");
     }
 
