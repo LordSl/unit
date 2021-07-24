@@ -2,11 +2,13 @@ package org.com.lordsl.unit.common;
 
 import org.com.lordsl.unit.common.anno.Consume;
 import org.com.lordsl.unit.common.anno.Produce;
+import org.com.lordsl.unit.common.anno.Refer;
 import org.com.lordsl.unit.common.anno.Through;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -56,21 +58,32 @@ public class PublicFunc {
         return throughs;
     };
 
+    final static Function<Class<?>, Map<String, Field>> getRefersFields = (Class<?> cla) -> {
+        Field[] fields = cla.getDeclaredFields();
+        Map<String, Field> refers = new HashMap<>();
+        for (Field field : fields) {
+            Refer refer = field.getAnnotation(Refer.class);
+            if (null != refer) {
+                refers.put(refer.name().equals("") ? field.getName() : refer.name(), field);
+            }
+        }
+        return refers;
+    };
+
     final static Function<Class<?>, Function<Container, Container>> getConductFunction = (Class<?> cla) -> {
 
         //Through的效果会覆盖掉Consume和Produce
         Map<String, Field> consumes = PublicFunc.getConsumesFields.apply(cla);
         Map<String, Field> produces = PublicFunc.getProducesFields.apply(cla);
         Map<String, Field> throughs = PublicFunc.getThroughsFields.apply(cla);
+        Map<String, Field> refers = PublicFunc.getRefersFields.apply(cla);
+
+        List<Field> properties = Stream.of(consumes.values(), produces.values(), throughs.values(), refers.values())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
 
         //解除protected和private
-        for (Field f : consumes.values()) {
-            f.setAccessible(true);
-        }
-        for (Field f : produces.values()) {
-            f.setAccessible(true);
-        }
-        for (Field f : throughs.values()) {
+        for (Field f : properties) {
             f.setAccessible(true);
         }
 
@@ -83,7 +96,7 @@ public class PublicFunc {
                 ));
 
         //consumes - throughs
-        Map<String, Field> deletes = consumes.entrySet()
+        Map<String, Field> deletes = consumes.entrySet()//through优先级高
                 .stream()
                 .filter(item -> !throughs.entrySet().contains(item))
                 .collect(Collectors.toMap(
@@ -93,8 +106,8 @@ public class PublicFunc {
 
         //produces + throughs
         Map<String, Field> outputs = Stream.concat(
-                produces.entrySet().stream(), throughs.entrySet().stream())
-                .filter(item -> item.getValue().getType().isPrimitive() || !throughs.entrySet().contains(item))
+                produces.entrySet().stream(), throughs.entrySet().stream())//是引用类型就不用放回
+                .filter(item -> !isReference(item.getValue().getType()) || !throughs.entrySet().contains(item))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
@@ -103,6 +116,12 @@ public class PublicFunc {
         return (container) -> {
             try {
                 HandlerModel instance = (HandlerModel) cla.newInstance();
+
+                //bean注入
+                for (String name : refers.keySet()) {
+                    Field f = refers.get(name);
+                    f.set(instance, Dictator.getRefer(name));
+                }
 
                 //从容器输入
                 for (String name : inputs.keySet()) {
@@ -133,5 +152,15 @@ public class PublicFunc {
         };
     };
 
+    static boolean isReference(Class<?> cla) {
+        if (cla.isPrimitive()) return false;
+        try {
+            if (((Class<?>) (cla.getField("TYPE").get(null))).isPrimitive())
+                return false;
+        } catch (Exception ignored) {
+            ;
+        }
+        return true;
+    }
 
 }

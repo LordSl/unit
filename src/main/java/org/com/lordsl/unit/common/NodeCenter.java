@@ -2,8 +2,8 @@ package org.com.lordsl.unit.common;
 
 import org.com.lordsl.unit.common.anno.Unit;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -18,8 +18,6 @@ public class NodeCenter {
     }
 
     private static class SimpleMode {
-        //新建一个该对象，即完成了一次注册，生成一个或多个Node到Dictator中
-
         private static void regis(HandlerModel model) {
 
             Class<?> cla = model.getClass();
@@ -29,26 +27,36 @@ public class NodeCenter {
             List<Float> orders = Arrays.stream(unit.order()).map(Float::parseFloat).collect(Collectors.toList());
             List<Class<?>> flows = Arrays.stream(unit.flow()).collect(Collectors.toList());
 
-            int len = orders.size();
-            if (len != flows.size())
+            if (orders.size() != flows.size())
                 return;
 
             Function<Container, Container> func = PublicFunc.getConductFunction.apply(cla);
-            for (int index = 0; index < len; index++) {
+            for (int index = 0; index < orders.size(); index++) {
                 Class<?> flow = flows.get(index);
                 Float order = orders.get(index);
-                Node node = new Node(order, cla, func);
+                Node node = new Node(order, model, func);
                 Dictator.put(flow, node);
             }
         }
 
-        //从上层类获取方法组成的执行链
         private static List<Function<Container, Container>> build(FlowModel model) {
             List<Node> nodes = Dictator.get(model.getClass());
-            List<Function<Container, Container>> res = new LinkedList<>();
-            for (int i = 0; i < nodes.size() - 1; i++) {
-                res.add(nodes.get(i).getFunction());
+            for (Node node : nodes) {
+                PublicFunc.getRefersFields
+                        .apply(node.getModel().getClass())
+                        .forEach((name, field) -> {
+                            try {
+                                field.setAccessible(true);
+                                Dictator.putRefer(name, field.get(node.getModel()));
+                            } catch (Exception ignored) {
+                                ;
+                            }
+                        });
             }
+
+            List<Function<Container, Container>> res = new ArrayList<>();
+            for (Node node : nodes)
+                res.add(node.getFunction());
             return res;
         }
     }

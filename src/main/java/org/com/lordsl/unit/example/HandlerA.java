@@ -1,4 +1,4 @@
-package org.com.lordsl.unit.alpha;
+package org.com.lordsl.unit.example;
 
 import org.com.lordsl.unit.common.HandlerModel;
 import org.com.lordsl.unit.common.anno.Produce;
@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Unit(order = "1.0", flow = FlowAlpha.class)
+@Unit(order = {"1.0", "0.9"}, flow = {FlowAlpha.class, FlowBeta.class})
 public class HandlerA implements HandlerModel {
-
     @Produce
     String name;
 

@@ -1,4 +1,4 @@
-package org.com.lordsl.unit.alpha;
+package org.com.lordsl.unit.example;
 
 import org.com.lordsl.unit.common.HandlerModel;
 import org.com.lordsl.unit.common.anno.Consume;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Unit(order = "2.3", flow = FlowAlpha.class)
+@Unit(order = {"2.3", "1.71"}, flow = {FlowAlpha.class, FlowBeta.class})
 public class HandlerC implements HandlerModel {
     @Consume
     String name;
@@ -26,7 +26,6 @@ public class HandlerC implements HandlerModel {
 
     @Override
     public void handle() {
-        System.out.println(name);
         age += 1;
         courses.add("python");
     }
