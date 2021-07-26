@@ -17,10 +17,6 @@ public interface FlowModel {
         }
     }
 
-    default FlowModel getTemplate() {
-        return null;
-    }
-
     default Container execAsChain(Container container) {
         lazyInit();
         List<Function<Container, Container>> functions = Inner.functionsMap.get(this.getClass());
