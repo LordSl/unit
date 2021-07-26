@@ -27,39 +27,39 @@ public class Node {
         refers = PublicFunc.convertMap.apply(PublicFunc.getRefersFields.apply(cla));
     }
 
-    public Float getOrder() {
+    Float getOrder() {
         return order;
     }
 
-    public void setOrder(Float order) {
+    void setOrder(Float order) {
         this.order = order;
     }
 
-    public Class<?> getCla() {
+    Class<?> getCla() {
         return cla;
     }
 
-    public Function<Container, Container> getFunction() {
+    Function<Container, Container> getFunction() {
         return function;
     }
 
-    public Map<String, Class<?>> getProduces() {
+    Map<String, Class<?>> getProduces() {
         return produces;
     }
 
-    public Map<String, Class<?>> getConsumes() {
+    Map<String, Class<?>> getConsumes() {
         return consumes;
     }
 
-    public Map<String, Class<?>> getThroughs() {
+    Map<String, Class<?>> getThroughs() {
         return throughs;
     }
 
-    public HandlerModel getModel() {
+    HandlerModel getModel() {
         return model;
     }
 
-    public Map<String, Class<?>> getRefers() {
+    Map<String, Class<?>> getRefers() {
         return refers;
     }
 }

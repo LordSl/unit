@@ -37,7 +37,7 @@ public class TestB {
             synchronized (o) {
                 o.wait();
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
             Info.PurpleAlert("interrupt");
         }
     }

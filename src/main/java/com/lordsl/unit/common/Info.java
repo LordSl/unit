@@ -11,18 +11,16 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class Info {
-    private static final Map<Class<?>, List<Node>> flowNodesMap = Dictator.flowNodesMap;
+    private static final Map<Class<?>, List<Node>> flowNodesMap = Dictator.getFlowNodesMap();
     private static final Function<Map<String, Class<?>>, JSONArray> readField = (map) -> {
         JSONArray ja = new JSONArray();
-        map.entrySet().forEach(
-                (entry) -> {
-                    JSONObject jo = new JSONObject();
-                    jo.put("key", entry.getKey());
-                    jo.put("fullClass", entry.getValue().getName());
-                    jo.put("simpleClass", entry.getValue().getSimpleName());
-                    ja.add(jo);
-                }
-        );
+        map.forEach((key, value) -> {
+            JSONObject jo = new JSONObject();
+            jo.put("key", key);
+            jo.put("fullClass", value.getName());
+            jo.put("simpleClass", value.getSimpleName());
+            ja.add(jo);
+        });
         return ja;
     };
     private static final Function<Node, JSONObject> readHandlerModel = (node) -> {
@@ -40,7 +38,6 @@ public class Info {
             consumes = readField.apply(node.getConsumes());
             throughs = readField.apply(node.getThroughs());
         } catch (Exception ignored) {
-            ;
         }
         jo.put("produces", produces);
         jo.put("consumes", consumes);

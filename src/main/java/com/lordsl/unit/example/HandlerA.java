@@ -20,8 +20,16 @@ public class HandlerA implements HandlerModel {
     @Produce
     List<String> courses;
 
+    public HandlerA(Integer mark) {
+    }
+
     public HandlerA() {
         init();
+    }
+
+    @Override
+    public HandlerModel getTemplate() {
+        return new HandlerA(1);
     }
 
     @Override

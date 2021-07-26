@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class NodeCenter {
+public class Adapter {
     static void regisSimple(HandlerModel model) {
         SimpleMode.regis(model);
     }
@@ -30,17 +30,17 @@ public class NodeCenter {
             if (orders.size() != flows.size())
                 return;
 
-            Function<Container, Container> func = PublicFunc.getConductFunction.apply(cla);
+            Function<Container, Container> func = PublicFunc.getConductFunction.apply(model);
             for (int index = 0; index < orders.size(); index++) {
                 Class<?> flow = flows.get(index);
                 Float order = orders.get(index);
                 Node node = new Node(order, model, func);
-                Dictator.put(flow, node);
+                Dictator.putNode(flow, node);
             }
         }
 
         private static List<Function<Container, Container>> build(FlowModel model) {
-            List<Node> nodes = Dictator.get(model.getClass());
+            List<Node> nodes = Dictator.getNodes(model.getClass());
             for (Node node : nodes) {
                 PublicFunc.getRefersFields
                         .apply(node.getModel().getClass())
@@ -48,8 +48,8 @@ public class NodeCenter {
                             try {
                                 field.setAccessible(true);
                                 Dictator.putRefer(name, field.get(node.getModel()));
-                            } catch (Exception ignored) {
-                                ;
+                            } catch (Exception e) {
+                                Info.PurpleAlert("refer inject exception");
                             }
                         });
             }

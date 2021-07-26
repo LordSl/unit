@@ -1,5 +1,6 @@
 import com.lordsl.unit.App;
 import com.lordsl.unit.common.Container;
+import com.lordsl.unit.common.Info;
 import com.lordsl.unit.example.FlowAlpha;
 import com.lordsl.unit.example.FlowBeta;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class Test1 {
     void cal() {
         Container res1 = flowAlpha.exec();
         Container res2 = flowBeta.exec();
-//        Info.outToJson();
+        Info.outToJson();
         System.out.println("ok");
     }
 
