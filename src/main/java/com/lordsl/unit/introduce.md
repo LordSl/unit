@@ -23,12 +23,6 @@ https://gitee.com/lconq/price-unit.git
 需实现HandlerModel接口
 
 ```java
-package
-
-...
-
-import ...
-
 @Component
 @Unit(order = {"1.3", "2.5"}, flow = {FlowAlpha.class, FlowBeta.class})
 public class HandlerX implements HandlerModel {
@@ -65,6 +59,7 @@ public class HandlerX implements HandlerModel {
         hello.hello();
         userName = String.format("尊敬的%s先生/女士", userName);
         orderDTO = new orderDTO()
+                .builder()
                 .setUserName(userName)
                 .setReqTime(reqTime)
                 .build();
@@ -72,7 +67,7 @@ public class HandlerX implements HandlerModel {
 }
 ```
 
-实现handle()方法，完成计算
+需要实现handle()方法，完成计算
 
 可选择实现getTemplate()方法，该方法用于提供一个“干净”的handler对象（所有字段为null），不实现该方法时，会默认以无参构造方法代替
 
@@ -121,20 +116,13 @@ public class HandlerX implements HandlerModel {
 需实现FlowModel接口
 
 ```java
-package
-
-...
-
-import ...
 
 @Component
 public class FlowAlpha implements FlowModel {
-    public void exec(...) {
+    public void exec() {
+        //todo 输入输出和业务对接
         Container container = new Container();
-        //todo 填入初始值
         container = execAsChain(container);
-        //todo 获取结果
-        //do sth
     }
 }
 ```
