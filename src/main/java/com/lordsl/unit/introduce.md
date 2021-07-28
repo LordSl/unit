@@ -58,7 +58,7 @@ public class HandlerX implements HandlerModel {
     public void handle() {
         hello.hello();
         userName = String.format("尊敬的%s先生/女士", userName);
-        orderDTO = new orderDTO()
+        orderDTO = OrderDTO
                 .builder()
                 .setUserName(userName)
                 .setReqTime(reqTime)
