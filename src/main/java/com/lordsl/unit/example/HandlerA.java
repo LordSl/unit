@@ -2,14 +2,19 @@ package com.lordsl.unit.example;
 
 import com.lordsl.unit.common.HandlerModel;
 import com.lordsl.unit.common.anno.Produce;
+import com.lordsl.unit.common.anno.Uni;
 import com.lordsl.unit.common.anno.Unit;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Component
-@Unit(order = {"1.0", "0.9"}, flow = {FlowAlpha.class, FlowBeta.class})
+@Unit(unis = {
+        @Uni(order = "1.0", flow = FlowAlpha.class),
+        @Uni(order = "0.9", flow = FlowBeta.class),
+})
 public class HandlerA implements HandlerModel {
     @Produce
     String name;
@@ -24,12 +29,12 @@ public class HandlerA implements HandlerModel {
     }
 
     public HandlerA() {
-        init();
+        Stand.init(this);
     }
 
     @Override
-    public HandlerModel getTemplate() {
-        return new HandlerA(1);
+    public Function<Void, HandlerModel> getTemplate() {
+        return (Void) -> new HandlerA(1);
     }
 
     @Override

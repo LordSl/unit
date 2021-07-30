@@ -6,29 +6,30 @@ import java.util.Map;
 import java.util.function.Function;
 
 public interface FlowModel {
-    default void lazyInit() {
-        if (!Inner.functionsMap.containsKey(this.getClass())) {
-            synchronized (this) {
-                if (!Inner.functionsMap.containsKey(this.getClass())) {
-                    Signal.setOff();//第一个FlowModel的注册必须在所有HandlerModel之后
-                    Inner.functionsMap.put(this.getClass(), Adapter.buildSimple(this));
+
+    class Stand {
+        private static final Map<Class<?>, List<Function<Container, Container>>> functionsMap = new HashMap<>();
+
+        private static void lazyInit(FlowModel model) {
+            if (!functionsMap.containsKey(model.getClass())) {
+                synchronized (Stand.class) {
+                    if (!functionsMap.containsKey(model.getClass())) {
+                        Signal.setOff();//第一个FlowModel的注册必须在所有HandlerModel之后
+                        functionsMap.put(model.getClass(), Adapter.buildSimple(model));
+                    }
                 }
             }
         }
-    }
 
-    default Container execAsChain(Container container) {
-        lazyInit();
-        List<Function<Container, Container>> functions = Inner.functionsMap.get(this.getClass());
+        public static Container execAsChain(Container container, FlowModel model) {
+            lazyInit(model);
+            List<Function<Container, Container>> functions = functionsMap.get(model.getClass());
 
-        for (Function<Container, Container> function : functions)
-            container = function.apply(container);
+            for (Function<Container, Container> function : functions)
+                container = function.apply(container);
 
-        return container;
-    }
-
-    class Inner {
-        volatile static Map<Class<?>, List<Function<Container, Container>>> functionsMap = new HashMap<>();
+            return container;
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.lordsl.unit.common;
 
+import com.lordsl.unit.common.anno.Uni;
 import com.lordsl.unit.common.anno.Unit;
 
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ public class Adapter {
             Unit unit = cla.getAnnotation(Unit.class);
             if (unit == null) return;
 
-            List<Float> orders = Arrays.stream(unit.order()).map(Float::parseFloat).collect(Collectors.toList());
-            List<Class<?>> flows = Arrays.stream(unit.flow()).collect(Collectors.toList());
+            List<Float> orders = Arrays.stream(unit.unis()).map(item -> Float.parseFloat(item.order())).collect(Collectors.toList());
+            List<Class<?>> flows = Arrays.stream(unit.unis()).map(Uni::flow).collect(Collectors.toList());
 
             if (orders.size() != flows.size())
                 return;
@@ -60,4 +61,5 @@ public class Adapter {
             return res;
         }
     }
+
 }

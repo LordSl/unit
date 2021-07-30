@@ -3,13 +3,16 @@ package com.lordsl.unit.test;
 import com.lordsl.unit.common.HandlerModel;
 import com.lordsl.unit.common.anno.Consume;
 import com.lordsl.unit.common.anno.Produce;
+import com.lordsl.unit.common.anno.Uni;
 import com.lordsl.unit.common.anno.Unit;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 @Component
-@Unit(order = "1.0", flow = FlowB.class)
+@Unit(unis = {
+        @Uni(order = "1.0", flow = FlowB.class)
+})
 public class HandlerB1 implements HandlerModel {
     @Consume
     Integer a;
@@ -19,7 +22,7 @@ public class HandlerB1 implements HandlerModel {
     ArrayList<Object> c;
 
     public HandlerB1() {
-        init();
+        Stand.init(this);
     }
 
     @Override

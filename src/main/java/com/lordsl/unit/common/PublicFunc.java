@@ -6,7 +6,6 @@ import com.lordsl.unit.common.anno.Refer;
 import com.lordsl.unit.common.anno.Through;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -115,32 +114,11 @@ public class PublicFunc {
                         Map.Entry::getValue
                 ));
 
-        Function<Void, HandlerModel> getTemplate;
-        try {
-            Method method = cla.getDeclaredMethod("getTemplate");//若实现了getTemplate方法，则使用
-            method.setAccessible(true);
-            getTemplate = (Void) -> {
-                try {
-                    return (HandlerModel) method.invoke(model);
-                } catch (Exception ignored) {
-                }
-                return null;
-            };
-        } catch (Exception e) {
-            Info.PurpleAlert(String.format("%s use no param constructor as template", cla.getSimpleName()));
-            getTemplate = (Void) -> {//未实现getTemplate方法，使用无参构造方法
-                try {
-                    return (HandlerModel) cla.newInstance();
-                } catch (Exception ignored) {
-                }
-                return null;
-            };
-        }
+        Function<Void, HandlerModel> getTemplate = model.getTemplate();
 
-        Function<Void, HandlerModel> finalGetTemplate = getTemplate;
         return (container) -> {
             try {
-                HandlerModel instance = finalGetTemplate.apply(null);
+                HandlerModel instance = getTemplate.apply(null);
 
                 //bean注入
                 for (String name : refers.keySet()) {

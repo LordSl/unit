@@ -11,7 +11,7 @@ public class FlowB implements FlowModel {
         Container container = new Container();
         container.put("a", 103);
         container.put("b", "iwhrinwlakdnlkjoi2803412740hsna");
-        container = execAsChain(container);
+        container = Stand.execAsChain(container, this);
         Info.PurpleAlert("res->" + container.get("f").toString());
     }
 }

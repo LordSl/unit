@@ -9,6 +9,6 @@ public class FlowBeta implements FlowModel {
 
     public Container exec() {
         Container container = new Container();
-        return execAsChain(container);
+        return Stand.execAsChain(container, this);
     }
 }

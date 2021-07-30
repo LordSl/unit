@@ -6,14 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Unit {
-    //在flow中的位置
-    String[] order();
 
-    //要绑定的flow的id
-    Class<?>[] flow();
-
-    //自己的id
-    String id() default "";
-
+    Uni[] unis();
 
 }

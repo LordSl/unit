@@ -23,6 +23,7 @@ https://gitee.com/lconq/price-unit.git
 需实现HandlerModel接口
 
 ```java
+
 @Component
 @Unit(order = {"1.3", "2.5"}, flow = {FlowAlpha.class, FlowBeta.class})
 public class HandlerX implements HandlerModel {
