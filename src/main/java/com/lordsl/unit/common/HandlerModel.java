@@ -4,16 +4,13 @@ import java.util.function.Function;
 
 public interface HandlerModel {
     default Function<Void, HandlerModel> getTemplate() {
-        Function<Void, HandlerModel> res;
-        res = (Void) -> {
+        return (Void) -> {
             try {
                 return this.getClass().newInstance();
             } catch (Exception ignored) {
-                ;
             }
             return null;
         };
-        return res;
     }
 
     class Stand {

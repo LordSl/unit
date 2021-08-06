@@ -1,5 +1,7 @@
 package com.lordsl.unit.common.anno;
 
+import com.lordsl.unit.common.FlowModel;
+
 import java.lang.annotation.*;
 
 @Target({ElementType.ANNOTATION_TYPE})
@@ -9,7 +11,6 @@ public @interface Uni {
     //在flow中的位置
     String order();
 
-    //要绑定的flow的id
-    Class<?> flow();
+    Class<? extends FlowModel> flow();
 
 }

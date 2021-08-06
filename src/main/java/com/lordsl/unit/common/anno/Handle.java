@@ -1,5 +1,7 @@
 package com.lordsl.unit.common.anno;
 
+import com.lordsl.unit.common.FlowModel;
+
 import java.lang.annotation.*;
 
 @Target({ElementType.METHOD})
@@ -8,5 +10,5 @@ import java.lang.annotation.*;
 public @interface Handle {
     String pos() default "1.0";
 
-    Class<?>[] flows() default {};
+    Class<? extends FlowModel>[] flows() default {};
 }
