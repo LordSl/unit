@@ -1,10 +1,7 @@
 package com.lordsl.unit.example;
 
 import com.lordsl.unit.common.HandlerModel;
-import com.lordsl.unit.common.anno.Refer;
-import com.lordsl.unit.common.anno.Through;
-import com.lordsl.unit.common.anno.Uni;
-import com.lordsl.unit.common.anno.Unit;
+import com.lordsl.unit.common.anno.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,11 +31,22 @@ public class HandlerB implements HandlerModel {
         Stand.init(this);
     }
 
-    @Override
-    public void handle() {
+    @Handle
+    public void handleCommon() {
         hello.hello();
         name += "/B handle";
         age += 1;
         courses.add("c++");
+    }
+
+    @Handle(pos = "2", flows = {FlowAlpha.class})
+    public void handleAlpha() {
+        System.out.println("对阿尔法的悄悄话");
+    }
+
+    @Handle(pos = "2", flows = {FlowBeta.class})
+    public void handleBeta() {
+        System.out.println("对贝塔的悄悄话");
+
     }
 }

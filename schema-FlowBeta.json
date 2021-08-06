@@ -3,77 +3,28 @@
   "simpleClass": "FlowBeta",
   "info": [
     {
-      "fullClass": "com.lordsl.unit.example.HandlerA",
+      "fullClass": "com.lordsl.unit.example.FlowBeta",
       "throughs": [],
-      "produces": [
-        {
-          "fullClass": "java.util.List",
-          "simpleClass": "List",
-          "key": "courses"
-        },
-        {
-          "fullClass": "java.lang.String",
-          "simpleClass": "String",
-          "key": "name"
-        },
-        {
-          "fullClass": "java.lang.Integer",
-          "simpleClass": "Integer",
-          "key": "age"
-        }
-      ],
-      "simpleClass": "HandlerA",
+      "produces": [],
+      "simpleClass": "FlowBeta",
       "order": "0.9",
       "consumes": []
     },
     {
-      "fullClass": "com.lordsl.unit.example.HandlerB",
-      "throughs": [
-        {
-          "fullClass": "java.util.List",
-          "simpleClass": "List",
-          "key": "courses"
-        },
-        {
-          "fullClass": "java.lang.String",
-          "simpleClass": "String",
-          "key": "name"
-        },
-        {
-          "fullClass": "java.lang.Integer",
-          "simpleClass": "Integer",
-          "key": "age"
-        }
-      ],
+      "fullClass": "com.lordsl.unit.example.FlowBeta",
+      "throughs": [],
       "produces": [],
-      "simpleClass": "HandlerB",
+      "simpleClass": "FlowBeta",
       "order": "1.7",
       "consumes": []
     },
     {
-      "fullClass": "com.lordsl.unit.example.HandlerC",
-      "throughs": [
-        {
-          "fullClass": "java.util.List",
-          "simpleClass": "List",
-          "key": "courses"
-        },
-        {
-          "fullClass": "java.lang.Integer",
-          "simpleClass": "Integer",
-          "key": "age"
-        }
-      ],
+      "fullClass": "com.lordsl.unit.example.FlowBeta",
+      "throughs": [],
       "produces": [],
-      "simpleClass": "HandlerC",
+      "simpleClass": "FlowBeta",
       "order": "2.3",
-      "consumes": [
-        {
-          "fullClass": "java.lang.String",
-          "simpleClass": "String",
-          "key": "name"
-        }
-      ]
+      "consumes": []
     }
   ]
 }

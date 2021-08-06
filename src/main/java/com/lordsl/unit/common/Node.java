@@ -6,7 +6,6 @@ import java.util.function.Function;
 public class Node {
     private Float order;
     private Class<?> cla;
-    private HandlerModel model;
     private Function<Container, Container> function;
     private Map<String, Class<?>> produces;
     private Map<String, Class<?>> consumes;
@@ -16,10 +15,9 @@ public class Node {
     Node() {
     }
 
-    Node(Float order, HandlerModel model, Function<Container, Container> function) {
+    Node(Float order, Class<?> flow, Function<Container, Container> function) {
         this.order = order;
-        this.model = model;
-        this.cla = model.getClass();
+        this.cla = flow;
         this.function = function;
         produces = PublicFunc.convertMap.apply(PublicFunc.getProducesFields.apply(cla));
         consumes = PublicFunc.convertMap.apply(PublicFunc.getConsumesFields.apply(cla));
@@ -53,10 +51,6 @@ public class Node {
 
     Map<String, Class<?>> getThroughs() {
         return throughs;
-    }
-
-    HandlerModel getModel() {
-        return model;
     }
 
     Map<String, Class<?>> getRefers() {

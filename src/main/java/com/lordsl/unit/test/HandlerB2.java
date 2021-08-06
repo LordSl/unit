@@ -1,10 +1,7 @@
 package com.lordsl.unit.test;
 
 import com.lordsl.unit.common.HandlerModel;
-import com.lordsl.unit.common.anno.Consume;
-import com.lordsl.unit.common.anno.Produce;
-import com.lordsl.unit.common.anno.Uni;
-import com.lordsl.unit.common.anno.Unit;
+import com.lordsl.unit.common.anno.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,7 +20,7 @@ public class HandlerB2 implements HandlerModel {
         Stand.init(this);
     }
 
-    @Override
+    @Handle
     public void handle() {
         f = 0L;
         String d = String.valueOf(c.get(0));

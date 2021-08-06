@@ -1,10 +1,7 @@
 package com.lordsl.unit.example;
 
 import com.lordsl.unit.common.HandlerModel;
-import com.lordsl.unit.common.anno.Consume;
-import com.lordsl.unit.common.anno.Through;
-import com.lordsl.unit.common.anno.Uni;
-import com.lordsl.unit.common.anno.Unit;
+import com.lordsl.unit.common.anno.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,7 +25,7 @@ public class HandlerC implements HandlerModel {
         Stand.init(this);
     }
 
-    @Override
+    @Handle
     public void handle() {
         age += 1;
         courses.add("python");

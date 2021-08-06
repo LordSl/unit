@@ -1,0 +1,30 @@
+{
+  "fullClass": "com.lordsl.unit.example.FlowAlpha",
+  "simpleClass": "FlowAlpha",
+  "info": [
+    {
+      "fullClass": "com.lordsl.unit.example.FlowAlpha",
+      "throughs": [],
+      "produces": [],
+      "simpleClass": "FlowAlpha",
+      "order": "1.0",
+      "consumes": []
+    },
+    {
+      "fullClass": "com.lordsl.unit.example.FlowAlpha",
+      "throughs": [],
+      "produces": [],
+      "simpleClass": "FlowAlpha",
+      "order": "1.7",
+      "consumes": []
+    },
+    {
+      "fullClass": "com.lordsl.unit.example.FlowAlpha",
+      "throughs": [],
+      "produces": [],
+      "simpleClass": "FlowAlpha",
+      "order": "2.3",
+      "consumes": []
+    }
+  ]
+}

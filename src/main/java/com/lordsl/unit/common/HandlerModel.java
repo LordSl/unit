@@ -16,20 +16,10 @@ public interface HandlerModel {
         return res;
     }
 
-    void handle();
-
     class Stand {
         public static void init(HandlerModel model) {
             if (Signal.isOn())
                 Adapter.regisSimple(model);
-        }
-
-        public static void setNext(Class<?>... handlers) {
-            //通过线程id的map和flow通信
-        }
-
-        public static void call(Class<?> handlers) {
-            //通过dictator直接找到
         }
     }
 

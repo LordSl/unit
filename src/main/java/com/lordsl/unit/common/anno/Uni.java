@@ -2,7 +2,7 @@ package com.lordsl.unit.common.anno;
 
 import java.lang.annotation.*;
 
-@Target({ElementType.TYPE})
+@Target({ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Uni {
@@ -11,8 +11,5 @@ public @interface Uni {
 
     //要绑定的flow的id
     Class<?> flow();
-
-    //自己的id
-    String id() default "";
 
 }

@@ -1,6 +1,7 @@
 package com.lordsl.unit.example;
 
 import com.lordsl.unit.common.HandlerModel;
+import com.lordsl.unit.common.anno.Handle;
 import com.lordsl.unit.common.anno.Produce;
 import com.lordsl.unit.common.anno.Uni;
 import com.lordsl.unit.common.anno.Unit;
@@ -37,7 +38,7 @@ public class HandlerA implements HandlerModel {
         return (Void) -> new HandlerA(1);
     }
 
-    @Override
+    @Handle
     public void handle() {
         name = "/A handle";
         age = 17;
