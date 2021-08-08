@@ -37,6 +37,18 @@ public class Resolver {
                 .forEach(
                         field -> field.setAccessible(true)
                 );
+        handles.forEach(
+                method -> method.setAccessible(true)
+        );
+        try {
+            model.getClass().getDeclaredMethod("getTemplate");
+        } catch (Exception e1) {
+            try {
+                model.getClass().getConstructor();
+            } catch (Exception e2) {
+                Info.PurpleAlert("no param constructor must be public if not declare getTemplate()");
+            }
+        }
     }
 
     private void resolveRefers() {
@@ -121,6 +133,7 @@ public class Resolver {
                         }
                 )
         );
+
         //转换为function
         Map<Class<?>, Function<Container, Container>> res = new HashMap<>();
         map.keySet().forEach(

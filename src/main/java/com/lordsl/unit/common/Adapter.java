@@ -20,7 +20,7 @@ public class Adapter {
 
         private static List<Function<Container, Container>> build(FlowModel model) {
             List<Node> nodes = Dictator.getNodes(model.getClass());
-            if (Signal.isOn()) ReferInjectManager.resolveAll();
+            ReferInjectManager.resolveAll();
             List<Function<Container, Container>> res = new ArrayList<>();
             for (Node node : nodes)
                 res.add(node.getFunction());
