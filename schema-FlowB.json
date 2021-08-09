@@ -3,20 +3,53 @@
   "simpleClass": "FlowB",
   "info": [
     {
-      "fullClass": "com.lordsl.unit.test.FlowB",
+      "refers": [],
+      "fullClass": "com.lordsl.unit.test.HandlerB1",
       "throughs": [],
-      "produces": [],
-      "simpleClass": "FlowB",
+      "produces": [
+        {
+          "fullClass": "java.util.ArrayList",
+          "simpleClass": "ArrayList",
+          "key": "c"
+        }
+      ],
+      "simpleClass": "HandlerB1",
+      "updates": [],
       "order": "1.0",
-      "consumes": []
+      "consumes": [
+        {
+          "fullClass": "java.lang.Integer",
+          "simpleClass": "Integer",
+          "key": "a"
+        },
+        {
+          "fullClass": "java.lang.String",
+          "simpleClass": "String",
+          "key": "b"
+        }
+      ]
     },
     {
-      "fullClass": "com.lordsl.unit.test.FlowB",
+      "refers": [],
+      "fullClass": "com.lordsl.unit.test.HandlerB2",
       "throughs": [],
-      "produces": [],
-      "simpleClass": "FlowB",
+      "produces": [
+        {
+          "fullClass": "java.lang.Long",
+          "simpleClass": "Long",
+          "key": "f"
+        }
+      ],
+      "simpleClass": "HandlerB2",
+      "updates": [],
       "order": "2.0",
-      "consumes": []
+      "consumes": [
+        {
+          "fullClass": "java.util.ArrayList",
+          "simpleClass": "ArrayList",
+          "key": "c"
+        }
+      ]
     }
   ]
 }

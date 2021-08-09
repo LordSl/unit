@@ -1,5 +1,7 @@
 package com.lordsl.unit.common;
 
+import com.lordsl.unit.common.anno.*;
+
 import java.util.Map;
 import java.util.function.Function;
 
@@ -10,19 +12,21 @@ public class Node {
     private Map<String, Class<?>> produces;
     private Map<String, Class<?>> consumes;
     private Map<String, Class<?>> throughs;
+    private Map<String, Class<?>> updates;
     private Map<String, Class<?>> refers;
 
     Node() {
     }
 
-    Node(Float order, Class<?> flow, Function<Container, Container> function) {
+    Node(Float order, Class<?> handler, Function<Container, Container> function) {
         this.order = order;
-        this.cla = flow;
+        this.cla = handler;
         this.function = function;
-        produces = PublicFunc.convertMap.apply(PublicFunc.getProducesFields.apply(cla));
-        consumes = PublicFunc.convertMap.apply(PublicFunc.getConsumesFields.apply(cla));
-        throughs = PublicFunc.convertMap.apply(PublicFunc.getThroughsFields.apply(cla));
-        refers = PublicFunc.convertMap.apply(PublicFunc.getRefersFields.apply(cla));
+        produces = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Produce.class, cla));
+        consumes = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Consume.class, cla));
+        throughs = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Through.class, cla));
+        updates = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Update.class, cla));
+        refers = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Refer.class, cla));
     }
 
     Float getOrder() {
@@ -51,6 +55,10 @@ public class Node {
 
     Map<String, Class<?>> getThroughs() {
         return throughs;
+    }
+
+    public Map<String, Class<?>> getUpdates() {
+        return updates;
     }
 
     Map<String, Class<?>> getRefers() {

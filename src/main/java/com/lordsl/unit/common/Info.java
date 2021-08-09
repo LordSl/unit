@@ -32,16 +32,22 @@ public class Info {
         JSONArray produces = new JSONArray();
         JSONArray consumes = new JSONArray();
         JSONArray throughs = new JSONArray();
+        JSONArray updates = new JSONArray();
+        JSONArray refers = new JSONArray();
 
         try {
             produces = readField.apply(node.getProduces());
             consumes = readField.apply(node.getConsumes());
             throughs = readField.apply(node.getThroughs());
+            updates = readField.apply(node.getUpdates());
+            refers = readField.apply(node.getRefers());
         } catch (Exception ignored) {
         }
         jo.put("produces", produces);
         jo.put("consumes", consumes);
         jo.put("throughs", throughs);
+        jo.put("updates", updates);
+        jo.put("refers", refers);
         return jo;
     };
     private static String filePath = "schema.json";

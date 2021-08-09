@@ -1,16 +1,23 @@
 package com.lordsl.unit.common;
 
+import java.lang.reflect.Constructor;
 import java.util.function.Function;
 
 public interface HandlerModel {
     default Function<Void, HandlerModel> getTemplate() {
-        return (Void) -> {
-            try {
-                return this.getClass().newInstance();
-            } catch (Exception ignored) {
-            }
+        try {
+            Constructor<? extends HandlerModel> constructor = this.getClass().getDeclaredConstructor();
+            constructor.setAccessible(true);
+            return (Void) -> {
+                try {
+                    return constructor.newInstance();
+                } catch (Exception ignored) {
+                    return null;
+                }
+            };
+        } catch (Exception ignored) {
             return null;
-        };
+        }
     }
 
     class Stand {

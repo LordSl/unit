@@ -1,8 +1,6 @@
 package com.lordsl.unit.common;
 
-import com.lordsl.unit.common.anno.Handle;
-import com.lordsl.unit.common.anno.Uni;
-import com.lordsl.unit.common.anno.Unit;
+import com.lordsl.unit.common.anno.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,7 +11,7 @@ import java.util.stream.Stream;
 
 public class Resolver {
     HandlerModel model;
-    Map<String, Field> consumes, produces, throughs, refers;
+    Map<String, Field> consumes, produces, throughs, updates, refers;
     Set<Method> handles;
     Function<Void, HandlerModel> getTemplate;
     Map<String, Field> inputs, deletes, outputs;
@@ -22,17 +20,18 @@ public class Resolver {
     Resolver(HandlerModel model) {
         this.model = model;
         Class<?> cla = model.getClass();
-        consumes = PublicFunc.getConsumesFields.apply(cla);
-        produces = PublicFunc.getProducesFields.apply(cla);
-        throughs = PublicFunc.getThroughsFields.apply(cla);
-        refers = PublicFunc.getRefersFields.apply(cla);
-        handles = PublicFunc.getHandlesSet.apply(cla);
+        consumes = PublicFunc.getAnnoFields.apply(Consume.class, cla);
+        produces = PublicFunc.getAnnoFields.apply(Produce.class, cla);
+        throughs = PublicFunc.getAnnoFields.apply(Through.class, cla);
+        updates = PublicFunc.getAnnoFields.apply(Update.class, cla);
+        refers = PublicFunc.getAnnoFields.apply(Refer.class, cla);
+        handles = PublicFunc.getAnnoMethods.apply(Handle.class, cla);
         getTemplate = model.getTemplate();
         unit = cla.getAnnotation(Unit.class);
     }
 
     private void setAllAccessible() {
-        Stream.of(consumes.values(), produces.values(), throughs.values(), refers.values())
+        Stream.of(consumes.values(), produces.values(), throughs.values(), updates.values(), refers.values())
                 .flatMap(Collection::stream)
                 .forEach(
                         field -> field.setAccessible(true)
@@ -40,15 +39,6 @@ public class Resolver {
         handles.forEach(
                 method -> method.setAccessible(true)
         );
-        try {
-            model.getClass().getDeclaredMethod("getTemplate");
-        } catch (Exception e1) {
-            try {
-                model.getClass().getConstructor();
-            } catch (Exception e2) {
-                Info.PurpleAlert("no param constructor must be public if not declare getTemplate()");
-            }
-        }
     }
 
     private void resolveRefers() {
@@ -66,27 +56,28 @@ public class Resolver {
     }
 
     private void resolveOpsWithContainer() {
-        //consumes + throughs
-        inputs = Stream.concat(
-                consumes.entrySet().stream(), throughs.entrySet().stream())
+        //consumes + throughs + updates
+        inputs = Stream.of(
+                consumes.entrySet(), throughs.entrySet(), updates.entrySet())
+                .flatMap(Collection::stream)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
                 ));
 
-        //consumes - throughs
-        deletes = consumes.entrySet()//through优先级高
-                .stream()
-                .filter(item -> !throughs.entrySet().contains(item))
+        //consumes - throughs - updates
+        deletes = consumes.entrySet().stream()
+                .filter(item -> !throughs.entrySet().contains(item) && !updates.entrySet().contains(item))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
                 ));
 
-        //produces + throughs
-        outputs = Stream.concat(
-                produces.entrySet().stream(), throughs.entrySet().stream())//是引用类型就不用放回
-                .filter(item -> !PublicFunc.isReference.apply(item.getValue().getType()) || !throughs.entrySet().contains(item))
+        //produces + updates
+        outputs = Stream.of(
+                produces.entrySet(), updates.entrySet())
+                .flatMap(Collection::stream)
+                .filter(item -> !(PublicFunc.isReference.apply(item.getValue().getType()) && updates.entrySet().contains(item)))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
@@ -100,7 +91,7 @@ public class Resolver {
                 uni -> {
                     Class<?> flow = uni.flow();
                     Float order = Float.parseFloat(uni.order());
-                    Node node = new Node(order, flow, map.get(flow));
+                    Node node = new Node(order, model.getClass(), map.get(flow));
                     Dictator.putNode(flow, node);
                 }
         );
@@ -169,6 +160,7 @@ public class Resolver {
                 for (Method method : methods) {
                     method.invoke(instance);
                 }
+//                model.handle();
 
                 //向容器输出
                 for (String name : outputs.keySet()) {
@@ -187,9 +179,26 @@ public class Resolver {
 
     public void resolve() {
         setAllAccessible();
+        checkConflicts();
         resolveRefers();
         resolveOpsWithContainer();
         resolveAllMethods();
+    }
+
+    private void checkConflicts() {
+        Map<String, Integer> tmp = new HashMap<>();
+        Stream.of(consumes.entrySet(), produces.entrySet(), throughs.entrySet(), updates.entrySet(), refers.entrySet())
+                .flatMap(Collection::stream)
+                .forEach(
+                        entry -> tmp.merge(entry.getKey(), 1, (o, n) -> o + 1)
+                );
+        tmp.forEach(
+                (key, value) -> {
+                    if (value > 1)
+                        Info.PurpleAlert(String.format("key %s has more than 1 specific annotation which may cause error", key));
+                }
+        );
+
     }
 
 }

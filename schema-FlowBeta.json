@@ -3,28 +3,89 @@
   "simpleClass": "FlowBeta",
   "info": [
     {
-      "fullClass": "com.lordsl.unit.example.FlowBeta",
+      "refers": [],
+      "fullClass": "com.lordsl.unit.example.HandlerA",
       "throughs": [],
-      "produces": [],
-      "simpleClass": "FlowBeta",
+      "produces": [
+        {
+          "fullClass": "java.util.List",
+          "simpleClass": "List",
+          "key": "courses"
+        },
+        {
+          "fullClass": "java.lang.String",
+          "simpleClass": "String",
+          "key": "name"
+        },
+        {
+          "fullClass": "java.lang.Integer",
+          "simpleClass": "Integer",
+          "key": "age"
+        }
+      ],
+      "simpleClass": "HandlerA",
+      "updates": [],
       "order": "0.9",
       "consumes": []
     },
     {
-      "fullClass": "com.lordsl.unit.example.FlowBeta",
-      "throughs": [],
+      "refers": [
+        {
+          "fullClass": "com.lordsl.unit.example.Hello",
+          "simpleClass": "Hello",
+          "key": "hello"
+        }
+      ],
+      "fullClass": "com.lordsl.unit.example.HandlerB",
+      "throughs": [
+        {
+          "fullClass": "java.util.List",
+          "simpleClass": "List",
+          "key": "courses"
+        },
+        {
+          "fullClass": "java.lang.String",
+          "simpleClass": "String",
+          "key": "name"
+        },
+        {
+          "fullClass": "java.lang.Integer",
+          "simpleClass": "Integer",
+          "key": "age"
+        }
+      ],
       "produces": [],
-      "simpleClass": "FlowBeta",
+      "simpleClass": "HandlerB",
+      "updates": [],
       "order": "1.7",
       "consumes": []
     },
     {
-      "fullClass": "com.lordsl.unit.example.FlowBeta",
-      "throughs": [],
+      "refers": [],
+      "fullClass": "com.lordsl.unit.example.HandlerC",
+      "throughs": [
+        {
+          "fullClass": "java.util.List",
+          "simpleClass": "List",
+          "key": "courses"
+        },
+        {
+          "fullClass": "java.lang.Integer",
+          "simpleClass": "Integer",
+          "key": "age"
+        }
+      ],
       "produces": [],
-      "simpleClass": "FlowBeta",
+      "simpleClass": "HandlerC",
+      "updates": [],
       "order": "2.3",
-      "consumes": []
+      "consumes": [
+        {
+          "fullClass": "java.lang.String",
+          "simpleClass": "String",
+          "key": "name"
+        }
+      ]
     }
   ]
 }
