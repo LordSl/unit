@@ -1,4 +1,4 @@
-import com.lordsl.unit.common.Info;
+import com.lordsl.unit.common.OpFacade;
 import com.lordsl.unit.test.App;
 import com.lordsl.unit.test.compare.FlowA;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ public class TestA {
                         res.getAndIncrement();
                         if (res.get() == CON_NUM) {
                             long t2 = System.currentTimeMillis();
-                            Info.GreenLog("time->" + (t2 - t1));
+                            OpFacade.GreenLog("time->" + (t2 - t1));
                             synchronized (o) {
                                 o.notifyAll();
                             }
@@ -38,7 +38,7 @@ public class TestA {
                 o.wait();
             }
         } catch (Exception e) {
-            Info.PurpleAlert("interrupt");
+            OpFacade.PurpleAlert("interrupt");
         }
     }
 

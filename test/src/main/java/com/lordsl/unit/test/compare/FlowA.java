@@ -1,6 +1,6 @@
 package com.lordsl.unit.test.compare;
 
-import com.lordsl.unit.common.Info;
+import com.lordsl.unit.common.OpFacade;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +12,7 @@ public class FlowA {
 
         HandlerA1.task1Resp resp1 = handlerA1.handle(new HandlerA1.task1Req(103, "iwhrinwlakdnlkjoi2803412740hsna"));
         HandlerA2.task2Resp resp2 = handlerA2.handle(new HandlerA2.task2Req(resp1.c));
-        Info.PurpleAlert("res->" + resp2.f.toString());
+        OpFacade.PurpleAlert("res->" + resp2.f.toString());
 
     }
 }

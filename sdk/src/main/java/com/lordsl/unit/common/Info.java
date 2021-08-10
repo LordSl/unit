@@ -66,11 +66,11 @@ public class Info {
         return null;
     };
 
-    public static void outToJson() {
+    static void outToJson() {
         outToJson(filePath);
     }
 
-    public static void outToJson(String path) {
+    static void outToJson(String path) {
         String filepathCopy = filePath;
         filePath = path;
         flowNodesMap.forEach((flow, units) -> {
@@ -93,19 +93,19 @@ public class Info {
         System.out.printf("\u001B[%dm%s\u001B[0m%n", code, s);
     }
 
-    public static void YellowText(String s) {
+    static void YellowText(String s) {
         printWithColor(String.format("[TEXT] %s", s), 33);
     }
 
-    public static void BlueInfo(String s) {
+    static void BlueInfo(String s) {
         printWithColor(String.format("[INFO] %s", s), 34);
     }
 
-    public static void PurpleAlert(String s) {
+    static void PurpleAlert(String s) {
         printWithColor(String.format("[ALERT] %s", s), 35);
     }
 
-    public static void GreenLog(String s) {
+    static void GreenLog(String s) {
         printWithColor(String.format("[LOG] %s", s), 36);
     }
 

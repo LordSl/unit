@@ -10,7 +10,7 @@ public interface FlowModel {
     class Stand {
         private static final Map<Class<?>, List<Function<Container, Container>>> functionsMap = new HashMap<>();
 
-        private static void lazyInit(FlowModel model) {
+        static void lazyInit(FlowModel model) {
             if (!functionsMap.containsKey(model.getClass())) {
                 synchronized (Stand.class) {
                     if (!functionsMap.containsKey(model.getClass())) {

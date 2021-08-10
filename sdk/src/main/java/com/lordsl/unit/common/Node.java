@@ -15,7 +15,8 @@ public class Node {
     private Map<String, Class<?>> updates;
     private Map<String, Class<?>> refers;
 
-    Node() {
+    Node(Float order) {
+        this.order = order;
     }
 
     Node(Float order, Class<?> handler, Function<Container, Container> function) {
@@ -29,31 +30,27 @@ public class Node {
         refers = ParseUtil.convertFiledMapToClassMap(ParseUtil.getAnnoFields(Refer.class, cla));
     }
 
-    Float getOrder() {
+    public Float getOrder() {
         return order;
     }
 
-    void setOrder(Float order) {
-        this.order = order;
-    }
-
-    Class<?> getCla() {
+    public Class<?> getCla() {
         return cla;
     }
 
-    Function<Container, Container> getFunction() {
+    public Function<Container, Container> getFunction() {
         return function;
     }
 
-    Map<String, Class<?>> getProduces() {
+    public Map<String, Class<?>> getProduces() {
         return produces;
     }
 
-    Map<String, Class<?>> getConsumes() {
+    public Map<String, Class<?>> getConsumes() {
         return consumes;
     }
 
-    Map<String, Class<?>> getThroughs() {
+    public Map<String, Class<?>> getThroughs() {
         return throughs;
     }
 
@@ -61,7 +58,7 @@ public class Node {
         return updates;
     }
 
-    Map<String, Class<?>> getRefers() {
+    public Map<String, Class<?>> getRefers() {
         return refers;
     }
 }

@@ -23,8 +23,7 @@ public class Dictator {
 
         if (!flowNodesMap.containsKey(flow)) {
             nodes = new LinkedList<>();
-            Node barrier = new Node();
-            barrier.setOrder(Float.MAX_VALUE);
+            Node barrier = new Node(Float.MIN_VALUE);
             nodes.add(barrier);
             flowNodesMap.put(flow, nodes);
         } else

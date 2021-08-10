@@ -1,5 +1,5 @@
 import com.lordsl.unit.common.Container;
-import com.lordsl.unit.common.Info;
+import com.lordsl.unit.common.OpFacade;
 import com.lordsl.unit.test.App;
 import com.lordsl.unit.test.example.FlowAlpha;
 import com.lordsl.unit.test.example.FlowBeta;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.File;
 
 @SpringBootTest(classes = App.class)
-public class Test1 {
+public class TestExample {
     @Autowired
     FlowAlpha flowAlpha;
     @Autowired
@@ -28,7 +28,7 @@ public class Test1 {
     void cal() {
         Container res1 = flowAlpha.exec();
         Container res2 = flowBeta.exec();
-        Info.outToJson(getRootPath() + "/schema");
+        OpFacade.outToJson(getRootPath() + "/schema");
         System.out.println("ok");
     }
 
