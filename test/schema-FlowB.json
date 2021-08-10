@@ -1,0 +1,55 @@
+{
+  "fullClass": "com.lordsl.unit.test.compare.FlowB",
+  "simpleClass": "FlowB",
+  "info": [
+    {
+      "refers": [],
+      "fullClass": "com.lordsl.unit.test.compare.HandlerB1",
+      "throughs": [],
+      "produces": [
+        {
+          "fullClass": "java.util.ArrayList",
+          "simpleClass": "ArrayList",
+          "key": "c"
+        }
+      ],
+      "simpleClass": "HandlerB1",
+      "updates": [],
+      "order": "1.0",
+      "consumes": [
+        {
+          "fullClass": "java.lang.Integer",
+          "simpleClass": "Integer",
+          "key": "a"
+        },
+        {
+          "fullClass": "java.lang.String",
+          "simpleClass": "String",
+          "key": "b"
+        }
+      ]
+    },
+    {
+      "refers": [],
+      "fullClass": "com.lordsl.unit.test.compare.HandlerB2",
+      "throughs": [],
+      "produces": [
+        {
+          "fullClass": "java.lang.Long",
+          "simpleClass": "Long",
+          "key": "f"
+        }
+      ],
+      "simpleClass": "HandlerB2",
+      "updates": [],
+      "order": "2.0",
+      "consumes": [
+        {
+          "fullClass": "java.util.ArrayList",
+          "simpleClass": "ArrayList",
+          "key": "c"
+        }
+      ]
+    }
+  ]
+}
