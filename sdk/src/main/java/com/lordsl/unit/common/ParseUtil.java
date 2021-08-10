@@ -4,21 +4,22 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PublicFunc {
+public class ParseUtil {
 
-    final static Function<Map<String, Field>, Map<String, Class<?>>> convertMap = (map) -> Stream.of(
-            map.entrySet())
-            .flatMap(Collection::stream)
-            .collect(Collectors.toMap(
-                    Map.Entry::getKey,
-                    set -> set.getValue().getType()
-            ));
-    final static BiFunction<Class<? extends Annotation>, Class<?>, Set<Method>> getAnnoMethods = (annoCla, objCla) -> {
+    static Map<String, Class<?>> convertFiledMapToClassMap(Map<String, Field> map) {
+        return Stream.of(
+                map.entrySet())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        set -> set.getValue().getType()
+                ));
+    }
+
+    static Set<Method> getAnnoMethods(Class<? extends Annotation> annoCla, Class<?> objCla) {
         Set<Method> set = new HashSet<>();
         Arrays.stream(objCla.getDeclaredMethods()).forEach(
                 method -> {
@@ -29,8 +30,9 @@ public class PublicFunc {
                 }
         );
         return set;
-    };
-    final static BiFunction<Class<? extends Annotation>, Class<?>, Map<String, Field>> getAnnoFields = (annoCla, objCla) -> {
+    }
+
+    static Map<String, Field> getAnnoFields(Class<? extends Annotation> annoCla, Class<?> objCla) {
         Map<String, Field> items = new HashMap<>();
         try {
             Method target = annoCla.getDeclaredMethod("name");
@@ -49,8 +51,9 @@ public class PublicFunc {
         } catch (Exception ignored) {
         }
         return items;
-    };
-    final static Function<Class<?>, Boolean> isReference = cla -> {
+    }
+
+    static Boolean isReference(Class<?> cla) {
         if (cla.isPrimitive()) return false;
         try {
             if (((Class<?>) (cla.getField("TYPE").get(null))).isPrimitive())
@@ -58,5 +61,5 @@ public class PublicFunc {
         } catch (Exception ignored) {
         }
         return true;
-    };
+    }
 }

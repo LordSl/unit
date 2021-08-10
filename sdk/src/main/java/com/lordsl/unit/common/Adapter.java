@@ -15,12 +15,12 @@ public class Adapter {
 
     private static class SimpleMode {
         private static void regis(HandlerModel model) {
-            new Resolver(model).resolve();
+            new NodeResolver(model).resolve();
         }
 
         private static List<Function<Container, Container>> build(FlowModel model) {
             List<Node> nodes = Dictator.getNodes(model.getClass());
-            ReferInjectManager.resolveAll();
+            ReferResolver.resolveAll();
             List<Function<Container, Container>> res = new ArrayList<>();
             for (Node node : nodes)
                 res.add(node.getFunction());

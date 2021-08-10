@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Dictator {
-    private static final Map<Class<?>, List<Node>> flowNodesMap = new HashMap<>();
+    private static final Map<Class<? extends FlowModel>, List<Node>> flowNodesMap = new HashMap<>();
 
     private final static Container refers = new Container();
 
@@ -18,7 +18,7 @@ public class Dictator {
         return refers.get(name);
     }
 
-    static void putNode(Class<?> flow, Node newNode) {
+    static void putNode(Class<? extends FlowModel> flow, Node newNode) {
         List<Node> nodes;
 
         if (!flowNodesMap.containsKey(flow)) {
@@ -50,7 +50,7 @@ public class Dictator {
         return nodes.subList(0, nodes.size() - 1);
     }
 
-    static Map<Class<?>, List<Node>> getFlowNodesMap() {
+    static Map<Class<? extends FlowModel>, List<Node>> getFlowNodesMap() {
         return flowNodesMap;
     }
 }

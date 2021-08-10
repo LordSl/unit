@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
-public class ReferInjectManager {
+public class ReferResolver {
 
     private static final Set<Function<Void, Void>> queue = new HashSet<>();
 

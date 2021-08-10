@@ -9,23 +9,23 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Resolver {
-    HandlerModel model;
-    Map<String, Field> consumes, produces, throughs, updates, refers;
-    Set<Method> handles;
-    Function<Void, HandlerModel> getTemplate;
-    Map<String, Field> inputs, deletes, outputs;
-    Unit unit;
+public class NodeResolver {
+    private final HandlerModel model;
+    private final Map<String, Field> consumes, produces, throughs, updates, refers;
+    private final Set<Method> handles;
+    private final Function<Void, HandlerModel> getTemplate;
+    private final Unit unit;
+    private Map<String, Field> inputs, deletes, outputs;
 
-    Resolver(HandlerModel model) {
+    NodeResolver(HandlerModel model) {
         this.model = model;
         Class<?> cla = model.getClass();
-        consumes = PublicFunc.getAnnoFields.apply(Consume.class, cla);
-        produces = PublicFunc.getAnnoFields.apply(Produce.class, cla);
-        throughs = PublicFunc.getAnnoFields.apply(Through.class, cla);
-        updates = PublicFunc.getAnnoFields.apply(Update.class, cla);
-        refers = PublicFunc.getAnnoFields.apply(Refer.class, cla);
-        handles = PublicFunc.getAnnoMethods.apply(Handle.class, cla);
+        consumes = ParseUtil.getAnnoFields(Consume.class, cla);
+        produces = ParseUtil.getAnnoFields(Produce.class, cla);
+        throughs = ParseUtil.getAnnoFields(Through.class, cla);
+        updates = ParseUtil.getAnnoFields(Update.class, cla);
+        refers = ParseUtil.getAnnoFields(Refer.class, cla);
+        handles = ParseUtil.getAnnoMethods(Handle.class, cla);
         getTemplate = model.getTemplate();
         unit = cla.getAnnotation(Unit.class);
     }
@@ -42,7 +42,7 @@ public class Resolver {
     }
 
     private void resolveRefers() {
-        ReferInjectManager.addTask((Void) -> {
+        ReferResolver.addTask((Void) -> {
             refers.forEach((name, field) -> {
                 try {
                     field.setAccessible(true);
@@ -77,7 +77,7 @@ public class Resolver {
         outputs = Stream.of(
                 produces.entrySet(), updates.entrySet())
                 .flatMap(Collection::stream)
-                .filter(item -> !(PublicFunc.isReference.apply(item.getValue().getType()) && updates.entrySet().contains(item)))
+                .filter(item -> !(ParseUtil.isReference(item.getValue().getType()) && updates.entrySet().contains(item)))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
@@ -86,10 +86,10 @@ public class Resolver {
 
 
     private void resolveAllMethods() {
-        Map<Class<?>, Function<Container, Container>> map = getFunctionForEachFlow();
+        Map<Class<? extends FlowModel>, Function<Container, Container>> map = getFunctionForEachFlow();
         Arrays.stream(unit.unis()).forEach(
                 uni -> {
-                    Class<?> flow = uni.flow();
+                    Class<? extends FlowModel> flow = uni.flow();
                     Float order = Float.parseFloat(uni.order());
                     Node node = new Node(order, model.getClass(), map.get(flow));
                     Dictator.putNode(flow, node);
@@ -97,14 +97,14 @@ public class Resolver {
         );
     }
 
-    Map<Class<?>, Function<Container, Container>> getFunctionForEachFlow() {
-        Map<Class<?>, List<Method>> map = new HashMap<>();
-        List<Class<?>> flowsDefault = Arrays.stream(unit.unis()).map(Uni::flow).collect(Collectors.toList());
+    Map<Class<? extends FlowModel>, Function<Container, Container>> getFunctionForEachFlow() {
+        Map<Class<? extends FlowModel>, List<Method>> map = new HashMap<>();
+        List<Class<? extends FlowModel>> flowsDefault = Arrays.stream(unit.unis()).map(Uni::flow).collect(Collectors.toList());
         //归档
         handles.forEach(
                 method -> {
                     Handle handle = method.getAnnotation(Handle.class);
-                    List<Class<?>> flows = handle.flows().length == 0 ? flowsDefault : Arrays.asList(handle.flows());
+                    List<Class<? extends FlowModel>> flows = handle.flows().length == 0 ? flowsDefault : Arrays.asList(handle.flows());
                     flows.forEach(
                             flow -> {
                                 map.putIfAbsent(flow, new ArrayList<>());
@@ -126,7 +126,7 @@ public class Resolver {
         );
 
         //转换为function
-        Map<Class<?>, Function<Container, Container>> res = new HashMap<>();
+        Map<Class<? extends FlowModel>, Function<Container, Container>> res = new HashMap<>();
         map.keySet().forEach(
                 key -> res.put(key, buildFunc(map.get(key)))
         );

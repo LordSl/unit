@@ -22,11 +22,11 @@ public class Node {
         this.order = order;
         this.cla = handler;
         this.function = function;
-        produces = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Produce.class, cla));
-        consumes = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Consume.class, cla));
-        throughs = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Through.class, cla));
-        updates = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Update.class, cla));
-        refers = PublicFunc.convertMap.apply(PublicFunc.getAnnoFields.apply(Refer.class, cla));
+        produces = ParseUtil.convertFiledMapToClassMap(ParseUtil.getAnnoFields(Produce.class, cla));
+        consumes = ParseUtil.convertFiledMapToClassMap(ParseUtil.getAnnoFields(Consume.class, cla));
+        throughs = ParseUtil.convertFiledMapToClassMap(ParseUtil.getAnnoFields(Through.class, cla));
+        updates = ParseUtil.convertFiledMapToClassMap(ParseUtil.getAnnoFields(Update.class, cla));
+        refers = ParseUtil.convertFiledMapToClassMap(ParseUtil.getAnnoFields(Refer.class, cla));
     }
 
     Float getOrder() {

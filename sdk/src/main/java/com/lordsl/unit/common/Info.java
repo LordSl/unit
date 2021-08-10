@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class Info {
-    private static final Map<Class<?>, List<Node>> flowNodesMap = Dictator.getFlowNodesMap();
+    private static final Map<Class<? extends FlowModel>, List<Node>> flowNodesMap = Dictator.getFlowNodesMap();
     private static final Function<Map<String, Class<?>>, JSONArray> readField = (map) -> {
         JSONArray ja = new JSONArray();
         map.forEach((key, value) -> {
