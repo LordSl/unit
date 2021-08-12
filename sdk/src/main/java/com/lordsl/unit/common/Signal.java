@@ -3,22 +3,23 @@ package com.lordsl.unit.common;
 public class Signal {
     //在FlowModel类的执行方法第一次被调用时，关闭Handler的注册开关，结束构造
 
-    private static int value = 1;
+    private static boolean regisEnable = true;
+    private static boolean interactionCheckEnable = true;
 
-    static boolean isOn() {
-        return value == 1;
+    static boolean regisEnable() {
+        return regisEnable;
     }
 
-    static boolean isOff() {
-        return value == 0;
+    static void regisEnable(boolean b) {
+        regisEnable = b;
     }
 
-    static void setOn() {
-        value = 0;
+    static boolean interactionCheckEnable() {
+        return interactionCheckEnable;
     }
 
-    static void setOff() {
-        value = 0;
+    static void interactionCheckEnable(boolean b) {
+        interactionCheckEnable = b;
     }
 
 

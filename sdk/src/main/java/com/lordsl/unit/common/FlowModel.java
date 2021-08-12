@@ -15,7 +15,7 @@ public interface FlowModel {
                 synchronized (Stand.class) {
                     if (!functionsMap.containsKey(model.getClass())) {
                         functionsMap.put(model.getClass(), Adapter.buildSimple(model));
-                        Signal.setOff();//第一个FlowModel的注册必须在所有HandlerModel之后
+                        Signal.regisEnable(false);//第一个FlowModel的注册必须在所有HandlerModel之后
                     }
                 }
             }

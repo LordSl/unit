@@ -22,7 +22,7 @@ public interface HandlerModel {
 
     class Stand {
         public static void init(HandlerModel model) {
-            if (Signal.isOn())
+            if (Signal.regisEnable())
                 Adapter.regisSimple(model);
         }
     }

@@ -54,9 +54,9 @@ public class AwareUtil {
                         con.setAccessible(true);
                         HandlerModel model;
                         synchronized (Signal.class) {
-                            Signal.setOff();
+                            Signal.regisEnable(false);
                             model = (HandlerModel) con.newInstance();
-                            Signal.setOn();
+                            Signal.regisEnable(true);
                         }
                         model = model.getTemplate().apply(null);
                         HandlerModel.Stand.init(model);
