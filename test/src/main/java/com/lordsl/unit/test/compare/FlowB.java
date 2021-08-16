@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FlowB implements FlowModel {
+
+    FlowB() {
+        Stand.init(this);
+    }
+
     public void exec() {
         Container container = new Container();
         container.put("a", 103);

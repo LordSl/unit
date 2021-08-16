@@ -37,7 +37,10 @@
         }
       ],
       "fullClass": "com.lordsl.unit.test.example.HandlerB",
-      "throughs": [
+      "throughs": [],
+      "produces": [],
+      "simpleClass": "HandlerB",
+      "updates": [
         {
           "fullClass": "java.util.List",
           "simpleClass": "List",
@@ -54,16 +57,16 @@
           "key": "age"
         }
       ],
-      "produces": [],
-      "simpleClass": "HandlerB",
-      "updates": [],
       "order": "1.7",
       "consumes": []
     },
     {
       "refers": [],
       "fullClass": "com.lordsl.unit.test.example.HandlerC",
-      "throughs": [
+      "throughs": [],
+      "produces": [],
+      "simpleClass": "HandlerC",
+      "updates": [
         {
           "fullClass": "java.util.List",
           "simpleClass": "List",
@@ -75,9 +78,6 @@
           "key": "age"
         }
       ],
-      "produces": [],
-      "simpleClass": "HandlerC",
-      "updates": [],
       "order": "2.3",
       "consumes": [
         {

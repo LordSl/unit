@@ -1,34 +1,26 @@
 package com.lordsl.unit.common;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
 public interface FlowModel {
 
     class Stand {
-        private static final Map<Class<?>, List<Function<Container, Container>>> functionsMap = new HashMap<>();
+        public static void init(FlowModel model) {
+            TaskResolver.addFlowInitTask(Adapter.getFlowInitTask(Mode.simple, model));
+        }
 
-        static void lazyInit(FlowModel model) {
-            if (!functionsMap.containsKey(model.getClass())) {
-                synchronized (Stand.class) {
-                    if (!functionsMap.containsKey(model.getClass())) {
-                        functionsMap.put(model.getClass(), Adapter.buildSimple(model));
-                        Signal.regisEnable(false);//第一个FlowModel的注册必须在所有HandlerModel之后
+        private static void check() {
+            if (Signal.regisEnable()) {
+                synchronized (Signal.class) {
+                    if (Signal.regisEnable()) {
+                        Adapter.getFinalDoneTask(Mode.simple).run();
+                        Signal.regisEnable(false);
                     }
                 }
             }
         }
 
         public static Container execAsChain(Container container, FlowModel model) {
-            lazyInit(model);
-            List<Function<Container, Container>> functions = functionsMap.get(model.getClass());
-
-            for (Function<Container, Container> function : functions)
-                container = function.apply(container);
-
-            return container;
+            check();
+            return Dictator.getFinalFunction(model).apply(container);
         }
     }
 

@@ -14,17 +14,17 @@ import java.util.List;
 })
 public class HandlerB implements HandlerModel {
 
-    @Through
+    @Update
     String name;
 
-    @Through
+    @Update
     Integer age;
 
     @Refer
     @Autowired
     Hello hello;
 
-    @Through
+    @Update
     List<String> courses;
 
     public HandlerB() {

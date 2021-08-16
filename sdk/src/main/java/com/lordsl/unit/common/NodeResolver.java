@@ -6,14 +6,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class NodeResolver {
+class NodeResolver {
     private final HandlerModel model;
     private final Map<String, Field> consumes, produces, throughs, updates, refers;
     private final Set<Method> handles;
-    private final Function<Void, HandlerModel> getTemplate;
+    private final Supplier<HandlerModel> getTemplate;
     private final Unit unit;
     private Map<String, Field> inputs, deletes, outputs;
 
@@ -42,17 +43,16 @@ public class NodeResolver {
     }
 
     private void resolveRefers() {
-        ReferResolver.addTask((Void) -> {
-            refers.forEach((name, field) -> {
-                try {
-                    field.setAccessible(true);
-                    Dictator.putRefer(name, field.get(model));
-                } catch (Exception e) {
-                    Info.PurpleAlert("refer inject exception");
-                }
-            });
-            return null;
-        });
+        TaskResolver.addReferTask(() ->
+                refers.forEach((name, field) -> {
+                    try {
+                        field.setAccessible(true);
+                        Dictator.putRefer(name, field.get(model));
+                    } catch (Exception e) {
+                        Info.PurpleAlert("refer inject exception");
+                    }
+                })
+        );
     }
 
     private void resolveOpsWithContainer() {
@@ -77,7 +77,7 @@ public class NodeResolver {
         outputs = Stream.of(
                 produces.entrySet(), updates.entrySet())
                 .flatMap(Collection::stream)
-                .filter(item -> !(ParseUtil.isReference(item.getValue().getType()) && updates.entrySet().contains(item)))
+                .filter(item -> !((ParseUtil.isReferenceExceptString(item.getValue().getType()) && updates.entrySet().contains(item))))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue
@@ -137,7 +137,7 @@ public class NodeResolver {
     private Function<Container, Container> buildFunc(List<Method> methods) {
         return (container) -> {
             try {
-                HandlerModel instance = getTemplate.apply(null);
+                HandlerModel instance = getTemplate.get();
 
                 //bean注入
                 for (String name : refers.keySet()) {
@@ -160,7 +160,6 @@ public class NodeResolver {
                 for (Method method : methods) {
                     method.invoke(instance);
                 }
-//                model.handle();
 
                 //向容器输出
                 for (String name : outputs.keySet()) {
@@ -171,7 +170,7 @@ public class NodeResolver {
                 return container;
 
             } catch (Exception e) {
-                Info.PurpleAlert("param inject exception");
+                Info.PurpleAlert("final func running exception");
             }
             return null;
         };

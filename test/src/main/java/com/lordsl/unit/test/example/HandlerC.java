@@ -15,10 +15,10 @@ public class HandlerC implements HandlerModel {
     @Consume
     String name;
 
-    @Through
+    @Update
     Integer age;
 
-    @Through
+    @Update
     List<String> courses;
 
     public HandlerC() {

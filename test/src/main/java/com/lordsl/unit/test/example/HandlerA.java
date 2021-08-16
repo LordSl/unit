@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Component
 @Unit(unis = {
@@ -34,8 +34,8 @@ public class HandlerA implements HandlerModel {
     }
 
     @Override
-    public Function<Void, HandlerModel> getTemplate() {
-        return (Void) -> new HandlerA(1);
+    public Supplier<HandlerModel> getTemplate() {
+        return () -> new HandlerA(1);
     }
 
     @Handle

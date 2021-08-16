@@ -1,15 +1,9 @@
-package com.lordsl.unit.test.example;
+package com.lordsl.unit.test.config;
 
 import com.lordsl.unit.common.Container;
 import com.lordsl.unit.common.FlowModel;
-import org.springframework.stereotype.Component;
 
-@Component
-public class FlowAlpha implements FlowModel {
-
-    FlowAlpha() {
-        Stand.init(this);
-    }
+public class FlowTheta implements FlowModel {
 
     public Container exec() {
         Container container = new Container();

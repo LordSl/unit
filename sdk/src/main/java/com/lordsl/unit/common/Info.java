@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class Info {
+class Info {
     private static final Map<Class<? extends FlowModel>, List<Node>> flowNodesMap = Dictator.getFlowNodesMap();
     private static final Function<Map<String, Class<?>>, JSONArray> readField = (map) -> {
         JSONArray ja = new JSONArray();

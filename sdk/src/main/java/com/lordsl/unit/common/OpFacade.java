@@ -1,7 +1,6 @@
 package com.lordsl.unit.common;
 
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * 外观类，提供操作接口
@@ -25,29 +24,11 @@ public class OpFacade {
     }
 
     /**
-     * 使用无参构造器强制初始化实例
-     */
-    public static void forceInitHandlers(List<Class<? extends HandlerModel>> list) {
-        AwareUtil.forceInitHandlers(list);
-    }
-
-    /**
-     * 使用无参构造器强制初始化实例
-     */
-    public static void forceInitFlows(List<Class<? extends FlowModel>> list) {
-        AwareUtil.forceInitFlows(list);
-    }
-
-    /**
      * 返回一个已存在的Node
      * 若在多个flow中出现，则随机返回一个
      */
     public static Node getNode(Class<? extends HandlerModel> target) {
         return AwareUtil.getNode(target);
-    }
-
-    public static Function<Container, Container> getFunc(Class<? extends HandlerModel> target) {
-        return AwareUtil.getFunc(target);
     }
 
     public static void outToJson(String path) {
@@ -78,4 +59,11 @@ public class OpFacade {
         Dictator.putRefer(name, bean);
     }
 
+    public static void softInitHandlers(List<HandlerModel> handlers) {
+        AwareUtil.softInitHandlers(handlers);
+    }
+
+    public static void softInitFlows(List<FlowModel> flows) {
+        AwareUtil.softInitFlows(flows);
+    }
 }

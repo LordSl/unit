@@ -1,15 +1,13 @@
 package com.lordsl.unit.common;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class AwareUtil {
+class AwareUtil {
 
     private static <T> List<Class<? extends T>> scanInterfaceImplInPkg(String pkgName, Class<? extends T> t) {
         String rootDir = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
@@ -46,42 +44,6 @@ public class AwareUtil {
         return scanInterfaceImplInPkg(pkgName, FlowModel.class);
     }
 
-    static void forceInitHandlers(List<Class<? extends HandlerModel>> list) {
-        list.forEach(
-                cla -> {
-                    try {
-                        Constructor<?> con = cla.getConstructor();
-                        con.setAccessible(true);
-                        HandlerModel model;
-                        synchronized (Signal.class) {
-                            Signal.regisEnable(false);
-                            model = (HandlerModel) con.newInstance();
-                            Signal.regisEnable(true);
-                        }
-                        model = model.getTemplate().apply(null);
-                        HandlerModel.Stand.init(model);
-                    } catch (Exception e) {
-                        Info.PurpleAlert("handlers force init fail");
-                    }
-                }
-        );
-    }
-
-    static void forceInitFlows(List<Class<? extends FlowModel>> list) {
-        list.forEach(
-                cla -> {
-                    try {
-                        Constructor<?> con = cla.getConstructor();
-                        con.setAccessible(true);
-                        FlowModel model = (FlowModel) con.newInstance();
-                        FlowModel.Stand.lazyInit(model);
-                    } catch (Exception e) {
-                        Info.PurpleAlert("flows force init fail");
-                    }
-                }
-        );
-    }
-
     static Node getNode(Class<? extends HandlerModel> target) {
         return Dictator.getFlowNodesMap().values().stream()
                 .flatMap(Collection::stream)
@@ -90,7 +52,12 @@ public class AwareUtil {
                 .orElse(null);
     }
 
-    static Function<Container, Container> getFunc(Class<? extends HandlerModel> target) {
-        return getNode(target).getFunction();
+    static void softInitHandlers(List<HandlerModel> handlers) {
+        handlers.forEach(model -> TaskResolver.addHandlerInitTask(Adapter.getHandlerInitTask(Mode.simple, model)));
     }
+
+    static void softInitFlows(List<FlowModel> flows) {
+        flows.forEach(model -> TaskResolver.addFlowInitTask(Adapter.getFlowInitTask(Mode.simple, model)));
+    }
+
 }

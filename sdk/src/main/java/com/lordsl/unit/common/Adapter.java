@@ -1,31 +1,47 @@
 package com.lordsl.unit.common;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
+class Adapter {
+    static Runnable DoNothing = () -> {
+    };
 
-public class Adapter {
-    static void regisSimple(HandlerModel model) {
-        SimpleMode.regis(model);
+    static Runnable getHandlerInitTask(Mode mode, HandlerModel model) {
+        if (mode.equals(Mode.simple)) {
+            return SimpleMode.getHandlerInitTask(model);
+        }
+        return DoNothing;
     }
 
-    static List<Function<Container, Container>> buildSimple(FlowModel model) {
-        return SimpleMode.build(model);
+    static Runnable getFlowInitTask(Mode mode, FlowModel model) {
+        if (mode.equals(Mode.simple)) {
+            return SimpleMode.getFlowInitTask(model);
+        }
+        return DoNothing;
+    }
+
+    static Runnable getFinalDoneTask(Mode mode) {
+        if (mode.equals(Mode.simple)) {
+            return SimpleMode.getFinalDoneTask();
+        }
+        return DoNothing;
     }
 
     private static class SimpleMode {
-        private static void regis(HandlerModel model) {
-            new NodeResolver(model).resolve();
+        private static Runnable getHandlerInitTask(HandlerModel model) {
+            return () -> new NodeResolver(model).resolve();
         }
 
-        private static List<Function<Container, Container>> build(FlowModel model) {
-            List<Node> nodes = Dictator.getNodes(model.getClass());
-            ReferResolver.resolveAll();
-            List<Function<Container, Container>> res = new ArrayList<>();
-            for (Node node : nodes)
-                res.add(node.getFunction());
-            return res;
+        private static Runnable getFlowInitTask(FlowModel model) {
+            return () -> Dictator.polyToFinalFunction(model.getClass());
         }
+
+        private static Runnable getFinalDoneTask() {
+            return () -> {
+                TaskResolver.resolveHandlerInitTasks();
+                TaskResolver.resolveReferTasks();
+                TaskResolver.resolveFlowInitTasks();
+            };
+        }
+
     }
 
 }

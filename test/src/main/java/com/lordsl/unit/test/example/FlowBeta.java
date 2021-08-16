@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlowBeta implements FlowModel {
 
+    FlowBeta() {
+        Stand.init(this);
+    }
+
     public Container exec() {
         Container container = new Container();
         return Stand.execAsChain(container, this);

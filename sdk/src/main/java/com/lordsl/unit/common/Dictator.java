@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class Dictator {
+class Dictator {
     private static final Map<Class<? extends FlowModel>, List<Node>> flowNodesMap = new HashMap<>();
 
     private final static Container refers = new Container();
+
+    private final static Map<Class<? extends FlowModel>, Function<Container, Container>> flowFinalFunctionMap = new HashMap<>();
 
     static <T> void putRefer(String name, T t) {
         refers.put(name, t);
@@ -52,4 +56,24 @@ public class Dictator {
     static Map<Class<? extends FlowModel>, List<Node>> getFlowNodesMap() {
         return flowNodesMap;
     }
+
+    static void polyToFinalFunction(Class<? extends FlowModel> flow) {
+        List<Function<Container, Container>> functions = flowNodesMap.get(flow).stream()
+                .filter(item -> !item.getOrder().equals(Float.MAX_VALUE))
+                .map(Node::getFunction)
+                .collect(Collectors.toList());
+        Function<Container, Container> finalFunc = (container) -> {
+            for (Function<Container, Container> func : functions) {
+                container = func.apply(container);
+            }
+            return container;
+        };
+        flowFinalFunctionMap.put(flow, finalFunc);
+    }
+
+
+    static Function<Container, Container> getFinalFunction(FlowModel model) {
+        return flowFinalFunctionMap.get(model.getClass());
+    }
+
 }

@@ -31,18 +31,18 @@ public class Action {
         //todo 解析args信息，汇总到Dictator
     }
 
-    public void conduct(ConductModel conductModel) {
+    public void conduct(Runnable conductBody) {
         alreadyParse = true;
         if (!Signal.interactionCheckEnable()) {
-            conductModel.conduct();
+            conductBody.run();
         } else {
-            checkInfluence(conductModel);
+            checkInfluence(conductBody);
         }
     }
 
-    private void checkInfluence(ConductModel conductModel) {
+    private void checkInfluence(Runnable conductModel) {
         Object oldHash = getNotUseArgsHash();
-        conductModel.conduct();
+        conductModel.run();
         Object newHash = getNotUseArgsHash();
         if (newHash == null && oldHash == null) {
             Info.PurpleAlert("old hash and new hash both null");

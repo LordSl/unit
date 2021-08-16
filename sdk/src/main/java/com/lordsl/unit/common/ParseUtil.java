@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ParseUtil {
+class ParseUtil {
 
     static Map<String, Class<?>> convertFiledMapToClassMap(Map<String, Field> map) {
         return Stream.of(
@@ -53,7 +53,8 @@ public class ParseUtil {
         return items;
     }
 
-    static Boolean isReference(Class<?> cla) {
+    static Boolean isReferenceExceptString(Class<?> cla) {
+        if (cla.equals(String.class)) return false;
         if (cla.isPrimitive()) return false;
         try {
             if (((Class<?>) (cla.getField("TYPE").get(null))).isPrimitive())
