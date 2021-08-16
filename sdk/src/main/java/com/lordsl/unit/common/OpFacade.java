@@ -17,10 +17,24 @@ public class OpFacade {
     }
 
     /**
+     * 传入一个同级class作为参数，同包即可，没有其它要求
+     */
+    public static List<Class<? extends HandlerModel>> getAllHandlerImpl(Class<?> peer) {
+        return AwareUtil.getAllHandlerImpl(peer);
+    }
+
+    /**
      * FlowModel的初始化不依赖于实例，但仍建议采用默认的懒加载方式，以免在HandlerModel注册之前注册
      */
     public static List<Class<? extends FlowModel>> getAllFlowImpl(String pkgName) {
         return AwareUtil.getAllFlowImpl(pkgName);
+    }
+
+    /**
+     * 传入一个同级class作为参数，同包即可，没有其它要求
+     */
+    public static List<Class<? extends FlowModel>> getAllFlowImpl(Class<?> peer) {
+        return AwareUtil.getAllFlowImpl(peer);
     }
 
     /**
