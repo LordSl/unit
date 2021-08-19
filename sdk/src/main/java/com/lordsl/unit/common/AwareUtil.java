@@ -1,7 +1,8 @@
 package com.lordsl.unit.common;
 
-import java.io.File;
-import java.util.Arrays;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfoList;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -9,63 +10,20 @@ import java.util.stream.Collectors;
 
 class AwareUtil {
 
-    private static <T> List<Class<? extends T>> scanInterfaceImplByPeer(Class<?> peerClass, Class<? extends T> t) {
-        File pkgDicFile = new File(Objects.requireNonNull(peerClass.getResource("")).getPath());
-        String pkgName = peerClass.getPackage().getName();
-        if (!pkgDicFile.isDirectory()) {
-            Info.PurpleAlert("scan stop, pkg not found");
-            return null;
-        }
-        List<String> claFullNames = Arrays.stream(Objects.requireNonNull(pkgDicFile.listFiles()))
-                .map(File::getName)
-                .filter(name -> name.endsWith(".class"))
-                .map(name -> pkgName + "." + name.replace(".class", ""))
-                .collect(Collectors.toList());
-        return claFullNames.stream()
-                .map(name -> {
-                    try {
-                        Class<? extends T> cla = Class.forName(name).asSubclass(t);
-                        return cla;
-                    } catch (Exception ignored) {
-                    }
-                    return null;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
-
     private static <T> List<Class<? extends T>> scanInterfaceImplInPkg(String pkgName, Class<? extends T> t) {
-        String rootDir = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
-        String relativeDir = pkgName.replace(".", "/");
-        File pkgDicFile = new File(rootDir + relativeDir);
-        if (!pkgDicFile.isDirectory()) {
-            Info.PurpleAlert("scan stop, pkg not found");
-            return null;
-        }
-        List<String> claFullNames = Arrays.stream(Objects.requireNonNull(pkgDicFile.listFiles()))
-                .map(File::getName)
-                .filter(name -> name.endsWith(".class"))
-                .map(name -> pkgName + "." + name.replace(".class", ""))
-                .collect(Collectors.toList());
-        return claFullNames.stream()
-                .map(name -> {
+        ClassInfoList classInfoList = new ClassGraph().enableClassInfo().scan().getAllClasses();
+        return classInfoList.stream()
+                .filter(classInfo -> classInfo.getName().startsWith(pkgName))
+                .map(classInfo -> {
                     try {
-                        Class<? extends T> cla = Class.forName(name).asSubclass(t);
+                        Class<? extends T> cla = Class.forName(classInfo.getName()).asSubclass(t);
                         return cla;
-                    } catch (Exception ignored) {
+                    } catch (Exception e) {
+                        return null;
                     }
-                    return null;
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-    }
-
-    static List<Class<? extends HandlerModel>> getAllHandlerImpl(Class<?> peer) {
-        return scanInterfaceImplByPeer(peer, HandlerModel.class);
-    }
-
-    static List<Class<? extends FlowModel>> getAllFlowImpl(Class<?> peer) {
-        return scanInterfaceImplByPeer(peer, FlowModel.class);
     }
 
     static List<Class<? extends HandlerModel>> getAllHandlerImpl(String pkgName) {

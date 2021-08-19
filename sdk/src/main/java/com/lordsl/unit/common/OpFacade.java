@@ -7,7 +7,6 @@ import java.util.List;
  */
 public class OpFacade {
 
-
     /**
      * HandlerModel的初始化需要HandlerModel的实例，否则无法获取spring容器中的bean
      * 建议是使用Awareness，根据这里给的Class列表，获取到相应实例，再执行初始化
@@ -17,24 +16,10 @@ public class OpFacade {
     }
 
     /**
-     * 传入一个同级class作为参数，同包即可，没有其它要求
-     */
-    public static List<Class<? extends HandlerModel>> getAllHandlerImpl(Class<?> peer) {
-        return AwareUtil.getAllHandlerImpl(peer);
-    }
-
-    /**
      * FlowModel的初始化不依赖于实例，但仍建议采用默认的懒加载方式，以免在HandlerModel注册之前注册
      */
     public static List<Class<? extends FlowModel>> getAllFlowImpl(String pkgName) {
         return AwareUtil.getAllFlowImpl(pkgName);
-    }
-
-    /**
-     * 传入一个同级class作为参数，同包即可，没有其它要求
-     */
-    public static List<Class<? extends FlowModel>> getAllFlowImpl(Class<?> peer) {
-        return AwareUtil.getAllFlowImpl(peer);
     }
 
     /**
