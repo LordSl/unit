@@ -1,6 +1,6 @@
 package com.lordsl.unit.test.example;
 
-import com.lordsl.unit.common.HandlerModel;
+import com.lordsl.unit.common.NodeModel;
 import com.lordsl.unit.common.anno.Handle;
 import com.lordsl.unit.common.anno.Produce;
 import com.lordsl.unit.common.anno.Uni;
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
         @Uni(order = "1.0", flow = FlowAlpha.class),
         @Uni(order = "0.9", flow = FlowBeta.class),
 })
-public class HandlerA implements HandlerModel {
+public class HandlerA implements NodeModel {
     @Produce
     String name;
 
@@ -30,11 +30,11 @@ public class HandlerA implements HandlerModel {
     }
 
     public HandlerA() {
-        Stand.init(this);
+        NodeModel.Stand.initAsHandler(this);
     }
 
     @Override
-    public Supplier<HandlerModel> getTemplate() {
+    public Supplier<NodeModel> getTemplate() {
         return () -> new HandlerA(1);
     }
 

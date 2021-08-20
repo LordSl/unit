@@ -1,0 +1,351 @@
+[
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.example.HandlerA",
+    "simpleClass": "HandlerA",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handle"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.example.FlowBeta",
+    "produceList": [
+      {
+        "fullClass": "java.util.List",
+        "name": "courses",
+        "simpleClass": "List"
+      },
+      {
+        "fullClass": "java.lang.String",
+        "name": "name",
+        "simpleClass": "String"
+      },
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "age",
+        "simpleClass": "Integer"
+      }
+    ],
+    "order": "0.9",
+    "throughList": [],
+    "updateList": []
+  },
+  {
+    "referList": [
+      {
+        "fullClass": "com.lordsl.unit.test.example.Hello",
+        "name": "hello",
+        "simpleClass": "Hello"
+      }
+    ],
+    "fullClass": "com.lordsl.unit.test.example.HandlerB",
+    "simpleClass": "HandlerB",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handleCommon"
+      },
+      {
+        "pos": "2",
+        "name": "handleBeta"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.example.FlowBeta",
+    "produceList": [],
+    "order": "1.7",
+    "throughList": [],
+    "updateList": [
+      {
+        "fullClass": "java.util.List",
+        "name": "courses",
+        "simpleClass": "List"
+      },
+      {
+        "fullClass": "java.lang.String",
+        "name": "name",
+        "simpleClass": "String"
+      },
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "age",
+        "simpleClass": "Integer"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.example.HandlerC",
+    "simpleClass": "HandlerC",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handle"
+      }
+    ],
+    "consumeList": [
+      {
+        "fullClass": "java.lang.String",
+        "name": "name",
+        "simpleClass": "String"
+      }
+    ],
+    "flow": "com.lordsl.unit.test.example.FlowBeta",
+    "produceList": [],
+    "order": "2.3",
+    "throughList": [],
+    "updateList": [
+      {
+        "fullClass": "java.util.List",
+        "name": "courses",
+        "simpleClass": "List"
+      },
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "age",
+        "simpleClass": "Integer"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.config.HandlerC1",
+    "simpleClass": "HandlerC1",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handle"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.config.FlowTheta",
+    "produceList": [
+      {
+        "fullClass": "java.util.List",
+        "name": "courses",
+        "simpleClass": "List"
+      },
+      {
+        "fullClass": "java.lang.String",
+        "name": "name",
+        "simpleClass": "String"
+      },
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "age",
+        "simpleClass": "Integer"
+      }
+    ],
+    "order": "1.0",
+    "throughList": [],
+    "updateList": []
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.config.HandlerC2",
+    "simpleClass": "HandlerC2",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handle"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.config.FlowTheta",
+    "produceList": [],
+    "order": "2.0",
+    "throughList": [],
+    "updateList": [
+      {
+        "fullClass": "java.util.List",
+        "name": "courses",
+        "simpleClass": "List"
+      },
+      {
+        "fullClass": "java.lang.String",
+        "name": "name",
+        "simpleClass": "String"
+      },
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "age",
+        "simpleClass": "Integer"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.example.HandlerA",
+    "simpleClass": "HandlerA",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handle"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.example.FlowAlpha",
+    "produceList": [
+      {
+        "fullClass": "java.util.List",
+        "name": "courses",
+        "simpleClass": "List"
+      },
+      {
+        "fullClass": "java.lang.String",
+        "name": "name",
+        "simpleClass": "String"
+      },
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "age",
+        "simpleClass": "Integer"
+      }
+    ],
+    "order": "1.0",
+    "throughList": [],
+    "updateList": []
+  },
+  {
+    "referList": [
+      {
+        "fullClass": "com.lordsl.unit.test.example.Hello",
+        "name": "hello",
+        "simpleClass": "Hello"
+      }
+    ],
+    "fullClass": "com.lordsl.unit.test.example.HandlerB",
+    "simpleClass": "HandlerB",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handleCommon"
+      },
+      {
+        "pos": "2",
+        "name": "handleAlpha"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.example.FlowAlpha",
+    "produceList": [],
+    "order": "1.7",
+    "throughList": [],
+    "updateList": [
+      {
+        "fullClass": "java.util.List",
+        "name": "courses",
+        "simpleClass": "List"
+      },
+      {
+        "fullClass": "java.lang.String",
+        "name": "name",
+        "simpleClass": "String"
+      },
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "age",
+        "simpleClass": "Integer"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.example.HandlerC",
+    "simpleClass": "HandlerC",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handle"
+      }
+    ],
+    "consumeList": [
+      {
+        "fullClass": "java.lang.String",
+        "name": "name",
+        "simpleClass": "String"
+      }
+    ],
+    "flow": "com.lordsl.unit.test.example.FlowAlpha",
+    "produceList": [],
+    "order": "2.3",
+    "throughList": [],
+    "updateList": [
+      {
+        "fullClass": "java.util.List",
+        "name": "courses",
+        "simpleClass": "List"
+      },
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "age",
+        "simpleClass": "Integer"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.compare.HandlerB1",
+    "simpleClass": "HandlerB1",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handle"
+      }
+    ],
+    "consumeList": [
+      {
+        "fullClass": "java.lang.Integer",
+        "name": "a",
+        "simpleClass": "Integer"
+      },
+      {
+        "fullClass": "java.lang.String",
+        "name": "b",
+        "simpleClass": "String"
+      }
+    ],
+    "flow": "com.lordsl.unit.test.compare.FlowB",
+    "produceList": [
+      {
+        "fullClass": "java.util.ArrayList",
+        "name": "c",
+        "simpleClass": "ArrayList"
+      }
+    ],
+    "order": "1.0",
+    "throughList": [],
+    "updateList": []
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.compare.HandlerB2",
+    "simpleClass": "HandlerB2",
+    "methodList": [
+      {
+        "pos": "1.0",
+        "name": "handle"
+      }
+    ],
+    "consumeList": [
+      {
+        "fullClass": "java.util.ArrayList",
+        "name": "c",
+        "simpleClass": "ArrayList"
+      }
+    ],
+    "flow": "com.lordsl.unit.test.compare.FlowB",
+    "produceList": [
+      {
+        "fullClass": "java.lang.Long",
+        "name": "f",
+        "simpleClass": "Long"
+      }
+    ],
+    "order": "2.0",
+    "throughList": [],
+    "updateList": []
+  }
+]

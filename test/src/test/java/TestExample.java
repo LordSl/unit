@@ -1,5 +1,5 @@
-import com.lordsl.unit.common.Container;
 import com.lordsl.unit.common.OpFacade;
+import com.lordsl.unit.common.util.Container;
 import com.lordsl.unit.test.App;
 import com.lordsl.unit.test.example.FlowAlpha;
 import com.lordsl.unit.test.example.FlowBeta;
@@ -28,7 +28,7 @@ public class TestExample {
     void cal() {
         Container res1 = flowAlpha.exec();
         Container res2 = flowBeta.exec();
-        OpFacade.outToJson(getRootPath() + "/schema");
+        OpFacade.outToJson(getRootPath() + "/schema.json");
         System.out.println("ok");
     }
 

@@ -1,22 +1,24 @@
 package com.lordsl.unit.common;
 
+import com.lordsl.unit.common.util.Info;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Action {
-    private static final HashMap<HandlerModel, Action> interactionsMap = new HashMap<>();
-    private final HandlerModel handlerModel;
+    private static final HashMap<NodeModel, Action> interactionsMap = new HashMap<>();
+    private final NodeModel handlerModel;
     private final Set<Object> argSet = new HashSet<>();
     private boolean alreadyParse;
 
-    private Action(HandlerModel handlerModel) {
-        this.handlerModel = handlerModel;
+    private Action(NodeModel nodeModel) {
+        this.handlerModel = nodeModel;
     }
 
-    public static Action env(HandlerModel handlerModel) {
-        return interactionsMap.merge(handlerModel, new Action(handlerModel), (o, n) -> o);
+    public static Action env(NodeModel nodeModel) {
+        return interactionsMap.merge(nodeModel, new Action(nodeModel), (o, n) -> o);
     }
 
     public Action about(Object... args) {

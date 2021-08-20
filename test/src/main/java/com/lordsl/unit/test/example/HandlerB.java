@@ -1,6 +1,6 @@
 package com.lordsl.unit.test.example;
 
-import com.lordsl.unit.common.HandlerModel;
+import com.lordsl.unit.common.NodeModel;
 import com.lordsl.unit.common.anno.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.List;
         @Uni(order = "1.7", flow = FlowAlpha.class),
         @Uni(order = "1.7", flow = FlowBeta.class)
 })
-public class HandlerB implements HandlerModel {
+public class HandlerB implements NodeModel {
 
     @Update
     String name;
@@ -28,7 +28,7 @@ public class HandlerB implements HandlerModel {
     List<String> courses;
 
     public HandlerB() {
-        Stand.init(this);
+        Stand.initAsHandler(this);
     }
 
     @Handle

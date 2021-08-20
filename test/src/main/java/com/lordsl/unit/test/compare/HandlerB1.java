@@ -1,6 +1,6 @@
 package com.lordsl.unit.test.compare;
 
-import com.lordsl.unit.common.HandlerModel;
+import com.lordsl.unit.common.NodeModel;
 import com.lordsl.unit.common.anno.*;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 @Unit(unis = {
         @Uni(order = "1.0", flow = FlowB.class)
 })
-public class HandlerB1 implements HandlerModel {
+public class HandlerB1 implements NodeModel {
     @Consume
     Integer a;
     @Consume
@@ -19,7 +19,7 @@ public class HandlerB1 implements HandlerModel {
     ArrayList<Object> c;
 
     public HandlerB1() {
-        Stand.init(this);
+        Stand.initAsHandler(this);
     }
 
     @Handle

@@ -1,6 +1,6 @@
 package com.lordsl.unit.common.anno;
 
-import com.lordsl.unit.common.FlowModel;
+import com.lordsl.unit.common.NodeModel;
 
 import java.lang.annotation.*;
 
@@ -11,6 +11,6 @@ public @interface Uni {
     //在flow中的位置
     String order();
 
-    Class<? extends FlowModel> flow();
+    Class<? extends NodeModel> flow();
 
 }

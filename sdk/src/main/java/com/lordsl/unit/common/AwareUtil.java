@@ -1,9 +1,9 @@
 package com.lordsl.unit.common;
 
+import com.lordsl.unit.common.node.Node;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -26,28 +26,21 @@ class AwareUtil {
                 .collect(Collectors.toList());
     }
 
-    static List<Class<? extends HandlerModel>> getAllHandlerImpl(String pkgName) {
-        return scanInterfaceImplInPkg(pkgName, HandlerModel.class);
+    static List<Class<? extends NodeModel>> getAllHandlerImpl(String pkgName) {
+        return scanInterfaceImplInPkg(pkgName, NodeModel.class);
     }
 
-    static List<Class<? extends FlowModel>> getAllFlowImpl(String pkgName) {
-        return scanInterfaceImplInPkg(pkgName, FlowModel.class);
-    }
-
-    static Node getNode(Class<? extends HandlerModel> target) {
-        return Dictator.getFlowNodesMap().values().stream()
-                .flatMap(Collection::stream)
-                .filter(item -> item.getCla().equals(target))
+    static Node getNode(Class<? extends NodeModel> target) {
+        return Dictator.getAllNodes().stream()
+                .filter(item -> item.getNodeModel().getClass().equals(target))
                 .findAny()
                 .orElse(null);
     }
 
-    static void softInitHandlers(List<HandlerModel> handlers) {
-        handlers.forEach(model -> TaskResolver.addHandlerInitTask(Adapter.getHandlerInitTask(Mode.simple, model)));
+    static void launchInitTasks(List<NodeModel> nodes) {
+        nodes.forEach(model -> TaskResolver.addHandlerInitTask(TaskFactory.getHandlerInitTask(model)));
+        nodes.forEach(model -> TaskResolver.addFlowInitTask(TaskFactory.getFlowInitTask(model)));
     }
 
-    static void softInitFlows(List<FlowModel> flows) {
-        flows.forEach(model -> TaskResolver.addFlowInitTask(Adapter.getFlowInitTask(Mode.simple, model)));
-    }
 
 }

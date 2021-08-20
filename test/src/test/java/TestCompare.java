@@ -1,4 +1,4 @@
-import com.lordsl.unit.common.OpFacade;
+import com.lordsl.unit.common.util.Info;
 import com.lordsl.unit.test.App;
 import com.lordsl.unit.test.compare.FlowA;
 import com.lordsl.unit.test.compare.FlowB;
@@ -30,7 +30,7 @@ public class TestCompare {
                         res.getAndIncrement();
                         if (res.get() == CON_NUM) {
                             long t2 = System.currentTimeMillis();
-                            OpFacade.GreenLog("time->" + (t2 - t1));
+                            Info.GreenLog("time->" + (t2 - t1));
                             synchronized (o) {
                                 o.notifyAll();
                             }
@@ -42,7 +42,7 @@ public class TestCompare {
                 o.wait();
             }
         } catch (Exception e) {
-            OpFacade.PurpleAlert("interrupt");
+            Info.PurpleAlert("interrupt");
         }
     }
 
@@ -59,7 +59,7 @@ public class TestCompare {
                         res.getAndIncrement();
                         if (res.get() == CON_NUM) {
                             long t2 = System.currentTimeMillis();
-                            OpFacade.GreenLog("time->" + (t2 - t1));
+                            Info.GreenLog("time->" + (t2 - t1));
                             synchronized (o) {
                                 o.notifyAll();
                             }
@@ -71,7 +71,7 @@ public class TestCompare {
                 o.wait();
             }
         } catch (Exception e) {
-            OpFacade.PurpleAlert("interrupt");
+            Info.PurpleAlert("interrupt");
         }
     }
 

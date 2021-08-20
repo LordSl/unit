@@ -1,4 +1,4 @@
-package com.lordsl.unit.common;
+package com.lordsl.unit.common.util;
 
 import java.util.HashMap;
 import java.util.Map;

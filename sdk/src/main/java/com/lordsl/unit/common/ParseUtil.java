@@ -3,46 +3,51 @@ package com.lordsl.unit.common;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-class ParseUtil {
+public class ParseUtil {
 
-    static Map<String, Class<?>> convertFiledMapToClassMap(Map<String, Field> map) {
-        return Stream.of(
-                map.entrySet())
-                .flatMap(Collection::stream)
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        set -> set.getValue().getType()
-                ));
-    }
-
-    static Set<Method> getAnnoMethods(Class<? extends Annotation> annoCla, Class<?> objCla) {
-        Set<Method> set = new HashSet<>();
-        Arrays.stream(objCla.getDeclaredMethods()).forEach(
-                method -> {
-                    Annotation anno = method.getAnnotation(annoCla);
+    public static <T extends Annotation> Map<Field, T> getFieldAnnoMap(Class<T> annoCla, Class<?> objCla) {
+        Map<Field, T> map = new HashMap<>();
+        Arrays.stream(objCla.getDeclaredFields()).forEach(
+                field -> {
+                    T anno = field.getAnnotation(annoCla);
                     if (null != anno) {
-                        set.add(method);
+                        map.put(field, anno);
                     }
                 }
         );
-        return set;
+        return map;
     }
 
-    static Map<String, Field> getAnnoFields(Class<? extends Annotation> annoCla, Class<?> objCla) {
-        Map<String, Field> items = new HashMap<>();
+    public static <T extends Annotation> Map<Method, T> getMethodAnnoMap(Class<T> annoCla, Class<?> objCla) {
+        Map<Method, T> map = new HashMap<>();
+        Arrays.stream(objCla.getDeclaredMethods()).forEach(
+                method -> {
+                    T anno = method.getAnnotation(annoCla);
+                    if (null != anno) {
+                        map.put(method, anno);
+                    }
+                }
+        );
+        return map;
+    }
+
+    public static <T extends Annotation> Map<String, Field> mapByName(Map<Field, T> sourceMap) {
+        Map<String, Field> map = new HashMap<>();
+        Optional<T> annoExample = sourceMap.values().stream().findAny();
+        if (!annoExample.isPresent()) return map;
         try {
-            Method target = annoCla.getDeclaredMethod("name");
-            Arrays.stream(objCla.getDeclaredFields()).forEach(
-                    field -> {
-                        Annotation anno = field.getAnnotation(annoCla);
+            Method target = annoExample.get().getClass().getDeclaredMethod("name");
+            sourceMap.forEach(
+                    (field, anno) -> {
                         try {
                             String name = (String) target.invoke(anno);
                             if (null != anno) {
-                                items.put(name.equals("") ? field.getName() : name, field);
+                                map.put(name.equals("") ? field.getName() : name, field);
                             }
                         } catch (Exception ignored) {
                         }
@@ -50,10 +55,19 @@ class ParseUtil {
             );
         } catch (Exception ignored) {
         }
-        return items;
+        return map;
     }
 
-    static Boolean isReferenceExceptString(Class<?> cla) {
+    public static <T extends Annotation> Map<String, Field> parseField(Class<T> annoCla, Class<?> objCla) {
+        return mapByName(getFieldAnnoMap(annoCla, objCla));
+    }
+
+    public static Boolean isReferenceExceptString(Field field) {
+        Class<?> cla = field.getType();
+        return isReferenceExceptString(cla);
+    }
+
+    public static Boolean isReferenceExceptString(Class<?> cla) {
         if (cla.equals(String.class)) return false;
         if (cla.isPrimitive()) return false;
         try {

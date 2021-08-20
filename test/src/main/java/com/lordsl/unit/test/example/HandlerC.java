@@ -1,6 +1,6 @@
 package com.lordsl.unit.test.example;
 
-import com.lordsl.unit.common.HandlerModel;
+import com.lordsl.unit.common.NodeModel;
 import com.lordsl.unit.common.anno.*;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.util.List;
         @Uni(order = "2.3", flow = FlowAlpha.class),
         @Uni(order = "2.3", flow = FlowBeta.class)
 })
-public class HandlerC implements HandlerModel {
+public class HandlerC implements NodeModel {
     @Consume
     String name;
 
@@ -22,7 +22,7 @@ public class HandlerC implements HandlerModel {
     List<String> courses;
 
     public HandlerC() {
-        Stand.init(this);
+        Stand.initAsHandler(this);
     }
 
     @Handle
