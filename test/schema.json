@@ -1,6 +1,126 @@
 [
   {
     "referList": [],
+    "fullClass": "com.lordsl.unit.test.nest.B1",
+    "simpleClass": "B1",
+    "methodList": [
+      {
+        "nodeClass": "com.lordsl.unit.test.nest.B1",
+        "pos": "1.0",
+        "methodName": "execute"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.nest.A1",
+    "produceList": [
+      {
+        "fieldName": "Poland",
+        "nodeClass": "com.lordsl.unit.test.nest.B1",
+        "fullClass": "java.lang.String",
+        "name": "Poland",
+        "simpleClass": "String"
+      },
+      {
+        "fieldName": "France",
+        "nodeClass": "com.lordsl.unit.test.nest.B1",
+        "fullClass": "java.lang.String",
+        "name": "France",
+        "simpleClass": "String"
+      },
+      {
+        "fieldName": "Russia",
+        "nodeClass": "com.lordsl.unit.test.nest.B1",
+        "fullClass": "java.lang.String",
+        "name": "Russia",
+        "simpleClass": "String"
+      }
+    ],
+    "order": "1.0",
+    "throughList": [],
+    "updateList": []
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.nest.B2",
+    "simpleClass": "B2",
+    "methodList": [
+      {
+        "nodeClass": "com.lordsl.unit.test.nest.B2",
+        "pos": "1.0",
+        "methodName": "execute"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.nest.A1",
+    "produceList": [],
+    "order": "2.0",
+    "throughList": [],
+    "updateList": [
+      {
+        "fieldName": "Poland",
+        "nodeClass": "com.lordsl.unit.test.nest.B2",
+        "fullClass": "java.lang.String",
+        "name": "Poland",
+        "simpleClass": "String"
+      },
+      {
+        "fieldName": "France",
+        "nodeClass": "com.lordsl.unit.test.nest.B2",
+        "fullClass": "java.lang.String",
+        "name": "France",
+        "simpleClass": "String"
+      },
+      {
+        "fieldName": "Russia",
+        "nodeClass": "com.lordsl.unit.test.nest.B2",
+        "fullClass": "java.lang.String",
+        "name": "Russia",
+        "simpleClass": "String"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.nest.B3",
+    "simpleClass": "B3",
+    "methodList": [
+      {
+        "nodeClass": "com.lordsl.unit.test.nest.B3",
+        "pos": "1.0",
+        "methodName": "execute"
+      }
+    ],
+    "consumeList": [
+      {
+        "fieldName": "Poland",
+        "nodeClass": "com.lordsl.unit.test.nest.B3",
+        "fullClass": "java.lang.String",
+        "name": "Poland",
+        "simpleClass": "String"
+      },
+      {
+        "fieldName": "France",
+        "nodeClass": "com.lordsl.unit.test.nest.B3",
+        "fullClass": "java.lang.String",
+        "name": "France",
+        "simpleClass": "String"
+      },
+      {
+        "fieldName": "Russia",
+        "nodeClass": "com.lordsl.unit.test.nest.B3",
+        "fullClass": "java.lang.String",
+        "name": "Russia",
+        "simpleClass": "String"
+      }
+    ],
+    "flow": "com.lordsl.unit.test.nest.A1",
+    "produceList": [],
+    "order": "3.0",
+    "throughList": [],
+    "updateList": []
+  },
+  {
+    "referList": [],
     "fullClass": "com.lordsl.unit.test.example.HandlerA",
     "simpleClass": "HandlerA",
     "methodList": [
@@ -215,6 +335,159 @@
   },
   {
     "referList": [],
+    "fullClass": "com.lordsl.unit.test.nest.C1",
+    "simpleClass": "C1",
+    "methodList": [
+      {
+        "nodeClass": "com.lordsl.unit.test.nest.C1",
+        "pos": "1.0",
+        "methodName": "execute"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.nest.B2",
+    "produceList": [],
+    "order": "1.0",
+    "throughList": [],
+    "updateList": [
+      {
+        "fieldName": "country",
+        "nodeClass": "com.lordsl.unit.test.nest.C1",
+        "fullClass": "java.lang.String",
+        "name": "country",
+        "simpleClass": "String"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.nest.C2",
+    "simpleClass": "C2",
+    "methodList": [
+      {
+        "nodeClass": "com.lordsl.unit.test.nest.C2",
+        "pos": "1.0",
+        "methodName": "execute"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.nest.B2",
+    "produceList": [],
+    "order": "2.0",
+    "throughList": [],
+    "updateList": [
+      {
+        "fieldName": "country",
+        "nodeClass": "com.lordsl.unit.test.nest.C2",
+        "fullClass": "java.lang.String",
+        "name": "country",
+        "simpleClass": "String"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.nest.C3",
+    "simpleClass": "C3",
+    "methodList": [
+      {
+        "nodeClass": "com.lordsl.unit.test.nest.C3",
+        "pos": "1.0",
+        "methodName": "execute"
+      }
+    ],
+    "consumeList": [],
+    "flow": "com.lordsl.unit.test.nest.B2",
+    "produceList": [],
+    "order": "3.0",
+    "throughList": [],
+    "updateList": [
+      {
+        "fieldName": "country",
+        "nodeClass": "com.lordsl.unit.test.nest.C3",
+        "fullClass": "java.lang.String",
+        "name": "country",
+        "simpleClass": "String"
+      }
+    ]
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.compare.HandlerB1",
+    "simpleClass": "HandlerB1",
+    "methodList": [
+      {
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
+        "pos": "1.0",
+        "methodName": "handle"
+      }
+    ],
+    "consumeList": [
+      {
+        "fieldName": "a",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
+        "fullClass": "java.lang.Integer",
+        "name": "a",
+        "simpleClass": "Integer"
+      },
+      {
+        "fieldName": "b",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
+        "fullClass": "java.lang.String",
+        "name": "b",
+        "simpleClass": "String"
+      }
+    ],
+    "flow": "com.lordsl.unit.test.compare.FlowB",
+    "produceList": [
+      {
+        "fieldName": "c",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
+        "fullClass": "java.util.ArrayList",
+        "name": "c",
+        "simpleClass": "ArrayList"
+      }
+    ],
+    "order": "1.0",
+    "throughList": [],
+    "updateList": []
+  },
+  {
+    "referList": [],
+    "fullClass": "com.lordsl.unit.test.compare.HandlerB2",
+    "simpleClass": "HandlerB2",
+    "methodList": [
+      {
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
+        "pos": "1.0",
+        "methodName": "handle"
+      }
+    ],
+    "consumeList": [
+      {
+        "fieldName": "c",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
+        "fullClass": "java.util.ArrayList",
+        "name": "c",
+        "simpleClass": "ArrayList"
+      }
+    ],
+    "flow": "com.lordsl.unit.test.compare.FlowB",
+    "produceList": [
+      {
+        "fieldName": "f",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
+        "fullClass": "java.lang.Long",
+        "name": "f",
+        "simpleClass": "Long"
+      }
+    ],
+    "order": "2.0",
+    "throughList": [],
+    "updateList": []
+  },
+  {
+    "referList": [],
     "fullClass": "com.lordsl.unit.test.example.HandlerA",
     "simpleClass": "HandlerA",
     "methodList": [
@@ -346,80 +619,5 @@
         "simpleClass": "Integer"
       }
     ]
-  },
-  {
-    "referList": [],
-    "fullClass": "com.lordsl.unit.test.compare.HandlerB1",
-    "simpleClass": "HandlerB1",
-    "methodList": [
-      {
-        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
-        "pos": "1.0",
-        "methodName": "handle"
-      }
-    ],
-    "consumeList": [
-      {
-        "fieldName": "a",
-        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
-        "fullClass": "java.lang.Integer",
-        "name": "a",
-        "simpleClass": "Integer"
-      },
-      {
-        "fieldName": "b",
-        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
-        "fullClass": "java.lang.String",
-        "name": "b",
-        "simpleClass": "String"
-      }
-    ],
-    "flow": "com.lordsl.unit.test.compare.FlowB",
-    "produceList": [
-      {
-        "fieldName": "c",
-        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
-        "fullClass": "java.util.ArrayList",
-        "name": "c",
-        "simpleClass": "ArrayList"
-      }
-    ],
-    "order": "1.0",
-    "throughList": [],
-    "updateList": []
-  },
-  {
-    "referList": [],
-    "fullClass": "com.lordsl.unit.test.compare.HandlerB2",
-    "simpleClass": "HandlerB2",
-    "methodList": [
-      {
-        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
-        "pos": "1.0",
-        "methodName": "handle"
-      }
-    ],
-    "consumeList": [
-      {
-        "fieldName": "c",
-        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
-        "fullClass": "java.util.ArrayList",
-        "name": "c",
-        "simpleClass": "ArrayList"
-      }
-    ],
-    "flow": "com.lordsl.unit.test.compare.FlowB",
-    "produceList": [
-      {
-        "fieldName": "f",
-        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
-        "fullClass": "java.lang.Long",
-        "name": "f",
-        "simpleClass": "Long"
-      }
-    ],
-    "order": "2.0",
-    "throughList": [],
-    "updateList": []
   }
 ]
