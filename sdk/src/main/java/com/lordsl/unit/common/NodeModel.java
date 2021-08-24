@@ -1,6 +1,7 @@
 package com.lordsl.unit.common;
 
 import com.lordsl.unit.common.util.Container;
+import com.lordsl.unit.common.util.Info;
 
 import java.lang.reflect.Constructor;
 import java.util.function.Supplier;
@@ -25,12 +26,12 @@ public interface NodeModel {
 
     class Stand {
         public static void initAsFlow(NodeModel nodeModel) {
-            TaskResolver.addFlowInitTask(TaskFactory.getFlowInitTask(nodeModel));
+            TaskPool.addFlowInitTask(TaskFactory.getFlowInitTask(nodeModel));
         }
 
         public static void initAsHandler(NodeModel nodeModel) {
             if (Signal.regisEnable())
-                TaskFactory.getHandlerInitTask(nodeModel).forEach(TaskResolver::addHandlerInitTask);
+                TaskFactory.getHandlerInitTask(nodeModel).forEach(TaskPool::addHandlerInitTask);
 
         }
 
@@ -38,6 +39,7 @@ public interface NodeModel {
             if (Signal.regisEnable()) {
                 synchronized (Signal.class) {
                     if (Signal.regisEnable()) {
+                        Info.GreenLog("usage detect, start actual load");
                         TaskFactory.getFinalDoneTask().run();
                         Signal.regisEnable(false);
                     }

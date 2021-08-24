@@ -113,9 +113,9 @@ public class Converter {
         List<NodeSchema> schemaList = new ArrayList<>();
         Class<? extends NodeModel> nodeClass = nodeModel.getClass();
 
-        Unit unit = nodeClass.getAnnotation(Unit.class);
+        Unit unit = nodeClass.getDeclaredAnnotation(Unit.class);
         if (null == unit) {
-            Info.BlueInfo(String.format("%s is not a handler node", nodeClass.getName()));
+            Info.BlueInfo(String.format("%s lack @Unit anno", nodeClass.getName()));
             return schemaList;
         }
 

@@ -3,7 +3,7 @@ package com.lordsl.unit.common;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TaskResolver {
+public class TaskPool {
 
     private static final Set<Runnable> referTasks = new HashSet<>();
     private static final Set<Runnable> handlerInitTasks = new HashSet<>();

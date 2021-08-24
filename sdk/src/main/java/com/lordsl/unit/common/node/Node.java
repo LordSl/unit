@@ -2,7 +2,7 @@ package com.lordsl.unit.common.node;
 
 import com.lordsl.unit.common.Dictator;
 import com.lordsl.unit.common.NodeModel;
-import com.lordsl.unit.common.TaskResolver;
+import com.lordsl.unit.common.TaskPool;
 import com.lordsl.unit.common.schema.NodeSchema;
 import com.lordsl.unit.common.util.Container;
 import com.lordsl.unit.common.util.Info;
@@ -70,7 +70,7 @@ public class Node {
     }
 
     private void resolveRefers() {
-        TaskResolver.addReferTask(() ->
+        TaskPool.addReferTask(() ->
                 nodeAction.refers().forEach((entry) -> {
                     try {
                         entry.getVal().setAccessible(true);

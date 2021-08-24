@@ -34,23 +34,26 @@ class TaskFactory {
         return tasks;
     }
 
-    static Runnable getHandlerInitTask(NodeModel model, NodeSchema schema) {
+    static Runnable getHandlerInitTask(NodeModel nodeModel, NodeSchema schema) {
+        Info.GreenLog(String.format("get init task of handler「%s」, regis in TaskPool", nodeModel));
         return () -> new Node()
-                .from(model, schema)
+                .from(nodeModel, schema)
                 .build()
                 .regis();
     }
 
     static Runnable getFlowInitTask(NodeModel nodeModel) {
+        Info.GreenLog(String.format("get init task of flow「%s」, regis in TaskPool", nodeModel));
         return () -> Dictator.buildConductFunction(nodeModel.getClass());
     }
 
     static Runnable getFinalDoneTask() {
-        Info.BlueInfo("done");
+        Info.GreenLog("task collect finish, prepare to conduct");
         return () -> {
-            TaskResolver.resolveHandlerInitTasks();
-            TaskResolver.resolveReferTasks();
-            TaskResolver.resolveFlowInitTasks();
+            Info.GreenLog("conduct all task, load all node");
+            TaskPool.resolveHandlerInitTasks();
+            TaskPool.resolveReferTasks();
+            TaskPool.resolveFlowInitTasks();
         };
     }
 
