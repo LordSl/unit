@@ -1,39 +1,36 @@
 package com.lordsl.unit.common;
 
-import com.lordsl.unit.common.anno.Uni;
-import com.lordsl.unit.common.anno.Unit;
+import com.lordsl.unit.common.node.Converter;
 import com.lordsl.unit.common.node.Node;
 import com.lordsl.unit.common.schema.NodeSchema;
+import com.lordsl.unit.common.util.Info;
+
+import java.util.List;
 
 class TaskFactory {
 
     static Runnable getHandlerInitTask(NodeModel nodeModel) {
         return () -> {
-            Unit unit = nodeModel.getClass().getAnnotation(Unit.class);
-            if (null == unit)
-                return;
-            for (Uni uni : unit.unis()) {
-                new Node()
-                        .from(nodeModel)
-                        .to(uni.flow())
-                        .order(Float.parseFloat(uni.order()))
-                        .build();
-            }
+            List<NodeSchema> nodeSchemaList = Converter.AnnotatedNodeModel2NodeSchemaList(nodeModel);
+            nodeSchemaList.forEach(
+                    nodeSchema -> getHandlerInitTask(nodeModel, nodeSchema).run()
+            );
         };
     }
 
     static Runnable getHandlerInitTask(NodeModel model, NodeSchema schema) {
         return () -> new Node()
-                .from(model)
-                .reshapeBy(schema)//schema中指明了to和order
-                .build();
+                .from(model, schema)
+                .build()
+                .regis();
     }
 
     static Runnable getFlowInitTask(NodeModel nodeModel) {
-        return () -> Dictator.polyToConductFunction(nodeModel.getClass());
+        return () -> Dictator.buildConductFunction(nodeModel.getClass());
     }
 
     static Runnable getFinalDoneTask() {
+        Info.BlueInfo("done");
         return () -> {
             TaskResolver.resolveHandlerInitTasks();
             TaskResolver.resolveReferTasks();

@@ -4,6 +4,16 @@ public class KeySchema {
     String fullClass;
     String simpleClass;
     String name;
+    String fieldName;
+    String nodeClass;
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
 
     public String getFullClass() {
         return fullClass;
@@ -11,6 +21,14 @@ public class KeySchema {
 
     public void setFullClass(String fullClass) {
         this.fullClass = fullClass;
+    }
+
+    public String getNodeClass() {
+        return nodeClass;
+    }
+
+    public void setNodeClass(String nodeClass) {
+        this.nodeClass = nodeClass;
     }
 
     public String getSimpleClass() {

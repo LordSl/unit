@@ -5,24 +5,31 @@
     "simpleClass": "HandlerA",
     "methodList": [
       {
+        "nodeClass": "com.lordsl.unit.test.example.HandlerA",
         "pos": "1.0",
-        "name": "handle"
+        "methodName": "handle"
       }
     ],
     "consumeList": [],
     "flow": "com.lordsl.unit.test.example.FlowBeta",
     "produceList": [
       {
+        "fieldName": "courses",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerA",
         "fullClass": "java.util.List",
         "name": "courses",
         "simpleClass": "List"
       },
       {
+        "fieldName": "name",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerA",
         "fullClass": "java.lang.String",
         "name": "name",
         "simpleClass": "String"
       },
       {
+        "fieldName": "age",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerA",
         "fullClass": "java.lang.Integer",
         "name": "age",
         "simpleClass": "Integer"
@@ -35,6 +42,8 @@
   {
     "referList": [
       {
+        "fieldName": "hello",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
         "fullClass": "com.lordsl.unit.test.example.Hello",
         "name": "hello",
         "simpleClass": "Hello"
@@ -44,12 +53,14 @@
     "simpleClass": "HandlerB",
     "methodList": [
       {
-        "pos": "1.0",
-        "name": "handleCommon"
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
+        "pos": "2",
+        "methodName": "handleBeta"
       },
       {
-        "pos": "2",
-        "name": "handleBeta"
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
+        "pos": "1.0",
+        "methodName": "handleCommon"
       }
     ],
     "consumeList": [],
@@ -59,16 +70,22 @@
     "throughList": [],
     "updateList": [
       {
+        "fieldName": "courses",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
         "fullClass": "java.util.List",
         "name": "courses",
         "simpleClass": "List"
       },
       {
+        "fieldName": "name",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
         "fullClass": "java.lang.String",
         "name": "name",
         "simpleClass": "String"
       },
       {
+        "fieldName": "age",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
         "fullClass": "java.lang.Integer",
         "name": "age",
         "simpleClass": "Integer"
@@ -81,12 +98,15 @@
     "simpleClass": "HandlerC",
     "methodList": [
       {
+        "nodeClass": "com.lordsl.unit.test.example.HandlerC",
         "pos": "1.0",
-        "name": "handle"
+        "methodName": "handle"
       }
     ],
     "consumeList": [
       {
+        "fieldName": "name",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerC",
         "fullClass": "java.lang.String",
         "name": "name",
         "simpleClass": "String"
@@ -98,11 +118,15 @@
     "throughList": [],
     "updateList": [
       {
+        "fieldName": "courses",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerC",
         "fullClass": "java.util.List",
         "name": "courses",
         "simpleClass": "List"
       },
       {
+        "fieldName": "age",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerC",
         "fullClass": "java.lang.Integer",
         "name": "age",
         "simpleClass": "Integer"
@@ -115,24 +139,31 @@
     "simpleClass": "HandlerC1",
     "methodList": [
       {
+        "nodeClass": "com.lordsl.unit.test.config.HandlerC1",
         "pos": "1.0",
-        "name": "handle"
+        "methodName": "handle"
       }
     ],
     "consumeList": [],
     "flow": "com.lordsl.unit.test.config.FlowTheta",
     "produceList": [
       {
+        "fieldName": "courses",
+        "nodeClass": "com.lordsl.unit.test.config.HandlerC1",
         "fullClass": "java.util.List",
         "name": "courses",
         "simpleClass": "List"
       },
       {
+        "fieldName": "name",
+        "nodeClass": "com.lordsl.unit.test.config.HandlerC1",
         "fullClass": "java.lang.String",
         "name": "name",
         "simpleClass": "String"
       },
       {
+        "fieldName": "age",
+        "nodeClass": "com.lordsl.unit.test.config.HandlerC1",
         "fullClass": "java.lang.Integer",
         "name": "age",
         "simpleClass": "Integer"
@@ -148,8 +179,9 @@
     "simpleClass": "HandlerC2",
     "methodList": [
       {
+        "nodeClass": "com.lordsl.unit.test.config.HandlerC2",
         "pos": "1.0",
-        "name": "handle"
+        "methodName": "handle"
       }
     ],
     "consumeList": [],
@@ -159,16 +191,22 @@
     "throughList": [],
     "updateList": [
       {
+        "fieldName": "courses",
+        "nodeClass": "com.lordsl.unit.test.config.HandlerC2",
         "fullClass": "java.util.List",
         "name": "courses",
         "simpleClass": "List"
       },
       {
+        "fieldName": "name",
+        "nodeClass": "com.lordsl.unit.test.config.HandlerC2",
         "fullClass": "java.lang.String",
         "name": "name",
         "simpleClass": "String"
       },
       {
+        "fieldName": "age",
+        "nodeClass": "com.lordsl.unit.test.config.HandlerC2",
         "fullClass": "java.lang.Integer",
         "name": "age",
         "simpleClass": "Integer"
@@ -181,24 +219,31 @@
     "simpleClass": "HandlerA",
     "methodList": [
       {
+        "nodeClass": "com.lordsl.unit.test.example.HandlerA",
         "pos": "1.0",
-        "name": "handle"
+        "methodName": "handle"
       }
     ],
     "consumeList": [],
     "flow": "com.lordsl.unit.test.example.FlowAlpha",
     "produceList": [
       {
+        "fieldName": "courses",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerA",
         "fullClass": "java.util.List",
         "name": "courses",
         "simpleClass": "List"
       },
       {
+        "fieldName": "name",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerA",
         "fullClass": "java.lang.String",
         "name": "name",
         "simpleClass": "String"
       },
       {
+        "fieldName": "age",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerA",
         "fullClass": "java.lang.Integer",
         "name": "age",
         "simpleClass": "Integer"
@@ -211,6 +256,8 @@
   {
     "referList": [
       {
+        "fieldName": "hello",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
         "fullClass": "com.lordsl.unit.test.example.Hello",
         "name": "hello",
         "simpleClass": "Hello"
@@ -220,12 +267,14 @@
     "simpleClass": "HandlerB",
     "methodList": [
       {
-        "pos": "1.0",
-        "name": "handleCommon"
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
+        "pos": "2",
+        "methodName": "handleAlpha"
       },
       {
-        "pos": "2",
-        "name": "handleAlpha"
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
+        "pos": "1.0",
+        "methodName": "handleCommon"
       }
     ],
     "consumeList": [],
@@ -235,16 +284,22 @@
     "throughList": [],
     "updateList": [
       {
+        "fieldName": "courses",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
         "fullClass": "java.util.List",
         "name": "courses",
         "simpleClass": "List"
       },
       {
+        "fieldName": "name",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
         "fullClass": "java.lang.String",
         "name": "name",
         "simpleClass": "String"
       },
       {
+        "fieldName": "age",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerB",
         "fullClass": "java.lang.Integer",
         "name": "age",
         "simpleClass": "Integer"
@@ -257,12 +312,15 @@
     "simpleClass": "HandlerC",
     "methodList": [
       {
+        "nodeClass": "com.lordsl.unit.test.example.HandlerC",
         "pos": "1.0",
-        "name": "handle"
+        "methodName": "handle"
       }
     ],
     "consumeList": [
       {
+        "fieldName": "name",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerC",
         "fullClass": "java.lang.String",
         "name": "name",
         "simpleClass": "String"
@@ -274,11 +332,15 @@
     "throughList": [],
     "updateList": [
       {
+        "fieldName": "courses",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerC",
         "fullClass": "java.util.List",
         "name": "courses",
         "simpleClass": "List"
       },
       {
+        "fieldName": "age",
+        "nodeClass": "com.lordsl.unit.test.example.HandlerC",
         "fullClass": "java.lang.Integer",
         "name": "age",
         "simpleClass": "Integer"
@@ -291,17 +353,22 @@
     "simpleClass": "HandlerB1",
     "methodList": [
       {
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
         "pos": "1.0",
-        "name": "handle"
+        "methodName": "handle"
       }
     ],
     "consumeList": [
       {
+        "fieldName": "a",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
         "fullClass": "java.lang.Integer",
         "name": "a",
         "simpleClass": "Integer"
       },
       {
+        "fieldName": "b",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
         "fullClass": "java.lang.String",
         "name": "b",
         "simpleClass": "String"
@@ -310,6 +377,8 @@
     "flow": "com.lordsl.unit.test.compare.FlowB",
     "produceList": [
       {
+        "fieldName": "c",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB1",
         "fullClass": "java.util.ArrayList",
         "name": "c",
         "simpleClass": "ArrayList"
@@ -325,12 +394,15 @@
     "simpleClass": "HandlerB2",
     "methodList": [
       {
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
         "pos": "1.0",
-        "name": "handle"
+        "methodName": "handle"
       }
     ],
     "consumeList": [
       {
+        "fieldName": "c",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
         "fullClass": "java.util.ArrayList",
         "name": "c",
         "simpleClass": "ArrayList"
@@ -339,6 +411,8 @@
     "flow": "com.lordsl.unit.test.compare.FlowB",
     "produceList": [
       {
+        "fieldName": "f",
+        "nodeClass": "com.lordsl.unit.test.compare.HandlerB2",
         "fullClass": "java.lang.Long",
         "name": "f",
         "simpleClass": "Long"

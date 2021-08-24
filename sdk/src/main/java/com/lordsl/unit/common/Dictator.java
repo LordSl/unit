@@ -27,7 +27,8 @@ public class Dictator {
         Class<? extends NodeModel> flow = node.getFlow();
         if (!flowNodesMap.containsKey(flow)) {
             nodes = new LinkedList<>();
-            Node barrier = new Node().order(Float.MAX_VALUE);
+            Node barrier = new Node();
+            barrier.setOrder(Float.MAX_VALUE);
             nodes.add(barrier);
             flowNodesMap.put(flow, nodes);
         } else
@@ -48,20 +49,20 @@ public class Dictator {
             nodes.add(index, node);
     }
 
-    static void polyToConductFunction(Class<? extends NodeModel> flow) {
+    static void buildConductFunction(Class<? extends NodeModel> flow) {
         if (!flowNodesMap.containsKey(flow))
             return;
         List<Function<Container, Container>> functions = flowNodesMap.get(flow).stream()
                 .filter(item -> !item.getOrder().equals(Float.MAX_VALUE))
                 .map(Node::getConductFunction)
                 .collect(Collectors.toList());
-        Function<Container, Container> finalFunc = (container) -> {
+        Function<Container, Container> conductFunction = (container) -> {
             for (Function<Container, Container> func : functions) {
                 container = func.apply(container);
             }
             return container;
         };
-        flowConductFunctionMap.put(flow, finalFunc);
+        flowConductFunctionMap.put(flow, conductFunction);
     }
 
     static Function<Container, Container> getConductFunction(NodeModel model) {

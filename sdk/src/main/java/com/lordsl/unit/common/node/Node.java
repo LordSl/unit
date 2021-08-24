@@ -2,89 +2,70 @@ package com.lordsl.unit.common.node;
 
 import com.lordsl.unit.common.Dictator;
 import com.lordsl.unit.common.NodeModel;
-import com.lordsl.unit.common.ParseUtil;
 import com.lordsl.unit.common.TaskResolver;
-import com.lordsl.unit.common.anno.*;
 import com.lordsl.unit.common.schema.NodeSchema;
 import com.lordsl.unit.common.util.Container;
 import com.lordsl.unit.common.util.Info;
 
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class Node {
     private NodeAction nodeAction;
+
+    private NodeSchema nodeSchema;
+
     private NodeModel nodeModel;
     private Class<? extends NodeModel> flow;
     private Float order;
 
+    public NodeSchema getNodeSchema() {
+        return nodeSchema;
+    }
+
     public Float getOrder() {
         return order;
+    }
+
+    public void setOrder(Float order) {
+        this.order = order;
     }
 
     public NodeAction getNodeAction() {
         return nodeAction;
     }
 
-    /**
-     * 从class注解读取信息
-     */
-    public Node from(NodeModel nodeModel) {
-        nodeAction = new NodeAction()
-                .produces(ParseUtil.parseField(Produce.class, nodeModel.getClass()))
-                .consumes(ParseUtil.parseField(Consume.class, nodeModel.getClass()))
-                .refers(ParseUtil.parseField(Refer.class, nodeModel.getClass()))
-                .throughs(ParseUtil.parseField(Through.class, nodeModel.getClass()))
-                .updates(ParseUtil.parseField(Update.class, nodeModel.getClass()))
-                .templateSupplier(nodeModel.getTemplate());
+    public Node from(NodeModel nodeModel, NodeSchema nodeSchema) {
         this.nodeModel = nodeModel;
+        this.nodeSchema = nodeSchema;
         return this;
     }
 
-    public Node to(Class<? extends NodeModel> flow) {
-        this.flow = flow;
-        nodeAction = nodeAction
-                .methods(getHandleMethods());
-        return this;
-    }
-
-    public Node order(Float order) {
-        this.order = order;
-        return this;
-    }
-
-    private Map<String, Method> getHandleMethods() {
-        Map<Method, Handle> map = ParseUtil.getMethodAnnoMap(Handle.class, nodeModel.getClass());
-        Map<String, Method> res = new HashMap<>();
-        map.forEach(
-                (method, handle) -> {
-                    List<Class<? extends NodeModel>> flows = Arrays.asList(handle.flows());
-                    if (flows.size() == 0 || flows.contains(flow))
-                        res.put(handle.pos(), method);
-                }
-        );
-        return res;
-    }
-
-    public NodeModel getNodeModel() {
-        return nodeModel;
-    }
-
-    /**
-     * 任意方式得到的schema，作用与注解相同，优先级高于注解
-     */
-    public Node reshapeBy(NodeSchema nodeSchema) {
-        //todo
-        return this;
-    }
-
-    public void build() {
+    public Node build() {
+        nodeAction = new NodeAction()
+                .produces(nodeSchema.getProduceList())
+                .consumes(nodeSchema.getConsumeList())
+                .refers(nodeSchema.getReferList())
+                .throughs(nodeSchema.getThroughList())
+                .updates(nodeSchema.getUpdateList())
+                .methods(nodeSchema.getMethodList())
+                .build();
+        order = Float.parseFloat(nodeSchema.getOrder());
+        try {
+            flow = Class.forName(nodeSchema.getFlow()).asSubclass(NodeModel.class);
+        } catch (Exception e) {
+            Info.PurpleAlert("class declare in schema not exist or not a impl of NodeModel");
+        }
         checkConflicts();
         setAllAccessible();
+        return this;
+    }
+
+    public void regis() {
         resolveRefers();
-        nodeAction.build();
         Dictator.regisNode(this);
     }
 
@@ -131,20 +112,28 @@ public class Node {
         return flow;
     }
 
+    public void setFlow(Class<? extends NodeModel> flow) {
+        this.flow = flow;
+    }
+
     public Function<Container, Container> getConductFunction() {
         return container -> {
             try {
-                NodeModel nodeModel = nodeAction.doInit();
-                nodeAction.doInput(nodeModel, container);
+                NodeModel nodeInstance = nodeModel.getTemplate().get();
+                nodeAction.doInput(nodeInstance, container);
                 nodeAction.doDelete(container);
-                nodeAction.doHandles(nodeModel);
-                nodeAction.doOutput(nodeModel, container);
+                nodeAction.doHandles(nodeInstance);
+                nodeAction.doOutput(nodeInstance, container);
                 return container;
             } catch (Exception e) {
                 Info.PurpleAlert("conduct function runtime exception");
                 return null;
             }
         };
+    }
+
+    public NodeModel getNodeModel() {
+        return nodeModel;
     }
 
 
