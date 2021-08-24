@@ -6,6 +6,7 @@ import com.lordsl.unit.test.example.FlowBeta;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 
 import java.io.File;
 
@@ -24,11 +25,15 @@ public class TestExample {
         }
     }
 
+    String filePath = getRootPath() + "/schema.json";
+
     @Test
-    void cal() {
+    void out() {
         Container res1 = flowAlpha.exec();
         Container res2 = flowBeta.exec();
-        OpFacade.outToJson(getRootPath() + "/schema.json");
+        Assert.notNull(res1, "flowAlpha error");
+        Assert.notNull(res2, "flowBeta error");
+        OpFacade.outToJson(filePath);
         System.out.println("ok");
     }
 

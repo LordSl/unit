@@ -1,16 +1,17 @@
 package com.lordsl.unit.common;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.lordsl.unit.common.node.Converter;
 import com.lordsl.unit.common.node.Node;
 import com.lordsl.unit.common.schema.NodeSchema;
 import com.lordsl.unit.common.util.Info;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class SchemaResolver {
 
@@ -38,5 +39,22 @@ public class SchemaResolver {
                 node -> schemaList.add(Converter.Node2NodeSchema(node))
         );
         fileOutput(path, schemaList);
+    }
+
+
+    static List<NodeSchema> readNodeSchemaList(String path) {
+        StringBuilder s = new StringBuilder();
+        try {
+            String json = new BufferedReader(new FileReader(path))
+                    .lines()
+                    .collect(Collectors.joining());
+            return JSONArray.parseArray(json, NodeSchema.class).stream()
+                    .filter(Objects::nonNull)
+                    .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+//                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            Info.PurpleAlert("schema json file read error");
+            return null;
+        }
     }
 }

@@ -37,10 +37,5 @@ class AwareUtil {
                 .orElse(null);
     }
 
-    static void launchInitTasks(List<NodeModel> nodes) {
-        nodes.forEach(model -> TaskResolver.addHandlerInitTask(TaskFactory.getHandlerInitTask(model)));
-        nodes.forEach(model -> TaskResolver.addFlowInitTask(TaskFactory.getFlowInitTask(model)));
-    }
-
 
 }

@@ -1,6 +1,7 @@
 package com.lordsl.unit.common;
 
 import com.lordsl.unit.common.node.Node;
+import com.lordsl.unit.common.schema.NodeSchema;
 
 import java.util.List;
 
@@ -34,7 +35,10 @@ public class OpFacade {
     }
 
     public static void launchInitTask(List<NodeModel> nodes) {
-        AwareUtil.launchInitTasks(nodes);
+        nodes.forEach(model ->
+                TaskFactory.getHandlerInitTask(model).forEach(TaskResolver::addHandlerInitTask)
+        );
+        nodes.forEach(model -> TaskResolver.addFlowInitTask(TaskFactory.getFlowInitTask(model)));
     }
 
     public static void outToJson(String path) {
@@ -45,5 +49,13 @@ public class OpFacade {
         TaskFactory.getFinalDoneTask().run();
     }
 
+    public static List<NodeSchema> readNodeSchemaList(String path) {
+        return SchemaResolver.readNodeSchemaList(path);
+    }
+
+    public static void launchInitTask(List<NodeModel> nodes, List<NodeSchema> schemas) {
+        TaskFactory.getHandlerInitTask(nodes, schemas).forEach(TaskResolver::addHandlerInitTask);
+        nodes.forEach(model -> TaskResolver.addFlowInitTask(TaskFactory.getFlowInitTask(model)));
+    }
 
 }

@@ -30,7 +30,8 @@ public interface NodeModel {
 
         public static void initAsHandler(NodeModel nodeModel) {
             if (Signal.regisEnable())
-                TaskResolver.addHandlerInitTask(TaskFactory.getHandlerInitTask(nodeModel));
+                TaskFactory.getHandlerInitTask(nodeModel).forEach(TaskResolver::addHandlerInitTask);
+
         }
 
         private static void check() {
