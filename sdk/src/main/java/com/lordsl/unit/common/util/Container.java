@@ -21,12 +21,7 @@ public class Container {
     }
 
     public <T> T get(String name) {
-        try {
-            return (T) map.get(name);
-        } catch (ClassCastException ignored) {
-
-        }
-        return null;
+        return (T) map.get(name);
     }
 
     public <T> void remove(T delete) {

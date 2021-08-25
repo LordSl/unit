@@ -1,8 +1,9 @@
 package com.lordsl.unit.common.node;
 
+import com.lordsl.unit.common.Constant;
+import com.lordsl.unit.common.DefaultTaskPool;
 import com.lordsl.unit.common.Dictator;
 import com.lordsl.unit.common.NodeModel;
-import com.lordsl.unit.common.TaskPool;
 import com.lordsl.unit.common.schema.NodeSchema;
 import com.lordsl.unit.common.util.Container;
 import com.lordsl.unit.common.util.Info;
@@ -70,7 +71,7 @@ public class Node {
     }
 
     private void resolveRefers() {
-        TaskPool.addReferTask(() ->
+        DefaultTaskPool.put(Constant.ReferInject.val(), () ->
                 nodeAction.refers().forEach((entry) -> {
                     try {
                         entry.getVal().setAccessible(true);

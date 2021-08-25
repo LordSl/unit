@@ -51,9 +51,10 @@ class TaskFactory {
         Info.GreenLog("task collect finish, prepare to conduct");
         return () -> {
             Info.GreenLog("conduct all task, load all node");
-            TaskPool.resolveHandlerInitTasks();
-            TaskPool.resolveReferTasks();
-            TaskPool.resolveFlowInitTasks();
+            DefaultTaskPool.resolve(Constant.HandlerInit.val());
+            DefaultTaskPool.resolve(Constant.ReferInject.val());
+            DefaultTaskPool.resolve(Constant.FlowInit.val());
+            Info.GreenLog("load finish");
         };
     }
 

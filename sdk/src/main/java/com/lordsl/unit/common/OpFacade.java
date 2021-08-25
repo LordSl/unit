@@ -47,9 +47,9 @@ public class OpFacade {
      */
     public static void launchInitTask(List<NodeModel> nodes) {
         nodes.forEach(model ->
-                TaskFactory.getHandlerInitTask(model).forEach(TaskPool::addHandlerInitTask)
+                TaskFactory.getHandlerInitTask(model).forEach(task -> DefaultTaskPool.put(Constant.HandlerInit.val(), task))
         );
-        nodes.forEach(model -> TaskPool.addFlowInitTask(TaskFactory.getFlowInitTask(model)));
+        nodes.forEach(model -> DefaultTaskPool.put(Constant.FlowInit.val(), TaskFactory.getFlowInitTask(model)));
     }
 
     /**
@@ -80,8 +80,8 @@ public class OpFacade {
      * 使用多个NodeModel实例进行注册，信息来源于提供的schema
      */
     public static void launchInitTask(List<NodeModel> nodes, List<NodeSchema> schemas) {
-        TaskFactory.getHandlerInitTask(nodes, schemas).forEach(TaskPool::addHandlerInitTask);
-        nodes.forEach(model -> TaskPool.addFlowInitTask(TaskFactory.getFlowInitTask(model)));
+        TaskFactory.getHandlerInitTask(nodes, schemas).forEach(task -> DefaultTaskPool.put(Constant.HandlerInit.val(), task));
+        nodes.forEach(model -> DefaultTaskPool.put(Constant.FlowInit.val(), TaskFactory.getFlowInitTask(model)));
     }
 
     /**
