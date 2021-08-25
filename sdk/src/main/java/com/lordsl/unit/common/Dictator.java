@@ -9,11 +9,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Dictator {
-    private static final Map<Class<? extends NodeModel>, List<Node>> flowNodesMap = new HashMap<>();
+    private static final Map<Class<? extends NodeModel>, List<Node>> flowHandlerListMap = new HashMap<>();
 
     private final static Container referContainer = new Container();
 
     private final static Map<Class<? extends NodeModel>, Function<Container, Container>> flowConductFunctionMap = new HashMap<>();
+
+    private final static Map<Class<? extends NodeModel>, Function<Container, Container>> handlerConductFunctionMap = new HashMap<>();
 
     public static <T> void putRefer(String name, T t) {
         referContainer.put(name, t);
@@ -26,14 +28,14 @@ public class Dictator {
     public static void regisNode(Node node) {
         List<Node> nodes;
         Class<? extends NodeModel> flow = node.getFlow();
-        if (!flowNodesMap.containsKey(flow)) {
+        if (!flowHandlerListMap.containsKey(flow)) {
             nodes = new LinkedList<>();
             Node barrier = new Node();
             barrier.setOrder(Float.MAX_VALUE);
             nodes.add(barrier);
-            flowNodesMap.put(flow, nodes);
+            flowHandlerListMap.put(flow, nodes);
         } else
-            nodes = flowNodesMap.get(flow);
+            nodes = flowHandlerListMap.get(flow);
 
         int index = 0;
         for (; index < nodes.size(); index++) {
@@ -51,18 +53,20 @@ public class Dictator {
             nodes.add(index, node);
         }
         Info.BlueInfo(String.format("node from model 「%s」 regis in node 「%s」", node.getNodeModel(), node.getFlow().getName()));
+        handlerConductFunctionMap.put(node.getNodeModel().getClass(), node.getConductFunction());
     }
 
-    static void buildConductFunction(Class<? extends NodeModel> flow) {
-        if (!flowNodesMap.containsKey(flow)) {
+    static void buildFlowConductFunction(Class<? extends NodeModel> flow) {
+        if (!flowHandlerListMap.containsKey(flow)) {
             Info.BlueInfo(String.format("no node regis in node 「%s」, consider as handler only", flow.getName()));
             return;
         }
-        List<Function<Container, Container>> functions = flowNodesMap.get(flow).stream()
+        List<Function<Container, Container>> functions = flowHandlerListMap.get(flow).stream()
                 .filter(item -> !item.getOrder().equals(Float.MAX_VALUE))
                 .map(Node::getConductFunction)
                 .collect(Collectors.toList());
         Function<Container, Container> conductFunction = (container) -> {
+            ContainerUtil.norm(container);
             for (Function<Container, Container> func : functions) {
                 container = func.apply(container);
             }
@@ -71,12 +75,16 @@ public class Dictator {
         flowConductFunctionMap.put(flow, conductFunction);
     }
 
-    static Function<Container, Container> getConductFunction(NodeModel model) {
-        return flowConductFunctionMap.get(model.getClass());
+    static Function<Container, Container> getFlowConductFunction(Class<? extends NodeModel> modelCla) {
+        return flowConductFunctionMap.get(modelCla);
+    }
+
+    static Function<Container, Container> getHandlerConductFunction(Class<? extends NodeModel> modelCla) {
+        return handlerConductFunctionMap.get(modelCla);
     }
 
     static List<Node> getAllNodes() {
-        return flowNodesMap.values().stream()
+        return flowHandlerListMap.values().stream()
                 .flatMap(Collection::stream)
                 .filter(item -> item.getOrder() != Float.MAX_VALUE)
                 .collect(Collectors.toList());

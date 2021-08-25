@@ -1,0 +1,10 @@
+condition -> condition logic condition
+condition -> num compare num
+num -> num cal num
+num -> var
+
+logic -> "&" "|" "!"
+compare -> ">" "<" "="
+cal -> "+" "-" "*" "/"
+num -> "[任意数字]"
+var -> "[任意字符串]"

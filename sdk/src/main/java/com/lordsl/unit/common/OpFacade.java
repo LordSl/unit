@@ -47,9 +47,9 @@ public class OpFacade {
      */
     public static void launchInitTask(List<NodeModel> nodes) {
         nodes.forEach(model ->
-                TaskFactory.getHandlerInitTask(model).forEach(task -> DefaultTaskPool.put(Constant.HandlerInitTaskKey.text(), task))
+                TaskFactory.getHandlerInitTask(model).forEach(task -> DefaultTaskPool.put(Const.HandlerInitTaskKey, task))
         );
-        nodes.forEach(model -> DefaultTaskPool.put(Constant.FlowInitTaskKey.text(), TaskFactory.getFlowInitTask(model)));
+        nodes.forEach(model -> DefaultTaskPool.put(Const.FlowInitTaskKey, TaskFactory.getFlowInitTask(model)));
     }
 
     /**
@@ -80,14 +80,53 @@ public class OpFacade {
      * 使用多个NodeModel实例进行注册，信息来源于提供的schema
      */
     public static void launchInitTask(List<NodeModel> nodes, List<NodeSchema> schemas) {
-        TaskFactory.getHandlerInitTask(nodes, schemas).forEach(task -> DefaultTaskPool.put(Constant.HandlerInitTaskKey.text(), task));
-        nodes.forEach(model -> DefaultTaskPool.put(Constant.FlowInitTaskKey.text(), TaskFactory.getFlowInitTask(model)));
+        TaskFactory.getHandlerInitTask(nodes, schemas).forEach(task -> DefaultTaskPool.put(Const.HandlerInitTaskKey, task));
+        nodes.forEach(model -> DefaultTaskPool.put(Const.FlowInitTaskKey, TaskFactory.getFlowInitTask(model)));
     }
 
     /**
-     * 返回NodeModel实例的类所对应的Flow执行函数
+     * 返回modelCla所对应的Flow执行函数
      */
-    public static Function<Container, Container> getConductFunction(NodeModel model) {
-        return Dictator.getConductFunction(model);
+    public static Function<Container, Container> getFlowConductFunction(Class<? extends NodeModel> modelCla) {
+        return Dictator.getFlowConductFunction(modelCla);
+    }
+
+    public static Function<Container, Container> getFlowConductFunction(NodeModel model) {
+        return Dictator.getFlowConductFunction(model.getClass());
+    }
+
+    /**
+     * 返回modelCla所对应的Handler执行函数
+     */
+    public static Function<Container, Container> getHandlerConductFunction(Class<? extends NodeModel> modelCla) {
+        return Dictator.getHandlerConductFunction(modelCla);
+    }
+
+    public static Function<Container, Container> getHandlerConductFunction(NodeModel model) {
+        return Dictator.getHandlerConductFunction(model.getClass());
+    }
+
+    public static void initAsFlow(NodeModel nodeModel) {
+        NodeOp.initAsFlow(nodeModel);
+    }
+
+    public static void initAsHandler(NodeModel nodeModel) {
+        NodeOp.initAsHandler(nodeModel);
+    }
+
+    public static Container execAsFlow(Container container, NodeModel model) {
+        return NodeOp.execAsFlow(container, model);
+    }
+
+    public static Container execAsHandler(Container container, NodeModel model) {
+        return NodeOp.execAsHandler(container, model);
+    }
+
+    public static Container execAsFlow(Container container, Class<? extends NodeModel> modelCla) {
+        return NodeOp.execAsFlow(container, modelCla);
+    }
+
+    public static Container execAsHandler(Container container, Class<? extends NodeModel> modelCla) {
+        return NodeOp.execAsHandler(container, modelCla);
     }
 }

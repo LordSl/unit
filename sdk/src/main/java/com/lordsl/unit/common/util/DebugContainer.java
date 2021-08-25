@@ -1,16 +1,8 @@
 package com.lordsl.unit.common.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class DebugContainer extends Container {
-    private final Map<String, Object> map = new HashMap<String, Object>();
 
-    public <T> void put(T input) {
-        String name = input.getClass().getName();
-        put(name, input);
-    }
-
+    @Override
     public <T> void put(String name, T input) {
         if (map.containsKey(name))
             Info.PurpleAlert(String.format("merge k-v where k = %s", name));
@@ -19,11 +11,7 @@ public class DebugContainer extends Container {
         map.put(name, input);
     }
 
-    public <T> T get(T output) {
-        String name = output.getClass().getName();
-        return get(name);
-    }
-
+    @Override
     public <T> T get(String name) {
         if (!map.containsKey(name))
             Info.PurpleAlert(String.format("no k-v where k = %s", name));
@@ -38,10 +26,7 @@ public class DebugContainer extends Container {
         return null;
     }
 
-    public <T> void remove(T delete) {
-        remove(delete.getClass().getName());
-    }
-
+    @Override
     public <T> void remove(String name) {
         if (!map.containsKey(name))
             Info.PurpleAlert(String.format("no k-v where k = %s", name));

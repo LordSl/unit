@@ -1,6 +1,7 @@
 package com.lordsl.unit.test.compare;
 
 import com.lordsl.unit.common.NodeModel;
+import com.lordsl.unit.common.OpFacade;
 import com.lordsl.unit.common.anno.*;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class HandlerB2 implements NodeModel {
     Long f;
 
     public HandlerB2() {
-        Stand.initAsHandler(this);
+        OpFacade.initAsHandler(this);
     }
 
     @Handle

@@ -1,6 +1,6 @@
 package com.lordsl.unit.common.node;
 
-import com.lordsl.unit.common.Constant;
+import com.lordsl.unit.common.Const;
 import com.lordsl.unit.common.DefaultTaskPool;
 import com.lordsl.unit.common.Dictator;
 import com.lordsl.unit.common.NodeModel;
@@ -71,7 +71,7 @@ public class Node {
     }
 
     private void resolveRefers() {
-        DefaultTaskPool.put(Constant.ReferInjectTaskKey.text(), () ->
+        DefaultTaskPool.put(Const.ReferInjectTaskKey, () ->
                 nodeAction.refers().forEach((entry) -> {
                     try {
                         entry.getVal().setAccessible(true);

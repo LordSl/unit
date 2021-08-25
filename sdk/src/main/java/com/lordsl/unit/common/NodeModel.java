@@ -1,11 +1,13 @@
 package com.lordsl.unit.common;
 
-import com.lordsl.unit.common.util.Container;
-import com.lordsl.unit.common.util.Info;
-
 import java.lang.reflect.Constructor;
 import java.util.function.Supplier;
 
+/**
+ * 基本单元，Node有两种身份，handler和flow
+ * Node(handler) * n -> Node(flow)
+ * 一个Node可以同时是handler和flow
+ */
 public interface NodeModel {
 
     default Supplier<NodeModel> getTemplate() {
@@ -21,35 +23,6 @@ public interface NodeModel {
             };
         } catch (Exception ignored) {
             return null;
-        }
-    }
-
-    class Stand {
-        public static void initAsFlow(NodeModel nodeModel) {
-            DefaultTaskPool.put(Constant.FlowInitTaskKey.text(), TaskFactory.getFlowInitTask(nodeModel));
-        }
-
-        public static void initAsHandler(NodeModel nodeModel) {
-            if (Signal.regisEnable())
-                TaskFactory.getHandlerInitTask(nodeModel).forEach(task -> DefaultTaskPool.put(Constant.HandlerInitTaskKey.text(), task));
-
-        }
-
-        private static void check() {
-            if (Signal.regisEnable()) {
-                synchronized (Signal.class) {
-                    if (Signal.regisEnable()) {
-                        Info.GreenLog("usage detect, start actual load");
-                        TaskFactory.getFinalDoneTask().run();
-                        Signal.regisEnable(false);
-                    }
-                }
-            }
-        }
-
-        public static Container execAsFlow(Container container, NodeModel model) {
-            check();
-            return Dictator.getConductFunction(model).apply(container);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.lordsl.unit.test.example;
 
 import com.lordsl.unit.common.NodeModel;
+import com.lordsl.unit.common.OpFacade;
 import com.lordsl.unit.common.anno.Handle;
 import com.lordsl.unit.common.anno.Produce;
 import com.lordsl.unit.common.anno.Uni;
@@ -30,7 +31,7 @@ public class HandlerA implements NodeModel {
     }
 
     public HandlerA() {
-        NodeModel.Stand.initAsHandler(this);
+        OpFacade.initAsHandler(this);
     }
 
     @Override

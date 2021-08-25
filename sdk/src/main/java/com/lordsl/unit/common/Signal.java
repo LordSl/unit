@@ -1,6 +1,6 @@
 package com.lordsl.unit.common;
 
-public class Signal {
+class Signal {
     private static boolean regisEnable = true;
     private static boolean interactionCheckEnable = true;
 

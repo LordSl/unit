@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class SchemaResolver {
+class SchemaResolver {
 
     private static void fileOutput(String path, Object javaObject) {
         //输出为json文件

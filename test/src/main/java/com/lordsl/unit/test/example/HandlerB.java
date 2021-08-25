@@ -1,6 +1,7 @@
 package com.lordsl.unit.test.example;
 
 import com.lordsl.unit.common.NodeModel;
+import com.lordsl.unit.common.OpFacade;
 import com.lordsl.unit.common.anno.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class HandlerB implements NodeModel {
     List<String> courses;
 
     public HandlerB() {
-        Stand.initAsHandler(this);
+        OpFacade.initAsHandler(this);
     }
 
     @Handle

@@ -1,6 +1,7 @@
 package com.lordsl.unit.test.nest;
 
 import com.lordsl.unit.common.NodeModel;
+import com.lordsl.unit.common.OpFacade;
 import com.lordsl.unit.common.anno.Handle;
 import com.lordsl.unit.common.anno.Uni;
 import com.lordsl.unit.common.anno.Unit;
@@ -30,6 +31,6 @@ public class B2 implements NodeModel {
     public String handleWrap(String country) {
         Container container = new Container();
         container.put("country", country);
-        return Stand.execAsFlow(container, this).get("country");
+        return OpFacade.execAsFlow(container, this).get("country");
     }
 }

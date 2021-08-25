@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Container {
-    private final Map<String, Object> map = new HashMap<>();
+    protected final Map<String, Object> map = new HashMap<>();
 
     public <T> void put(T input) {
         String name = input.getClass().getName();
