@@ -2,9 +2,9 @@ package com.lordsl.unit.common;
 
 public enum Constant {
 
-    HandlerInit("HandlerInitTask"),
-    ReferInject("ReferInjectTask"),
-    FlowInit("FlowInitTask"),
+    HandlerInitTaskKey("HandlerInitTask"),
+    ReferInjectTaskKey("ReferInjectTask"),
+    FlowInitTaskKey("FlowInitTask"),
     ;
 
     private Object val;
@@ -15,5 +15,9 @@ public enum Constant {
 
     public <T> T val() {
         return (T) val;
+    }
+
+    public String text() {
+        return (String) val;
     }
 }

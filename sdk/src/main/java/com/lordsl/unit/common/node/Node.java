@@ -71,7 +71,7 @@ public class Node {
     }
 
     private void resolveRefers() {
-        DefaultTaskPool.put(Constant.ReferInject.val(), () ->
+        DefaultTaskPool.put(Constant.ReferInjectTaskKey.text(), () ->
                 nodeAction.refers().forEach((entry) -> {
                     try {
                         entry.getVal().setAccessible(true);

@@ -35,7 +35,7 @@ class TaskFactory {
     }
 
     static Runnable getHandlerInitTask(NodeModel nodeModel, NodeSchema schema) {
-        Info.GreenLog(String.format("get init task of handler「%s」, regis in TaskPool", nodeModel));
+        Info.GreenLog(String.format("get init task of 「%s」, consider as handler, regis in DefaultTaskPool", nodeModel));
         return () -> new Node()
                 .from(nodeModel, schema)
                 .build()
@@ -43,7 +43,7 @@ class TaskFactory {
     }
 
     static Runnable getFlowInitTask(NodeModel nodeModel) {
-        Info.GreenLog(String.format("get init task of flow「%s」, regis in TaskPool", nodeModel));
+        Info.GreenLog(String.format("get init task of 「%s」, consider as flow, regis in DefaultTaskPool", nodeModel));
         return () -> Dictator.buildConductFunction(nodeModel.getClass());
     }
 
@@ -51,9 +51,9 @@ class TaskFactory {
         Info.GreenLog("task collect finish, prepare to conduct");
         return () -> {
             Info.GreenLog("conduct all task, load all node");
-            DefaultTaskPool.resolve(Constant.HandlerInit.val());
-            DefaultTaskPool.resolve(Constant.ReferInject.val());
-            DefaultTaskPool.resolve(Constant.FlowInit.val());
+            DefaultTaskPool.resolve(Constant.HandlerInitTaskKey.text());
+            DefaultTaskPool.resolve(Constant.ReferInjectTaskKey.text());
+            DefaultTaskPool.resolve(Constant.FlowInitTaskKey.text());
             Info.GreenLog("load finish");
         };
     }

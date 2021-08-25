@@ -50,12 +50,12 @@ public class Dictator {
         } else {
             nodes.add(index, node);
         }
-        Info.BlueInfo(String.format("node from model 「%s」 regis in flow 「%s」", node.getNodeModel(), node.getFlow().getName()));
+        Info.BlueInfo(String.format("node from model 「%s」 regis in node 「%s」", node.getNodeModel(), node.getFlow().getName()));
     }
 
     static void buildConductFunction(Class<? extends NodeModel> flow) {
         if (!flowNodesMap.containsKey(flow)) {
-            Info.BlueInfo(String.format("no node regis in flow 「%s」, it may not be a flow", flow.getName()));
+            Info.BlueInfo(String.format("no node regis in node 「%s」, consider as handler only", flow.getName()));
             return;
         }
         List<Function<Container, Container>> functions = flowNodesMap.get(flow).stream()

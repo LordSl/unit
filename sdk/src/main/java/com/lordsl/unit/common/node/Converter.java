@@ -116,7 +116,6 @@ public class Converter {
 
         Unit unit = nodeClass.getDeclaredAnnotation(Unit.class);
         if (null == unit) {
-            Info.BlueInfo(String.format("%s lack @Unit anno", nodeClass.getName()));
             return schemaList;
         }
 

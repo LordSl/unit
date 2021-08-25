@@ -26,12 +26,12 @@ public interface NodeModel {
 
     class Stand {
         public static void initAsFlow(NodeModel nodeModel) {
-            DefaultTaskPool.put(Constant.FlowInit.val(), TaskFactory.getFlowInitTask(nodeModel));
+            DefaultTaskPool.put(Constant.FlowInitTaskKey.text(), TaskFactory.getFlowInitTask(nodeModel));
         }
 
         public static void initAsHandler(NodeModel nodeModel) {
             if (Signal.regisEnable())
-                TaskFactory.getHandlerInitTask(nodeModel).forEach(task -> DefaultTaskPool.put(Constant.HandlerInit.val(), task));
+                TaskFactory.getHandlerInitTask(nodeModel).forEach(task -> DefaultTaskPool.put(Constant.HandlerInitTaskKey.text(), task));
 
         }
 
