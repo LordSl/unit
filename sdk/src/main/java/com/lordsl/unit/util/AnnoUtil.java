@@ -1,4 +1,4 @@
-package com.lordsl.unit.common.util;
+package com.lordsl.unit.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

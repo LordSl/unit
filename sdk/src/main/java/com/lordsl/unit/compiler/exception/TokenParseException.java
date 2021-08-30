@@ -1,4 +1,4 @@
-package com.lordsl.unit.common.condition.parser.token;
+package com.lordsl.unit.compiler.exception;
 
 public class TokenParseException extends Exception {
 

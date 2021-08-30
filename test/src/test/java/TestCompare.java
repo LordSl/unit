@@ -1,7 +1,7 @@
-import com.lordsl.unit.common.util.Info;
 import com.lordsl.unit.test.App;
 import com.lordsl.unit.test.compare.FlowA;
 import com.lordsl.unit.test.compare.FlowB;
+import com.lordsl.unit.util.Info;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

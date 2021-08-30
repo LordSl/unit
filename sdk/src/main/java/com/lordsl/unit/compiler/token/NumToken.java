@@ -1,6 +1,7 @@
-package com.lordsl.unit.common.condition.parser.token;
+package com.lordsl.unit.compiler.token;
 
-import com.lordsl.unit.common.util.Info;
+import com.lordsl.unit.compiler.exception.TokenInterpretException;
+import com.lordsl.unit.util.Info;
 
 import java.util.function.Supplier;
 
@@ -11,11 +12,11 @@ public class NumToken {
     private NumToken() {
     }
 
-    public static NumToken parse(String valStr) {
+    public static NumToken interpret(String valStr) {
         NumToken tmp = new NumToken();
         tmp.valSupplier = () -> {
             try {
-                return parseDoubleStr(valStr);
+                return interpretDoubleStr(valStr);
             } catch (Exception e) {
                 Info.PurpleAlert(e.getMessage());
                 return null;
@@ -24,20 +25,20 @@ public class NumToken {
         return tmp;
     }
 
-    private static Double parseDoubleStr(String valStr) throws Exception {
+    private static Double interpretDoubleStr(String valStr) throws Exception {
         Double d = Double.parseDouble(valStr);
         if (d.isNaN())
-            throw new TokenParseException("NumToken NaN");
+            throw new TokenInterpretException("NumToken NaN");
         return d;
     }
 
-    public static NumToken parse(NumToken n1, CalToken c1, NumToken n2) {
+    public static NumToken interpret(NumToken n1, CalToken c1, NumToken n2) {
         NumToken tmp = new NumToken();
         tmp.valSupplier = () -> c1.cal(n1.getValSupplier().get(), n2.getValSupplier().get());
         return tmp;
     }
 
-    public static NumToken parse(VarToken v1) {
+    public static NumToken interpret(VarToken v1) {
         NumToken tmp = new NumToken();
         tmp.valSupplier = v1.getValSupplier();
         return tmp;

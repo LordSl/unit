@@ -5,7 +5,7 @@ import com.lordsl.unit.common.anno.Consume;
 import com.lordsl.unit.common.anno.Handle;
 import com.lordsl.unit.common.anno.Uni;
 import com.lordsl.unit.common.anno.Unit;
-import com.lordsl.unit.common.util.Info;
+import com.lordsl.unit.util.Info;
 import org.springframework.stereotype.Component;
 
 @Component

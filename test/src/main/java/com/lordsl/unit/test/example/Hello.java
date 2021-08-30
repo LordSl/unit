@@ -1,6 +1,6 @@
 package com.lordsl.unit.test.example;
 
-import com.lordsl.unit.common.util.Info;
+import com.lordsl.unit.util.Info;
 import org.springframework.stereotype.Component;
 
 @Component

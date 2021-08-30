@@ -5,8 +5,8 @@ import com.lordsl.unit.common.DefaultTaskPool;
 import com.lordsl.unit.common.Dictator;
 import com.lordsl.unit.common.NodeModel;
 import com.lordsl.unit.common.schema.NodeSchema;
-import com.lordsl.unit.common.util.Container;
-import com.lordsl.unit.common.util.Info;
+import com.lordsl.unit.util.Container;
+import com.lordsl.unit.util.Info;
 
 import java.util.Collection;
 import java.util.HashMap;

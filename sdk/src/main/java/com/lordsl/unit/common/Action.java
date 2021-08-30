@@ -1,6 +1,6 @@
 package com.lordsl.unit.common;
 
-import com.lordsl.unit.common.util.Info;
+import com.lordsl.unit.util.Info;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.lordsl.unit.common.condition.parser;
+package com.lordsl.unit.compiler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,28 +40,36 @@ public class TokenSchema {
         return new TokenSchema();
     }
 
-    public boolean ConditionType() {
-        return this.getType().equals(TokenType.Condition);
+    public boolean typeCondition() {
+        return this.getType().equals(Token.Condition);
     }
 
-    public boolean LogicType() {
-        return this.getType().equals(TokenType.Logic);
+    public boolean typeLogic() {
+        return this.getType().equals(Token.Logic);
     }
 
-    public boolean CompareType() {
-        return this.getType().equals(TokenType.Compare);
+    public boolean typeCompare() {
+        return this.getType().equals(Token.Compare);
     }
 
-    public boolean CalType() {
-        return this.getType().equals(TokenType.Cal);
+    public boolean typeCal() {
+        return this.getType().equals(Token.Cal);
     }
 
-    public boolean NumType() {
-        return this.getType().equals(TokenType.Num);
+    public boolean typeNum() {
+        return this.getType().equals(Token.Num);
     }
 
-    public boolean VarType() {
-        return this.getType().equals(TokenType.Var);
+    public boolean typeVar() {
+        return this.getType().equals(Token.Var);
+    }
+
+    public boolean typeLP() {
+        return this.getType().equals(Token.LP);
+    }
+
+    public boolean typeRP() {
+        return this.getType().equals(Token.RP);
     }
 
     public TokenSchema val(String valStr) {
@@ -76,6 +84,11 @@ public class TokenSchema {
 
     public TokenSchema addSub(TokenSchema schema) {
         this.sub.add(schema);
+        return this;
+    }
+
+    public TokenSchema addSubAll(List<TokenSchema> schemaList) {
+        this.sub.addAll(schemaList);
         return this;
     }
 

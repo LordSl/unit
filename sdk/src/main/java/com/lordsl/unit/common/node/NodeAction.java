@@ -4,7 +4,7 @@ import com.lordsl.unit.common.Dictator;
 import com.lordsl.unit.common.NodeModel;
 import com.lordsl.unit.common.schema.KeySchema;
 import com.lordsl.unit.common.schema.MethodSchema;
-import com.lordsl.unit.common.util.Container;
+import com.lordsl.unit.util.Container;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package com.lordsl.unit.common.condition.parser.token;
+package com.lordsl.unit.compiler.token;
 
 import java.util.function.Supplier;
 
@@ -10,7 +10,7 @@ public class VarToken {
     private VarToken() {
     }
 
-    public static VarToken parse(String name, Supplier<Number> valSupplier) {
+    public static VarToken interpret(String name, Supplier<Number> valSupplier) {
         VarToken tmp = new VarToken();
         tmp.name = name;
         tmp.valSupplier = valSupplier;

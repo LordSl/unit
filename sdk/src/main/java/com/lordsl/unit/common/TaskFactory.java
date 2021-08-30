@@ -3,7 +3,7 @@ package com.lordsl.unit.common;
 import com.lordsl.unit.common.node.Converter;
 import com.lordsl.unit.common.node.Node;
 import com.lordsl.unit.common.schema.NodeSchema;
-import com.lordsl.unit.common.util.Info;
+import com.lordsl.unit.util.Info;
 
 import java.util.ArrayList;
 import java.util.List;

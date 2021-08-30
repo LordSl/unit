@@ -1,4 +1,6 @@
-package com.lordsl.unit.common.condition.parser.token;
+package com.lordsl.unit.compiler.token;
+
+import com.lordsl.unit.compiler.exception.TokenInterpretException;
 
 import java.util.function.BiPredicate;
 
@@ -8,7 +10,7 @@ public class LogicToken {
     private LogicToken() {
     }
 
-    public static LogicToken parse(String valStr) throws Exception {
+    public static LogicToken interpret(String valStr) throws Exception {
         //"&" "|" "!"
         LogicToken tmp = new LogicToken();
         if ("&".equals(valStr)) {
@@ -21,7 +23,7 @@ public class LogicToken {
             tmp.cal = (b1, b2) -> !b2;
         }
         if (null == tmp.cal) {
-            throw new TokenParseException();
+            throw new TokenInterpretException();
         }
         return tmp;
     }

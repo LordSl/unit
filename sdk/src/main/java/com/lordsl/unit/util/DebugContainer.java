@@ -1,4 +1,4 @@
-package com.lordsl.unit.common.util;
+package com.lordsl.unit.util;
 
 public class DebugContainer extends Container {
 

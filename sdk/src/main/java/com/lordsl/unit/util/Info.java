@@ -1,4 +1,4 @@
-package com.lordsl.unit.common.util;
+package com.lordsl.unit.util;
 
 public class Info {
 
@@ -20,6 +20,10 @@ public class Info {
 
     public static void GreenLog(String s) {
         printWithColor(String.format("[LOG] %s", s), 36);
+    }
+
+    public static void WhiteLine() {
+        System.out.println();
     }
 
 }

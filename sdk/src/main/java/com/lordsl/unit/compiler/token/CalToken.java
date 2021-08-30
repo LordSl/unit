@@ -1,4 +1,6 @@
-package com.lordsl.unit.common.condition.parser.token;
+package com.lordsl.unit.compiler.token;
+
+import com.lordsl.unit.compiler.exception.TokenInterpretException;
 
 import java.util.function.BiFunction;
 
@@ -8,7 +10,7 @@ public class CalToken {
     private CalToken() {
     }
 
-    public static CalToken parse(String valStr) throws Exception {
+    public static CalToken interpret(String valStr) throws Exception {
         //"+" "-" "*" "/"
         CalToken tmp = new CalToken();
         if ("+".equals(valStr)) {
@@ -24,7 +26,7 @@ public class CalToken {
             tmp.cal = (n1, n2) -> n1.doubleValue() / n2.doubleValue();
         }
         if (null == tmp.cal) {
-            throw new TokenParseException();
+            throw new TokenInterpretException();
         }
         return tmp;
     }

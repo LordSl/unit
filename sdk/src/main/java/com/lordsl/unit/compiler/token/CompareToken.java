@@ -1,4 +1,6 @@
-package com.lordsl.unit.common.condition.parser.token;
+package com.lordsl.unit.compiler.token;
+
+import com.lordsl.unit.compiler.exception.TokenInterpretException;
 
 import java.util.function.BiFunction;
 
@@ -8,7 +10,7 @@ public class CompareToken {
     private CompareToken() {
     }
 
-    public static CompareToken parse(String valStr) throws Exception {
+    public static CompareToken interpret(String valStr) throws Exception {
         //">" "<" "="
         CompareToken tmp = new CompareToken();
         if ("<".equals(valStr)) {
@@ -21,7 +23,7 @@ public class CompareToken {
             tmp.compare = (n1, n2) -> n1.doubleValue() > n2.doubleValue();
         }
         if (null == tmp.compare) {
-            throw new TokenParseException();
+            throw new TokenInterpretException();
         }
         return tmp;
     }
