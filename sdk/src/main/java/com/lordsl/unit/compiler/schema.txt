@@ -1,11 +1,21 @@
+//推导
+{any} -> (lp) {any} (rp)
+statement -> var (ini) var
 condition -> condition logic condition
 condition -> logic condition
-condition -> num compare num
-num -> num cal num
-num -> var
+condition -> var compare var
+var -> var cal var
+var -> num
+()部分在建树时被去掉
 
+//元信息
 logic -> "&" "|" "!"
 compare -> ">" "<" "="
 cal -> "+" "-" "*" "/"
-num -> "[any double]"
-var -> "[any var]"
+num -> {any double} 字符串
+var -> {any var} 字符串
+
+//止于parse
+lp -> "("
+rp -> ")"
+ini -> ":="

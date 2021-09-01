@@ -17,6 +17,18 @@ public class VarToken {
         return tmp;
     }
 
+    public static VarToken interpret(NumToken n1) {
+        VarToken tmp = new VarToken();
+        tmp.valSupplier = n1::getVal;
+        return tmp;
+    }
+
+    public static VarToken interpret(VarToken v1, CalToken c1, VarToken v2) {
+        VarToken tmp = new VarToken();
+        tmp.valSupplier = () -> c1.cal(v1.getValSupplier().get(), v2.getValSupplier().get());
+        return tmp;
+    }
+
     public Supplier<Number> getValSupplier() {
         return valSupplier;
     }

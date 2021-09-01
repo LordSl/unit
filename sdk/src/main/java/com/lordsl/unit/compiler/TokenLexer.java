@@ -16,6 +16,7 @@ public class TokenLexer {
         put(Token.Var, Token.Regex.Var);
         put(Token.LP, Token.Regex.LP);
         put(Token.RP, Token.Regex.RP);
+        put(Token.Init, Token.Regex.Init);
     }};
     private List<TokenSchema> result;
 

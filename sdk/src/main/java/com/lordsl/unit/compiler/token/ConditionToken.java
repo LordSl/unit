@@ -9,9 +9,9 @@ public class ConditionToken {
     private ConditionToken() {
     }
 
-    public static ConditionToken interpret(NumToken n1, CompareToken compare, NumToken n2) {
+    public static ConditionToken interpret(VarToken v1, CompareToken compare, VarToken v2) {
         ConditionToken tmp = new ConditionToken();
-        tmp.booleanSupplier = () -> compare.cal(n1, n2);
+        tmp.booleanSupplier = () -> compare.cal(v1, v2);
         return tmp;
     }
 
@@ -27,7 +27,7 @@ public class ConditionToken {
         return tmp;
     }
 
-    public Supplier<Boolean> isTrue() {
+    public Supplier<Boolean> getBoolSupplier() {
         return booleanSupplier;
     }
 }

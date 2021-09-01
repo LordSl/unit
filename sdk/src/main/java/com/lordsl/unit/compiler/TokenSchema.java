@@ -72,6 +72,14 @@ public class TokenSchema {
         return this.getType().equals(Token.RP);
     }
 
+    public boolean typeInit() {
+        return this.getType().equals(Token.Init);
+    }
+
+    public boolean typeStatement() {
+        return this.getType().equals(Token.Statement);
+    }
+
     public TokenSchema val(String valStr) {
         this.setVal(valStr);
         return this;

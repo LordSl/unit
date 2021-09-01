@@ -13,12 +13,15 @@ public class TokenParser {
     }
 
     private final static Map<List<String>, String> rules = new LinkedHashMap<List<String>, String>() {{
-        put(Arrays.asList(Token.Var), Token.Num);
+        put(Arrays.asList(Token.Num), Token.Var);
         put(Arrays.asList(Token.Condition, Token.Logic, Token.Condition), Token.Condition);
-        put(Arrays.asList(Token.Num, Token.Compare, Token.Num), Token.Condition);
-        put(Arrays.asList(Token.Num, Token.Cal, Token.Num), Token.Num);
-        put(Arrays.asList(Token.LP, Token.Num, Token.RP), Token.Num);
+        put(Arrays.asList(Token.Logic, Token.Condition), Token.Condition);
+        put(Arrays.asList(Token.Var, Token.Compare, Token.Var), Token.Condition);
+        put(Arrays.asList(Token.Var, Token.Cal, Token.Var), Token.Var);
+        put(Arrays.asList(Token.LP, Token.Var, Token.RP), Token.Var);
         put(Arrays.asList(Token.LP, Token.Condition, Token.RP), Token.Condition);
+        put(Arrays.asList(Token.LP, Token.Num, Token.RP), Token.Num);
+        put(Arrays.asList(Token.Var, Token.Init, Token.Var), Token.Statement);
     }};
 
     public TokenSchema getResult() {
@@ -43,7 +46,7 @@ public class TokenParser {
         list.addAll(newList);
     }
 
-    private TokenSchema parseAll(List<TokenSchema> list) throws Exception {
+    private TokenSchema parseAll(List<TokenSchema> list) {
         while (parseOne(list)) ;
         if (list.size() == 1)
             return list.get(0);
@@ -54,13 +57,18 @@ public class TokenParser {
         AtomicBoolean doParse = new AtomicBoolean(false);
         rules.forEach(
                 (caseKey, caseVal) -> {
-                    List<Integer> d = match(list, caseKey, TokenSchema::getType);
-                    if (null != d) {
-                        int left = d.get(0);
-                        int right = d.get(1);
-                        replace(list, left, right, poly(TokenSchema.create().type(caseVal).addSubAll(list.subList(left, right))));
-                        doParse.set(true);
+                    int lastSize = -1;
+                    while (lastSize != list.size()) {
+                        lastSize = list.size();
+                        List<Integer> d = match(list, caseKey, TokenSchema::getType);
+                        if (null != d) {
+                            int left = d.get(0);
+                            int right = d.get(1);
+                            replace(list, left, right, poly(TokenSchema.create().type(caseVal).addSubAll(list.subList(left, right))));
+                            doParse.set(true);
+                        }
                     }
+
                 }
         );
         return doParse.get();
@@ -68,11 +76,20 @@ public class TokenParser {
 
     private TokenSchema poly(TokenSchema schema) {
         if (schema.subSize(3)) {
-            List<TokenSchema> sub = schema.getSub();
-            if (sub.get(0).typeLP() && sub.get(2).typeRP()) {
-                schema.setType(sub.get(1).getType());
-                schema.setVal(sub.get(1).getVal());
-                schema.setSub(sub.get(1).getSub());
+            TokenSchema s1 = schema.getSub().get(0);
+            TokenSchema s2 = schema.getSub().get(1);
+            TokenSchema s3 = schema.getSub().get(2);
+            //处理括号
+            //{any} -> (lp) {any} (rp)
+            if (s1.typeLP() && s3.typeRP()) {
+                schema.setType(s2.getType());
+                schema.setVal(s2.getVal());
+                schema.setSub(s2.getSub());
+            }
+            //处理赋值
+            //statement -> var (ini) var
+            if (s1.typeVar() && s2.typeInit() && s3.typeVar()) {
+                schema.getSub().remove(s2);
             }
         }
         return schema;

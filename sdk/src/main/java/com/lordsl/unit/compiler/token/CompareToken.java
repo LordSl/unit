@@ -28,7 +28,7 @@ public class CompareToken {
         return tmp;
     }
 
-    public Boolean cal(NumToken v1, NumToken v2) {
+    public Boolean cal(VarToken v1, VarToken v2) {
         return compare.apply(v1.getValSupplier().get(), v2.getValSupplier().get());
     }
 }
