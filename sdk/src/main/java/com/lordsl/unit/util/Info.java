@@ -6,20 +6,20 @@ public class Info {
         System.out.printf("\u001B[%dm%s\u001B[0m%n", code, s);
     }
 
-    public static void YellowText(String s) {
-        printWithColor(String.format("[TEXT] %s", s), 33);
+    public static void YellowText(Object o) {
+        printWithColor(String.format("[TEXT] %s", o.toString()), 33);
     }
 
-    public static void BlueInfo(String s) {
-        printWithColor(String.format("[INFO] %s", s), 34);
+    public static void BlueInfo(Object o) {
+        printWithColor(String.format("[INFO] %s", o.toString()), 34);
     }
 
-    public static void PurpleAlert(String s) {
-        printWithColor(String.format("[ALERT] %s", s), 35);
+    public static void PurpleAlert(Object o) {
+        printWithColor(String.format("[ALERT] %s", o.toString()), 35);
     }
 
-    public static void GreenLog(String s) {
-        printWithColor(String.format("[LOG] %s", s), 36);
+    public static void GreenLog(Object o) {
+        printWithColor(String.format("[LOG] %s", o.toString()), 36);
     }
 
     public static void WhiteLine() {
