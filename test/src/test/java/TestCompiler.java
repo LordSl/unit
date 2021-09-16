@@ -1,6 +1,7 @@
+import com.lordsl.unit.compiler.LogicContextModel;
 import com.lordsl.unit.compiler.TokenCompiler;
 import com.lordsl.unit.compiler.TokenSchema;
-import com.lordsl.unit.util.Container;
+import com.lordsl.unit.state.LogicContextContainer;
 import com.lordsl.unit.util.Info;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,8 +16,8 @@ public class TestCompiler {
     void testPredicate() {
         String input = "( ( a + 1 ) > 3 ) & ( b > 0 ) & ( ! ( ( b = 1 ) | ( b = 1.2 ) ) )";
 
-        Predicate<Container> predicate = TokenCompiler.compile2Predicate(input);
-        Container env = new Container();
+        Predicate<LogicContextModel> predicate = TokenCompiler.compile2Predicate(input);
+        LogicContextContainer env = new LogicContextContainer();
         env.put("a", new BigDecimal(3));
         env.put("b", 2);
         Info.BlueInfo(String.valueOf(predicate.test(env)));
@@ -27,8 +28,8 @@ public class TestCompiler {
     void testConsumer() {
         String input = "c := ( ( a + 1 ) * ( ( b - 0.12 ) / 3 ) )";
 
-        Consumer<Container> consumer = TokenCompiler.compile2Consumer(input);
-        Container env = new Container();
+        Consumer<LogicContextModel> consumer = TokenCompiler.compile2Consumer(input);
+        LogicContextContainer env = new LogicContextContainer();
         env.put("a", new BigDecimal(3));
         env.put("b", 2);
         consumer.accept(env);
@@ -43,11 +44,11 @@ public class TestCompiler {
         String json = TokenCompiler.plain2JSON(input);
         TokenSchema schema = TokenCompiler.JSON2Schema(json);
         Assertions.assertEquals(json, TokenCompiler.schema2JSON(schema));
-        Consumer<Container> consumer1 = TokenCompiler.compile2Consumer(input);
-        Consumer<Container> consumer2 = TokenCompiler.compile2Consumer(schema);
-        Container env1 = new Container();
+        Consumer<LogicContextModel> consumer1 = TokenCompiler.compile2Consumer(input);
+        Consumer<LogicContextModel> consumer2 = TokenCompiler.compile2Consumer(schema);
+        LogicContextContainer env1 = new LogicContextContainer();
         consumer1.accept(env1);
-        Container env2 = new Container();
+        LogicContextContainer env2 = new LogicContextContainer();
         consumer2.accept(env2);
         Number c1 = env1.get("c");
         Number c2 = env2.get("c");
@@ -61,8 +62,8 @@ public class TestCompiler {
         String input = "d = 1";
         String json = TokenCompiler.plain2JSON(input);
         TokenSchema schema = TokenCompiler.JSON2Schema(json);
-        Predicate<Container> predicate = TokenCompiler.compile2Predicate(schema);
-        Container env = new Container();
+        Predicate<LogicContextModel> predicate = TokenCompiler.compile2Predicate(schema);
+        LogicContextContainer env = new LogicContextContainer();
         env.put("d", 1);
         Assertions.assertTrue(predicate.test(env));
         Info.YellowText(TokenCompiler.norm(input));

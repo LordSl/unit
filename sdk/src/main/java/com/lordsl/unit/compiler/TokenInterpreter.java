@@ -2,7 +2,6 @@ package com.lordsl.unit.compiler;
 
 import com.lordsl.unit.compiler.exception.TokenInterpretException;
 import com.lordsl.unit.compiler.token.*;
-import com.lordsl.unit.util.Container;
 import com.lordsl.unit.util.Info;
 
 import java.util.function.Consumer;
@@ -11,9 +10,9 @@ import java.util.function.Predicate;
 
 public class TokenInterpreter {
 
-    private Container context;
-    private Predicate<Container> predicate;
-    private Consumer<Container> consumer;
+    private LogicContextModel context;
+    private Predicate<LogicContextModel> predicate;
+    private Consumer<LogicContextModel> consumer;
 
     private TokenInterpreter() {
     }
@@ -43,11 +42,11 @@ public class TokenInterpreter {
         return interpreter;
     }
 
-    public Consumer<Container> getConsumer() {
+    public Consumer<LogicContextModel> getConsumer() {
         return consumer;
     }
 
-    public Predicate<Container> getPredicate() {
+    public Predicate<LogicContextModel> getPredicate() {
         return predicate;
     }
 

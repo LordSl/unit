@@ -1,11 +1,11 @@
 package com.lordsl.unit.compiler.token;
 
-import com.lordsl.unit.util.Container;
+import com.lordsl.unit.compiler.LogicContextModel;
 
 import java.util.function.Consumer;
 
 public class StatementToken {
-    private Consumer<Container> containerConsumer;
+    private Consumer<LogicContextModel> containerConsumer;
 
     private StatementToken() {
     }
@@ -16,7 +16,7 @@ public class StatementToken {
         return tmp;
     }
 
-    public Consumer<Container> getContainerConsumer() {
+    public Consumer<LogicContextModel> getContainerConsumer() {
         return containerConsumer;
     }
 

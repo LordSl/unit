@@ -2,27 +2,26 @@ package com.lordsl.unit.compiler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.lordsl.unit.util.Container;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class TokenCompiler {
 
-    public static Predicate<Container> compile2Predicate(String plain) {
+    public static Predicate<LogicContextModel> compile2Predicate(String plain) {
         return compile2Predicate(plain2Schema(plain));
     }
 
-    public static Consumer<Container> compile2Consumer(String plain) {
+    public static Consumer<LogicContextModel> compile2Consumer(String plain) {
         return compile2Consumer(plain2Schema(plain));
     }
 
-    public static Predicate<Container> compile2Predicate(TokenSchema schema) {
+    public static Predicate<LogicContextModel> compile2Predicate(TokenSchema schema) {
         TokenInterpreter interpreter = TokenInterpreter.interpret(schema);
         return interpreter.getPredicate();
     }
 
-    public static Consumer<Container> compile2Consumer(TokenSchema schema) {
+    public static Consumer<LogicContextModel> compile2Consumer(TokenSchema schema) {
         TokenInterpreter interpreter = TokenInterpreter.interpret(schema);
         return interpreter.getConsumer();
     }

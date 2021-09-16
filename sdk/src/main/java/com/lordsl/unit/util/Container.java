@@ -1,24 +1,10 @@
 package com.lordsl.unit.util;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Container {
-    protected final Map<String, Object> map = new HashMap<>();
-
-    public <T> void put(T input) {
-        String name = input.getClass().getName();
-        put(name, input);
-    }
-
-    public <T> void put(String name, T input) {
-        map.put(name, input);
-    }
-
-    public <T> T get(T output) {
-        String name = output.getClass().getName();
-        return get(name);
-    }
+    protected final Map<Object, Object> map = new ConcurrentHashMap<>();
 
     public static KeyWait builder() {
         Container container = new Container();
@@ -30,28 +16,28 @@ public class Container {
         return keyWait;
     }
 
+    public <T> void put(Object key, T input) {
+        map.put(key, input);
+    }
+
     /**
      * unsafe method
      * possible to throw ClassCastException when shot wrong key
      */
-    public <T> T get(String name) {
-        return (T) map.get(name);
+    public <T> T get(Object key) {
+        return (T) map.get(key);
     }
 
-    public <T> void remove(T delete) {
-        remove(delete.getClass().getName());
-    }
-
-    public <T> void remove(String name) {
-        map.remove(name);
+    public <T> void remove(Object key) {
+        map.remove(key);
     }
 
     /**
      * return null when shot wrong key
      */
-    public <T> T fetch(String name, Class<? extends T> cla) {
+    public <T> T fetch(Object key, Class<? extends T> cla) {
         try {
-            return cla.cast(map.get(name));
+            return cla.cast(map.get(key));
         } catch (Exception ignored) {
             return null;
         }
@@ -86,13 +72,13 @@ public class Container {
 
     public static class KeyWait {
         private ValueWait valueWait;
-        private String key;
+        private Object key;
 
         private KeyWait() {
         }
 
-        public ValueWait key(String name) {
-            key = name;
+        public ValueWait key(Object key) {
+            this.key = key;
             return valueWait;
         }
 

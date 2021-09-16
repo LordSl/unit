@@ -26,4 +26,11 @@ public class Info {
         System.out.println();
     }
 
+    public static void ThreadAlert(Object o) {
+        printWithColor(String.format("[Thread][%s][ALERT] %s", Thread.currentThread().getName(), o.toString()), 35);
+    }
+
+    public static void ThreadLog(Object o) {
+        printWithColor(String.format("[Thread][%s][LOG] %s", Thread.currentThread().getName(), o.toString()), 36);
+    }
 }
