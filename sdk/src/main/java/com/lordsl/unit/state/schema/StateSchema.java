@@ -6,7 +6,7 @@ public class StateSchema {
     private String id;
     private String desc;
     private List<String> execList;
-    private String lr;
+    private List<RouteSchema> routeList;
 
     public String getId() {
         return id;
@@ -32,11 +32,11 @@ public class StateSchema {
         this.execList = execList;
     }
 
-    public String getLr() {
-        return lr;
+    public List<RouteSchema> getRouteList() {
+        return routeList;
     }
 
-    public void setLr(String lr) {
-        this.lr = lr;
+    public void setRouteList(List<RouteSchema> routeList) {
+        this.routeList = routeList;
     }
 }

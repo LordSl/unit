@@ -26,7 +26,7 @@ public class BackwardState {
     }
 
     public BackwardState build() {
-        LogicRouterModel router = RegisCenter.idRouterMap.get(schema.getLr());
+        LogicRouterModel router = LogicRouter.from(schema.getRouteList()).build();
         if (null == router)
             return null;
         lr = router;

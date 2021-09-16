@@ -2,7 +2,7 @@ package com.lordsl.unit.state;
 
 import com.lordsl.unit.compiler.LogicContextModel;
 import com.lordsl.unit.compiler.TokenCompiler;
-import com.lordsl.unit.state.schema.RouterSchema;
+import com.lordsl.unit.state.schema.RouteSchema;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +11,14 @@ import java.util.function.Predicate;
 public class LogicRouter implements LogicRouterModel {
     private final List<Predicate<LogicContextModel>> pList = new ArrayList<>();
     private final List<BackwardState> sList = new ArrayList<>();
-    private RouterSchema schema;
+    private List<RouteSchema> routeList;
 
     private LogicRouter() {
     }
 
-    public static LogicRouter from(RouterSchema schema) {
+    public static LogicRouter from(List<RouteSchema> routeList) {
         LogicRouter lr = new LogicRouter();
-        lr.schema = schema;
-        RegisCenter.idRouterMap.put(schema.getId(), lr);
+        lr.routeList = routeList;
         return lr;
     }
 
@@ -34,7 +33,7 @@ public class LogicRouter implements LogicRouterModel {
     }
 
     public LogicRouter build() {
-        schema.getRouteList().forEach(
+        routeList.forEach(
                 item -> {
                     BackwardState state = RegisCenter.idStateMap.get(item.getToState());
                     Predicate<LogicContextModel> predicate = TokenCompiler.compile2Predicate(item.getCondition());
@@ -44,7 +43,7 @@ public class LogicRouter implements LogicRouterModel {
                         pList.add(predicate);
                 }
         );
-        if (!(sList.size() == schema.getRouteList().size() && pList.size() == schema.getRouteList().size()))
+        if (!(sList.size() == routeList.size() && pList.size() == routeList.size()))
             return null;
         return this;
     }
