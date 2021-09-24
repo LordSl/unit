@@ -91,9 +91,9 @@ public class TokenParser {
 
 
     private void delUselessRecur(TokenSchema schema) {
-        delUseless(schema);
         for (TokenSchema t : schema.getSub())
             delUselessRecur(t);
+        delUseless(schema);
     }
 
     private void delUseless(TokenSchema schema) {
