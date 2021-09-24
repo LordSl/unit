@@ -1,10 +1,10 @@
 //推导
 {any} -> (lp) {any} (rp)
 statement -> var (ini) var
-condition -> condition logic condition
+condition -> (lp) condition (rp) logic (lp) condition (rp)
 condition -> logic condition
 condition -> var compare var
-var -> var cal var
+var -> (lp) var cal var (rp)
 var -> num
 ()部分在建树时被去掉
 

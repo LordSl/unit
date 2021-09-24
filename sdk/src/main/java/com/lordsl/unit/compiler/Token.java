@@ -2,7 +2,7 @@ package com.lordsl.unit.compiler;
 
 public enum Token {
     ;
-
+    public static final String Top = "top";
     public static final String Condition = "con";
     public static final String Logic = "lgc";
     public static final String Compare = "cmp";

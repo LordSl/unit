@@ -14,7 +14,7 @@ public class TestCompiler {
 
     @Test
     void testPredicate() {
-        String input = "( ( a + 1 ) > 3 ) & ( b > 0 ) & ( ! ( ( b = 1 ) | ( b = 1.2 ) ) )";
+        String input = "( ( ( ( a + 1 ) > 3 ) & ( b > 0 ) ) & ( ! ( ( b = 1 ) | ( b = 1.2 ) ) ) )";
 
         Predicate<LogicContextModel> predicate = TokenCompiler.compile2Predicate(input);
         LogicContextContainer env = new LogicContextContainer();
