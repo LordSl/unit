@@ -41,43 +41,43 @@ public class TokenSchema {
     }
 
     public boolean typeCondition() {
-        return this.getType().equals(Token.Condition);
+        return type.equals(Token.Condition);
     }
 
     public boolean typeLogic() {
-        return this.getType().equals(Token.Logic);
+        return type.equals(Token.Logic);
     }
 
     public boolean typeCompare() {
-        return this.getType().equals(Token.Compare);
+        return type.equals(Token.Compare);
     }
 
     public boolean typeCal() {
-        return this.getType().equals(Token.Cal);
+        return type.equals(Token.Cal);
     }
 
     public boolean typeNum() {
-        return this.getType().equals(Token.Num);
+        return type.equals(Token.Num);
     }
 
     public boolean typeVar() {
-        return this.getType().equals(Token.Var);
+        return type.equals(Token.Var);
     }
 
     public boolean typeLP() {
-        return this.getType().equals(Token.LP);
+        return type.equals(Token.LP);
     }
 
     public boolean typeRP() {
-        return this.getType().equals(Token.RP);
+        return type.equals(Token.RP);
     }
 
     public boolean typeInit() {
-        return this.getType().equals(Token.Init);
+        return type.equals(Token.Init);
     }
 
     public boolean typeStatement() {
-        return this.getType().equals(Token.Statement);
+        return type.equals(Token.Statement);
     }
 
     public TokenSchema val(String valStr) {
