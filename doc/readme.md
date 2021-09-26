@@ -7,10 +7,10 @@ https://maven.aliyun.com/nexus/content/groups/public
 
 ## gitee
 
-https://gitee.com/lconq/price-unit
+https://gitee.com/lconq/unit
 
 ## github
 
-https://github.com/LordSl/price-unit
+https://github.com/LordSl/unit
 
-# 样例请见com.lordsl.unit.example包
+# 样例请见com.lordsl.unit.test.example包

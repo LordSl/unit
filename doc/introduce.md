@@ -2,15 +2,11 @@
 
 project
 
-https://github.com/LordSl/price-unit
-
-https://gitee.com/lconq/price-unit
+https://gitee.com/lconq/unit
 
 clone
 
-https://github.com/LordSl/price-unit.git
-
-https://gitee.com/lconq/price-unit.git
+https://gitee.com/lconq/unit.git
 
 # 示意图
 
